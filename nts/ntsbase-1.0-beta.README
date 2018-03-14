@@ -1,0 +1,111 @@
+     NTS - The New Typesetting System
+    ----------------------------------
+          Version 1.00-beta
+            November 2001
+
+
+Requirements
+============
+
+NTS is a Java program compliant to the Java 2 Platform API
+Specification.  To run NTS you have to install atleast a Java 2
+Runtime Environment.  If you want to recompile or extend NTS you have
+to install a complete Java 2 Development Kit.
+
+For Windows systems Perl is needed if you want to use the ``nts''
+wrapper script.
+
+
+
+Quick install
+=============
+
+To install NTS get the file ``ntsbase-1.0.zip'' located in directory
+systems/nts/ from CTAN and unpack this file at the top-level directory
+of your TDS-compliant TeX tree.  It will unpack files into the
+following directories
+
+  bin/<architecture>/
+  texmf/nts/
+  texmf/doc/nts/
+  texmf/source/nts/
+
+Depending on your choice where all the other TeX executables are found
+you have to move the files in directory ``bin/<architecture>/'' into
+the directory where the other TeX executable are located.
+
+
+
+Usage
+=====
+
+Unix
+----
+
+The shell script ``nts'' in ``bin/<architecture>/'' is a wrapper
+around the NTS java program call simplifying the use of NTS.  Run
+``nts --help'' to get a help summary.  Without any options the
+script tries to load the NTS format file for plain TeX as default.  If
+you want to load another format file, either use the --fmt=<format>
+switch or create a symbolic link named like the requested format.
+
+First create one or all of the needed NTS format files, e.g.
+
+  nts --ini plain \\dump       % plain
+  nts --ini cont-en            % ConTeXt
+  nts --ini latex.ltx          % LaTeX
+
+Move the created format files into the ``texmf/nts/'' directory, then
+recreate the file name database with ``mktexlsr''.  Now you can
+compile a document by
+
+  nts yourdocument                 % plain
+  nts --fmt=latex yourdocument     % LaTeX
+  nts --fmt=cont-en yourdocument   % ConTeXt
+
+If you create a symbolic link from ``ntslatex'' to the shell script
+``nts'' you can format a LaTeX document by
+
+  ntslatex yourdocument            % LaTeX
+
+
+Win32
+-----
+
+The perl script ``nts'' in ``bin/win32/'' is a wrapper around the NTS
+java program call simplifying the use of NTS.  Run ``nts --help'' to
+get a help summary.
+
+
+
+Documentation
+=============
+
+Please refer to the files
+
+  texmf/doc/nts/README
+			for more information about NTS.
+
+  texmf/doc/nts/ntspl.txt
+			for the copyright and licensing conditions of
+			NTS.
+
+  texmf/doc/nts/INSTALL
+			for more detailed installation and usage
+			information.
+
+  texmf/doc/nts/TODO
+			for our TODO list.
+
+
+
+Sources
+=======
+
+The Java source code of NTS can be found in
+
+  texmf/source/nts/
+
+
+
+Have fun!
