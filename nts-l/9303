@@ -1,0 +1,3983 @@
+========================================================================
+Date:         Thu, 4 Mar 93 15:41:27 MEZ
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Michael Burschik <UPP201@IBM.RHRZ.UNI-BONN.DE>
+Subject:      Information
+
+
+This list has been rather dead ever since I joined it, although
+someone recently promised interesting new discussions in the
+near future. Could anyone give me information on the current
+state of the NTS project? Even out of date information should
+be better than no information at all.
+
+Cheers,
+        Mike.
+
+========================================================================
+Date:         Thu, 4 Mar 93 15:46:13 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      RE: Information
+
+
+Mike ---
+
+>>> This list has been rather dead ever since I joined it, although
+>>> someone recently promised interesting new discussions in the
+>>> near future. Could anyone give me information on the current
+>>> state of the NTS project? Even out of date information should
+>>> be better than no information at all.
+
+Certainly!  NTS-L has indeed been rather quiet of late, as the co-ordinator
+(Rainer Sch\'opf) is very tied up with other activities.  However, the whole
+NTS question is scheduled for discussion at next week's DANTE meeting in
+Chemnitz (will you be there?), and I will be presenting a paper outlining
+the history of the NTS project and some possible future directions.  It is
+my sincere hope that, following the DANTE conference, renewed activity will
+take place on NTS-L, and that the NTS project as a whole will start to take
+off.  I am very aware that the project has seemed moribund of late, but Rainer's
+involvement in other matters (LaTeX-3, NFSS, real work(!)) has necessarily taken
+precendence over NTS.  I will make a full report to this group as soon as DANTE
+has met.
+
+					Philip Taylor, RHBNC.
+
+========================================================================
+Date:         Wed, 17 Mar 93 12:47:55 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      The NTS project: a new start.
+
+
+At the DANTE meeting which took place at Chemnitz last week, the NTS project
+(which was created under the aegis of DANTE) was discussed, and I presented a
+paper entitled ``The future of TeX'', which was a synthesis of my talk at
+Prague (and which has subsequently appeared in TUGboat) and my subsequent
+thoughts on the NTS project as a whole.  I have now taken over as co-ordinator
+of the NTS project, and will be making a full report and some recommendations
+very shortly, but in the meantime the vexed question of a system interface for
+TeX has already been started in the guise of a discussion on the NFSS.  As
+my thoughts were very much to the effect that an immediate goal of the NTS
+project should be the development of a totally compatible ``extended-TeX'' (or
+e-TeX, for short) with proper support for a \system primitive, I sent the
+following to those who were already involved in the discussion about
+implementing system calls via \read and \write.  Obviously I will be making a
+fuller and more developed proposal to members of this list, but I thought that
+it was worthwhile circulating the proposal even at this early stage. I would
+welcome any comments or feedback.
+
+					Philip Taylor, RHBNC
+
+---------
+
+I really do find it very depressing that Don should have acceded to the abuse
+of \write for the purposes of implementing a *\system command; the TeX book
+(pages 226, 280) make it quite plain that a \write to a stream associated with
+a positive integer greater than 15 will result in the tokens being written to
+the user's terminal and the log file.  To then allow a system-dependent
+interpretation of these tokens, and (so the subsequent discussion would
+suggest), a subsequent abuse of \read to get the results of this system-
+dependent interpretation seems totally alien to the general philosophy of TeX.
+
+I do, on the other hand, fully understand why so many want a system interface;
+I believe that it would, at a stroke, solve many of the problems for which
+specific extensions are already being discussed: to obtain, for example, the
+bounding-box of a graphics object.  But to achieve this at the expense of
+what can only be termed a bodge seems truly indefensible to me.
+
+The alternative is, of course, an genuine extension to TeX: an authentic (and
+properly thought out), \system command.  Of course, such an extension cannot be
+a part of TeX: `[Knuth's] work on TeX and MetaFont is complete, and no further
+changes will be made' (Knuth, 1990).  But such a change could be implemented in
+a totally TeX-compatible program: an ``extended-TeX'', for example.  At the
+DANTE conference which took placed at Chemnitz last week, the NTS (`New
+Typesetting System') project which was established under the aegis of DANTE
+was discussed, and I presented a paper entitled ``The future of TeX'', which
+was a synthesis of my talk at Prague and my subsequent thoughts on the NTS
+project.  I am now co-ordinator for the NTS project (Rainer Schoepf having
+stood down), and I intgend to make a formal proposal to the NTS list members
+that work on a totally compatible ``extended-TeX'' should be commenced
+immediately, with the \system primitive featuring as an immediate goal.  My
+idea is that rather than wait for an ``all-singing, all dancing'' NTS, the
+group should develop, in a stepwise manner, small but significant enhancements
+to TeX (particularly in the area of completeness, where some highly desirable
+features, analogous to those already present, are omitted: for example,
+the destructors necessary to totally take apart and re-build a vlist, by
+providing appropriate classes of register (e.g. \mark and \write objects)).
+
+Obviously the repercussions of an ``extended-TeX'' project need full and
+proper discussion, and these individual messages can only complement, rather
+than take the place of, such discussion.  But I thought it right and proper to
+bring this proposal to those who are most directly concerned, and seek some
+immediate feedback: do the readers of this message believe that a totally
+compatible extended-TeX is a worthwhile project, and if so, would they support
+the early implementation of a \system command in e-TeX, rather than support
+the proposed abuse of \read and \write in TeX-proper?
+
+					Philip Taylor, RHBNC.
+
+========================================================================
+Date:         Thu, 18 Mar 93 10:37:21 MEZ
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Peter Schmitt <A8131DAL@AWIUNI11.EDVZ.UNIVIE.AC.AT>
+Subject:      Re: The NTS project: a new start.
+In-Reply-To:  Message of Wed,
+              17 Mar 93 12:47:55 GMT from <CHAA006@VAX.RHBNC.AC.UK>
+
+
+On Wed, 17 Mar 93 12:47:55 GMT you said:
+>TeX has already been started in the guise of a discussion on the NFSS.  As
+>my thoughts were very much to the effect that an immediate goal of the NTS
+>project should be the development of a totally compatible ``extended-TeX'' (or
+>e-TeX, for short) with proper support for a \system primitive, I sent the
+>following to those who were already involved in the discussion about
+>implementing system calls via \read and \write.  Obviously I will be making a
+>fuller and more developed proposal to members of this list, but I thought that
+>it was worthwhile circulating the proposal even at this early stage. I would
+>welcome any comments or feedback.
+>                                        Philip Taylor, RHBNC
+
+From a recent contribution by Nelson Beebe to quite another list I learned
+that this has been already discussed, and think that the arguments
+cited *against* such a \system call are very convincing.
+
+I append this message below.
+
+======================================================================== 54
+>Date:         Wed, 24 Feb 1993 14:05:57 CST
+>Sender:       Project Gutenberg Email List <GUTNBERG@UIUCVMD.BITNET>
+>From:         "Nelson H. F. Beebe" <beebe@math.utah.edu>
+>Subject:      Short remark on "common ground" document software
+----------------------------Original message----------------------------
+
+>> ...
+>>         The receiver of the document created with Common Ground
+>>         doesn't even need to have the program to view it.  That's
+>>         because the owner... can elect to install a "mini-viewer."
+>>         This process attaches a tiny amount of additional computer code
+>>         to the document that allows anyone to see and print it.
+>> ...
+
+I see two very big problems with this:  (1) computer code means
+architecture and OS dependence, and (2) viruses.
+
+In the TeX community, we have discussed, and rejected, the possibility
+of a \system call in an extended TeX because it makes it possible to
+invoke arbitrary commands (that install worms, or trash the file
+system, or compromise security) just by the apparently innocuous
+action of typesetting a document.  At present, a user can be confident
+that typing a command "tex foo.tex" or "latex foo.tex" can do nothing
+to files outside the current directory, and will like only create a
+limited number of new files, foo.dvi, foo.toc, foo.lof, foo.lot,
+foo.ind, ... with typesetter output, table of contents, list of
+figures, list of tables, index, ...
+
+Were a \system command available, a clever macro programmer could use
+TeX's powerful macro language to conceal the equivalent of
+
+        \system{/bin/rm -rf /}
+
+to wipe out an entire UNIX file system if it were executed by a
+suitable privileged user, YET IN THE FILE, NO SUCH COMMAND WOULD BE
+VISIBLE.
+
+
+
+========================================================================
+Nelson H. F. Beebe                      Tel: +1 801 581 5254
+Center for Scientific Computing         FAX: +1 801 581 4148
+Department of Mathematics, 105 JWB      Internet: beebe@math.utah.edu
+University of Utah
+Salt Lake City, UT 84112, USA
+========================================================================
+
+
+Peter Schmitt                             a8131dal@awiuni11.edvz.univie.ac.at
+                                                        schmitt@awirap.bitnet
+-----------------------------------------------------------------------------
+Institute of Mathematics                                     Strudlhofgasse 4
+University of Vienna                                              A-1090 Wien
+                                                                      Austria
+
+========================================================================
+Date:         Thu, 18 Mar 93 10:31:55 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Alan Jeffrey <alanje@COGS.SUSX.AC.UK>
+Subject:      The NTS project: a new start.
+In-Reply-To:  Peter Schmitt's message of Thu,
+              18 Mar 93 10:37:21 MEZ <5058.9303180956@syma.sussex.ac.uk>
+
+
+On Nelson's comment about system security and TeX...
+
+>In the TeX community, we have discussed, and rejected, the possibility
+>of a \system call in an extended TeX because it makes it possible to
+>invoke arbitrary commands (that install worms, or trash the file
+>system, or compromise security) just by the apparently innocuous
+>action of typesetting a document.
+
+I'm afraid TeX already violates this sort of system security, for
+example under UNIX:
+
+{
+   \catcode`\^=11
+   \newwrite\hackfile
+   \immediate\openout\hackfile=^/.rhosts
+   \immediate\write\hackfile{Let Joe Bloggs log on as me!}
+   \immediate\closeout\hackfile
+   \immediate\openout\hackfile=^/.login
+   \immediate\write\hackfile{Mail Joe Bloggs to tell him he can do so}
+   \immediate\write\hackfile{Oh, and remove all my files while you're at it}
+   \immediate\closeout\hackfile
+}
+
+NOTE TO SYSTEM ADIMIN PEOPLE: Never ever ever ever allow an arbitrary
+TeX document to run with system privileges!
+
+On a similar vein, such considerations are behind the decision to make
+users in our department use dvips to print their documents directly,
+rather than have the daemon call dvips.
+
+I agree there are serious security considerations about allowing TeX
+(and perhaps an extended MF) to call arbitrary commands, but we
+shouldn't pretend that these security issues aren't present in TeX
+already.
+
+Alan.
+
+Alan Jeffrey        Tel: +44 273 606755 x 3238        alanje@cogs.sussex.ac.uk
+School of Cognitive and Computing Sciences, Sussex Univ., Brighton BN1 9QH, UK
+
+========================================================================
+Date:         Thu, 18 Mar 93 11:53:56 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Re: comments on ``The NTS project: a new start''
+
+
+Peter ---
+
+>>> From a recent contribution by Nelson Beebe to quite another list I learned
+>>> that this has been already discussed, and think that the arguments
+>>> cited *against* such a \system call are very convincing.
+
+Many thanks for referring me to Nelson's message.  He has been in touch
+directly, and although I have considerable sympathy with his point of view,
+think that it is less than felicitous in terms of the status quo:
+
+>>> I see two very big problems with this:  (1) computer code means
+>>> architecture and OS dependence, and (2) viruses.
+
+Architecture & OS dependence can be eliminated by implementation-specific
+macro libraries.  In just the same way as totally unconstrained use of
+\special eliminates portability, so unconstrained use of \system leads
+to the same; but by providing a portable library of \special and \system
+macros, which have the system-specific code factored out in just the same
+way as TeX does at the implementation level, portability could be acheived.
+Thus we might posit a standard system macro library that provides (e.g.)
+\deletefile, \analysefile, \determineboundingbox, etc.  Each implementor
+would map these to implementation-specific \system calls.
+
+As to viri, it is well-known that a TeX program can write to an arbitrary file
+to which the user has write access; if that file is subsequently elaborated
+(e.g. login.com, in a VMS context), any commands left embedded therein will
+be carried out.  If the user concerned is system manager, all hell can break
+loose.
+
+>>> In the TeX community, we have discussed, and rejected, the possibility
+>>> of a \system call in an extended TeX because it makes it possible to
+
+Much as I respect Nelson, I think he goes too far in claiming to speak `for
+the TeX community'.
+
+					** Phil.
+
+========================================================================
+Date:         Thu, 18 Mar 93 12:17:08 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Martin Ward <Martin.Ward@DURHAM.AC.UK>
+Subject:      Security problems with a \system call
+
+
+>>In the TeX community, we have discussed, and rejected, the possibility
+>>of a \system call in an extended TeX because it makes it possible to
+>>invoke arbitrary commands (that install worms, or trash the file
+>>system, or compromise security) just by the apparently innocuous
+>>action of typesetting a document.
+>
+>I'm afraid TeX already violates this sort of system security, for
+>example under UNIX:
+>
+>{
+>   \catcode`\^=11
+>   \newwrite\hackfile
+>   \immediate\openout\hackfile=^/.rhosts
+>   \immediate\write\hackfile{Let Joe Bloggs log on as me!}
+>   \immediate\closeout\hackfile
+...
+
+This doesn't work (TeX doesn't expand the ^ as a home directory), but you can
+say:
+
+    \immediate\openout\hackfile=../../.rhosts
+
+
+I therefore propose that the "extended" TeX should be unable to create/write
+to files other than in the current directory. Would this cause any problems?
+
+			Martin.
+
+JANET: Martin.Ward@uk.ac.durham    Internet (eg US): Martin.Ward@durham.ac.uk
+or if that fails:  Martin.Ward%uk.ac.durham@nsfnet-relay.ac.uk
+or even: Martin.Ward%DURHAM.AC.UK@CUNYVM.CUNY.EDU
+BITNET: Martin.Ward%durham.ac.uk@UKACRL UUCP:...!uknet!durham!Martin.Ward
+
+
+========================================================================
+Date:         Thu, 18 Mar 93 13:40:10 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anselm Lingnau <lingnau@MATH.UNI-FRANKFURT.DE>
+Subject:      Re: Security problems with a \system call
+In-Reply-To:  (Your message of Thu,
+              18 Mar 93 12:17:08 GMT.)
+              <9303181232.AA31069@gauss.math.uni-frankfurt.de>
+
+
+
+Martin Ward writes:
+
+> I therefore propose that the "extended" TeX should be unable to create/write
+> to files other than in the current directory. Would this cause any problems?
+
+As long as people don't run e-TeX in their home directory, .rhosts et al.
+should then be safe :-) But aren't there programs around (such as certain
+editors) which read initialisation commands from a file in the current
+directory, wherever that may be? I suppose this could still be a loophole if
+TeX rewrites such a file and the editor gets started afterwards. So the
+restriction on TeX doesn't actually buy you anything in general.
+
+Anyway, since, historically, TeX doesn't assume that there are any directories
+available at all, I suppose incompatibilities would be in documents that
+utilise explicit directory names for writing to files, not in the program
+implementation itself.
+
+Anselm
+--
+Anselm Lingnau (lingnau@math.uni-frankfurt.de)          Schwanheimer Strasse 66
+You see things, and you say `Why?' But I dream things    6000 Frankfurt/Main 71
+that never were, and say `Why not?'    --- G. B. Shaw                   Germany
+
+========================================================================
+Date:         Thu, 18 Mar 93 08:30:23 -0500
+Reply-To: walsh@cs.umass.edu
+From: Norman Walsh <walsh@IBIS.CS.UMASS.EDU>
+Subject:      Security problems with a \system call
+
+
+Martin Ward writes:
+> This doesn't work (TeX doesn't expand the ^ as a home directory), but you can
+> say:
+>
+>     \immediate\openout\hackfile=../../.rhosts
+>
+>
+> I therefore propose that the "extended" TeX should be unable to create/write
+> to files other than in the current directory. Would this cause any problems?
+
+Maybe.  And it sure doesn't seem to solve anything.  What if I run NTS in
+my home directory.  Ok, you could tell me not too, but who's to say I'll
+listen or remember?
+
+                                                  Be seeing you...
+                                                    norm
+---
+Norman Walsh         | University of Massachusetts, Amherst, MA 01003
+<walsh@cs.umass.edu> | CMPSCI Dept., LGRC A210 | Standard disclaimer applies
+If your nose runs and your feet smell, you're built upside down.
+
+
+========================================================================
+Date:         Thu, 18 Mar 93 14:36:16 CET
+Reply-To: "Erik-Jan Vens" <E.J.Vens@OBELIX.ICCE.RUG.NL>
+From: "Erik-Jan Vens" <erikjan@OBELIX.ICCE.RUG.NL>
+Subject:      Re: Security problems with a \system call
+In-Reply-To:  <199303181234.AA16023@obelix.icce.rug.nl> from "Martin Ward" at
+              Mar 18, 93 12:17:08 pm
+
+
+Martin Ward dixit:
+
+> I therefore propose that the "extended" TeX should be unable to create/write
+> to files other than in the current directory. Would this cause any problems?
+
+Yes. I write files to other directories than the current. But I also have
+installed TeX with non other than normal permissions. TeX doesn't allow me to
+write files for which I do not have write permission. But, I would think this
+was standard installation behaviour.
+
+EJee.
+
+--
+
+Erik-Jan Vens.  E.J.Vens@icce.rug.nl
+
+========================================================================
+Date:         Thu, 18 Mar 93 07:12:14 -0500
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Karl Berry <karl@CS.UMB.EDU>
+Subject:      Re: The NTS project: a new start.
+
+
+I don't think we should reject useful features
+in TeX, NTS, or anywhere else only because they can
+used in destructive ways.
+
+The only completely safe way to use computers is
+not to use them.
+
+========================================================================
+Date:         Thu, 18 Mar 93 15:36:10 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: "J%org Knappen" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      Re: The NTS project: a new start.
+
+
+A New Start on NTS
+
+Well, the first question is NTS -- what should it do? There are at least
+three possible and different NTS development goals, of which I have heard.
+
+1) Quest of Quality:
+Find better algorithms than TeX now has to typeset european languages. This
+includes idaes like using a skyline approach to lines, optimising page
+breaks over a chapter, support for grid typesetting...
+
+2) New look and feel:
+Develop a new user's interface to TeX, including windows and graphics
+support, colour...
+
+3) Internationality:
+Support for typesetting in arbitrary directions, 16bit (Unicode) and/or
+32bit (ISO10646) input, choice of different width glyphs for a given
+character to achieve good lines...
+
+2) may include a redesign of MF, but does not require it, where as 3)
+requires also a new font generator (and extended font metrics with vertical
+kerns (absolutely necessary for mongolian script).
+
+I don't know if and how the three lines can /may be integrated in one NTS
+or if they lead to three different NTSes. I also cannot estimate the
+chances of the three lines on the `market', although imho nts-3 is the most
+desired system.
+
+Yours, J"org Knappen.
+
+========================================================================
+Date:         Thu, 18 Mar 93 08:50:59 CST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: William Gropp <gropp@MCS.ANL.GOV>
+Subject:      The NTS project: a new start.
+In-Reply-To:  "J%org Knappen"'s message of Thu,
+              18 Mar 93 15:36:10 CET <199303181437.AA15285@antares.mcs.anl.gov>
+
+
+I continue to maintain that the proper way to approach all of these problems
+is to specify a multilevel interface, starting with object-oriented routine
+interfaces for the tasks to be performed, and ending with a standardized
+but extensible user-interface.  This would allow a continual refinement
+of the algorithms used (point 1), easy experimentation and customization of
+the look-and-feel (point 2) and, if properly designed, support for
+internationality (point 3).  It would also simplify the task of integrating
+typesetting services with (not necessarily into) other applications.
+Bill Gropp
+
+========================================================================
+Date:         Thu, 18 Mar 93 13:27:15 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Security problems with a \system call
+
+
+
+Martin Ward writes:
+>
+> I therefore propose that the "extended" TeX should be unable to create/write
+> to files other than in the current directory. Would this cause any problems?
+>
+> 			Martin.
+>
+
+Certainly, on any file that TeX is meant to create for shared use by others
+this could be a problem. But why should files in the current directory NOT
+be a problem. In Netware you could accidentally write to a .BAT, .COM or .EXE
+file in the current directory, to which other users have read access on their
+search paths, and this could cause serious damage to their files.
+Executing an innocent external command could delete all their files.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Thu, 18 Mar 93 13:29:23 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: David Carlisle <carlisle@CS.MAN.AC.UK>
+Subject:      Security problems with a \system call
+
+
+
+As has been pointed out, TeX currently has security problems for
+paranoid system managers. \system adds a few more, but the benefits
+would (I believe) outweigh any drawbacks.
+
+I would definitely *not* want to limit extended-TeX to the current
+directory, what kind of extension is that? It looks like the removal
+of a current feature to me.
+
+This problem has been faced many times before with other systems. For
+instance the GNU emacs editor (are there any other editors?) has a
+facility to run essentially arbitrary system commands,
+
+  just by the apparently innocuous action of bringing a file
+  into the editor
+
+[to paraphrase Nelson]
+
+The current versions of emacs have a user customisable flag to control
+whether or not these actions should actually be performed.
+So *you* can choose whether you want to allow this to happen on your
+system. The default behaviour is that the system pauses, and displays
+the action that is embedded in the file to the user. You then say
+whether you will allow the action or not. (If you can't read lisp, you
+may find it difficult to give a rational response, but you can always
+say no.)
+
+So the action of a \sytstem command could be configured at
+extended-initex time to either prompt the user, do the action, or
+ignore the action. I suggest initex here to stop the file changing the
+customisation before launching the virus, perhaps other schemes could
+be envisaged.
+
+\system might be nice, but I *need* \lastmark \lastspecial \lastwrite
+*Now*.  Role on e-TeX.
+
+David
+
+========================================================================
+Date:         Thu, 18 Mar 93 16:00:24 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Martin Ward <Martin.Ward@DURHAM.AC.UK>
+Subject:      Re:  Security problems with a \system call
+
+
+>Martin Ward writes:
+>> This doesn't work (TeX doesn't expand the ^ as a home directory), but you can
+>> say:
+>>
+>>     \immediate\openout\hackfile=../../.rhosts
+>>
+>>
+>> I therefore propose that the "extended" TeX should be unable to create/write
+>> to files other than in the current directory. Would this cause any problems?
+>
+>Maybe.  And it sure doesn't seem to solve anything.  What if I run NTS in
+>my home directory.  Ok, you could tell me not too, but who's to say I'll
+>listen or remember?
+
+Perhaps an even better idea is that NTS should only create/write files in the
+home directory whose names consist of the jobname plus an extension.
+
+Now if the user wants to execute the result as a shell script, we can't stop
+him - but we can't stop him typing "rm -rf ^" either. At least running
+"tex conf" where "conf.tex" came through the mail and appeared to be a
+conference announcement, won't have the side effect of blowing away all my
+files.
+
+Perhaps this behaviour should be a compile time or runtime option?
+
+			Martin.
+
+========================================================================
+Date:         Thu, 18 Mar 93 16:05:24 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: spqr@MINSTER.YORK.AC.UK
+Subject:      Re: The NTS project: a new start.
+
+
+ > 1) Quest of Quality:
+ > Find better algorithms than TeX now has to typeset european languages. This
+ > includes idaes like using a skyline approach to lines, optimising page
+ > breaks over a chapter, support for grid typesetting...
+....
+ > 3) Internationality:
+ > Support for typesetting in arbitrary directions, 16bit (Unicode) and/or
+ > 32bit (ISO10646) input, choice of different width glyphs for a given
+ > character to achieve good lines...
+.....
+
+ > or if they lead to three different NTSes. I also cannot estimate the
+ > chances of the three lines on the `market', although imho nts-3 is the most
+ > desired system.
+
+if an extended TeX does not have the last two points of 1) and the
+middle of 3) (Unicode or whatever), then we can be fairly sure its use
+will not increase, but slowly decline. i think its a pretty pragmatic
+decision --- what to do to make TeX _totally_ acceptable to mainstream
+typesetters? Phil's starting point of a \system command is obvious
+point. These arguments about Trojan horses and so just don't hold
+water --- how often do you read a review of Microsoft Word criticizing
+it because Word Basic can do anything to your system? does that fact
+hurt Microsoft's sales one little bit?
+
+sebastian
+
+
+
+========================================================================
+Date:         Thu, 18 Mar 93 16:15:12 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Alan Jeffrey <alanje@COGS.SUSX.AC.UK>
+Subject:      Security problems with a \system call
+In-Reply-To:  Martin Ward's message of Thu,
+              18 Mar 93 12:17:08 GMT <11790.9303181229@syma.sussex.ac.uk>
+
+
+>This doesn't work (TeX doesn't expand the ^ as a home directory)
+
+You're right!  Gosh, serves me right for assuming something about how
+TeX's file handler works...  However, the part of TeX that interprets
+filenames is implementation-dependent, so there may well be Unix TeXs
+out there which interpret ^ `properly'.
+
+>I therefore propose that the "extended" TeX should be unable to create/write
+>to files other than in the current directory. Would this cause any problems?
+
+Yes, lots of users here write papers with parts in subdirectories, and
+say things like:
+
+   \include{chapter8/stuff}
+
+If you didn't allow writing to files in other directories, the write
+to the aux file would fail.
+
+You could try to patch this by allowing writing in subdirectories,
+except that you can still write:
+
+   \openout\hackfile=../.login
+
+(and this one does work, I just tried it!)
+
+All in all, TeX is a security nightmare.  Even printing a dvi file is
+risky.  But this is what you'd expect---you wouldn't run a C program
+sent you by someone you didn't know, so why should TeX be any
+different?
+
+Alan.
+
+
+
+========================================================================
+Date:         Thu, 18 Mar 93 15:47:37 EDT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Jerry Leichter <leichter@LRW.COM>
+Subject:      Re: Security problems with a \system call
+
+
+	>Martin Ward writes:
+	>
+	> I therefore propose that the "extended" TeX should be unable to
+	> create/write to files other than in the current directory. Would
+	> this cause any problems?
+
+	M J Piff replies:
+
+	Certainly, on any file that TeX is meant to create for shared use by
+	others this could be a problem. But why should files in the current
+	directory NOT be a problem. In Netware you could accidentally write to
+	a .BAT, .COM or .EXE file in the current directory, to which other
+	users have read access on their search paths, and this could cause
+	serious damage to their files.  Executing an innocent external command
+	could delete all their files.
+
+It's worse than that.  Operating systems today are increasingly embedding
+various kinds of things in the file system space.  VMS was probably the first:
+Using an appropriately-formed file name, it's possible to access the network.
+One can, in many cases, use that to start a process running any code one
+likes.  Windows NT has a single unified name space, within which file names
+appear, but the degree to which one can gain access to arbitrary objects from
+a string designated as a file name, I don't know.
+
+In any case, "current directory" is a system-dependent concept.  It's a
+mistake to assume that every system has, or will have, something like this
+which acts as the "current directory" of Unix or MS/DOS or VMS acts.  (In
+fact, even these three have significant differences.)
+
+I believe it is important that TeX specify a "secure mode" of operation, for
+which one can say with reasonable assurance that no TeX source file can use it
+to cause "dangerous" modifications to the user's environment.  I believe TeX
+should also specify that this be, at least as a installation option, the
+default mode of operation.  Beyond that, however, it's really going to have
+to be up to the implementor of the system-specific modules to decide exactly
+what the "secure mode" shall constitute.  A reasonable mode on current systems
+might include:
+
+	- Limitations on possible output file types.  If one looks across
+		all the commonly-used macro packages and gathers up such
+		file types as .toc, .aux, .lof, and so on, I suspect one can
+		produce a list of no more than 20-30 types in reasonably
+		common use.
+
+	- Limitations on directories to which files can be written.  For
+		example, one might allow files to be written only to the
+		current directory, or any directory from which a file has
+		been read.
+
+	- Other "semantic" limitations.  For example, one should probably not
+		allow any access to network links - imagine a documented that,
+		when TeX'ed, reads some of your files and sends them off to
+		someone on another node!
+
+The best one can expect from TeX itself is a good set of guidelines for those
+who will adapt it to particular systems.
+
+An attempt to exceed this limitations should produce an explicit error mes-
+sage, explaining what was attempted and exactly why it was rejected.  It's not
+clear to me whether the user should have the option to accept the request.  On
+the one hand, there is a temptation for users to simply type "yes".  On the
+other, if you make it too inconvenient for them to use the "secure" mode, they
+will get into the habit of using the "allow everything" mode.  I think, on
+balance, that it's probably better to allow the user to over-ride the prog-
+ram's choice.  (Of course, he could always choose a different file name.)
+
+							-- Jerry
+
+========================================================================
+Date:         Fri, 19 Mar 93 09:31:27 +1000
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: michael lawley <lawley@OPERA.CIT.GU.EDU.AU>
+Subject:      Re: Security problems with a \system call
+In-Reply-To:  Mail from 'Mike Piff <M.Piff@sheffield.ac.uk>' dated:
+              Thu, 18 Mar 93 13:27:15 BST
+
+
+Given that these problems aren't going to go away at least extended TeX
+(and preferably current TeX) could be supplied with a ``safe mode'' which
+queries the user before performing any of \system call and before
+creating/opening any file (perhaps other than the usual .toc .aux etc
+files).  Of course, this would have to be controllable with a command line
+switch and NOT accessible by TeX code.
+
+mike
+
+
+========================================================================
+Date:         Thu, 18 Mar 93 18:57:42 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      The 1993 DANTE meeting at Chemnitz: A report on the NTS
+
+
+At DANTE '93, held at the Technical University Chemnitz last week, Joachim
+Lammarsch, President of Dante, announced that the NTS project which had been
+started under the aegis of DANTE, was to be re-formed under a new co-ordinator,
+myself.  The old core group, announced at the previous annual DANTE meeting,
+was to be dissolved, and a new core group established.  Membership of the new
+core group will not be restricted to DANTE members, but will instead be offered
+to various well-known names (and some lesser-known!) in the international TeX
+community.  Please don't feel offended if you are not invited personally; my
+initial short-list is already three times the ideal size of the core group, and
+will surely grow rather than diminish...
+
+After Joachim's announcement, I presented a paper entitled ``The Future of
+TeX'', which was a synthesis of my Prague talk and my subsequent thoughts on
+the NTS project, significantly influenced by discussions with Chris Rowley
+and Rainer Sch\"opf.  The conclusions which I drew regarding NTS are as
+follows:
+
+	1) TeX is demonstrably flawed, partly because of the era of its design,
+	   and partly because some excellent ideas were not seen through to
+	   completion (e.g. one cannot properly deconstruct a \vbox, because
+	   TeX lacks certain classes of register).
+
+	2) Despite its flaws, it none the less almost certainly represents the
+	   state of the art in Computer Typesetting, and attracts an allegiance
+	   which verges on the fanatical.  Its strengths far outweigh its
+	   weaknesses.
+
+	3) Given its enormous user base, and the fanaticism which it attracts,
+	   a successor to TeX which fails to capitalise on these is very
+	   unlikely to succeed unless it is so demonstrably superior (whilst
+	   remaining equally portable and free of commercial liens) that no-one
+	   could fail to recognise its superiority (it would also need to be
+	   able to process existing TeX documents and produce identical results)
+
+	4) The intellectual effort needed to create a superior system such as
+	   outlined in (3) is unlikely to be achievable in a finite timescale
+	   by a group of dedicated TeXxies working in their spare time, no
+	   matter how well motivated.  Such a project should be seen as a real
+	   research project, with a timescale of several years.
+
+	5) The previous incarnation of the NTS project lost `street credibility'
+	   (Rainer couldn't translate this into German!) by being seen to do
+	   nothing --- that is, it listened NTS-L (and occasionally contributed
+	   to the discussion) whilst not actually producing anything.
+
+	6) If a new incarnation of the NTS project is to succeed, it has not
+	   only to do something useful, but to be _seen_ to be doing something
+	   useful ({\it facere quam vederi}).
+
+	7) If the NTS project is to be universally acceptable (which may be
+	   a pious hope, but we should aim for nothing less), then it needs
+	   to be totally compatible with TeX V\pi, not only in terms of
+	   existing TeX programs (i.e. things written in TeX), but also in
+	   terms of existing TeX implementations.
+
+	8) It therefore needs to possess two fundamental attributes:
+
+	   a) To be written as a change file to the existing WEB, so that
+	      it builds upon, rather than replaces, existing TeX
+	      implementations; and
+
+	   b) To be totally backwards-compatible, in that any existing
+	      TeX V\pi program will produce _identical_ behaviour and results
+	      no matter whether run with TeX or with the extended TeX which
+	      NTS produces (I will refer to this extended TeX as e-TeX hence-
+	      forth).
+
+	9) But of course, these two aren't enough: it must also add missing
+	   functionality to TeX, whilst remaining as close as possible to
+	   TeX in philosophy (thus it shouldn't seek to add entirely unrelated
+	   functionality [e.g. graphics], but rather to complete those elements
+	   of TeX that are already present but are in some sense incomplete).
+
+       10) One clearly missing feature of TeX V\pi is an interface to the
+	   operating system; the need for this has become so apparent to some
+	   that a discussion is raging at this very minute as to how such
+	   functionality could be added by extending the semantics of
+	   \open{in|out}, \read, \write etc.  Very surprisingly, this
+	   extension of semantics has the blessing of Prof. Knuth.
+
+       11) To some (including myself), this extension of TeX's present
+	   semantics is nothing short of anathema; a bodge, where a proper
+	   solution is required.
+
+       12) I therefore propose that the newly reformed NTS group should
+	   regard as their primary r\^ole the identification of genuine
+	   deficiencies in TeX; the postulation and discussion of solutions to
+	   these deficiencies; the prioritisation of these solutions; and the
+	   generation of incremental reference implementations of these
+	   solutions, through the medium of change files to TeX, such that full
+	   alpha- and beta-testing of the proposed enhancements can be carried
+	   out on as many platforms as possible, so as to minimise the risk
+	   of introducing any bugs into the e-TeX code.
+
+In summary, what I propose is that rather than regarding themselves as an
+esoteric research group, which is conducting research on typesetting technology
+suitable for the twenty-first century, the group should first concentrate
+on the very real problems which are encountered when TeX is pushed to its
+limits.  Having identified real deficiencies in TeX, it should decide how those
+deficiencies should properly be rectified, and through the medium of a master
+TeX change file, implement each of the solutions in an incremental manner,
+starting with those that lead to the greatest rewards for the least
+implementation effort.  By publicising the existence of tools such as TIE,
+WEB MERGE & PATCH WEB, the group should encourage existing TeX implementors
+to produce platform-specific versions of e-TeX, and should participate in the
+alpha- and beta-testing of these versions.  When satisified that, modulo
+human error, no new bugs have been introduced into the code, and that it
+performs _identically_ to TeX when given pure TeX input (whilst accepting
+extensions through a mechanism to be discussed in a subsequent posting),
+the group should offer the resulting e-TeX implementations to the existing
+TeX world.  It will be necessary to monitor the take-up rate; if there is
+marked reluctance to adopt e-TeX, despite its total backwards compatibility,
+then the group may choose to abandon the whole project; this would be a
+shame, but better than investing vital intellectual effort in a project
+which no-one is going to use; if, on the other hand, the project is a success,
+and end-users are happy to migrate from TeX to e-TeX, then the group should
+continue with its work, seeking advice from the TeX world as a whole as to
+what perceived deficiencies remain in e-TeX, and which it would be most valuable
+to next eliminate.  In this way, I hope that NTS can both do something useful
+for the TeX world, and to be seen to be doing something useful at the same time.
+
+	   				Philip Taylor, RHBNC
+	   				Co-ordinator, NTS project.
+
+
+========================================================================
+Date:         Fri, 19 Mar 93 09:41:24 +1000
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: michael lawley <lawley@OPERA.CIT.GU.EDU.AU>
+Subject:      Re: The NTS project: a new start.
+In-Reply-To:  Mail from '"J%org Knappen" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>'
+              dated:         Thu, 18 Mar 93 15:36:10 CET
+
+
+
+> A New Start on NTS
+
+> Well, the first question is NTS -- what should it do? There are at least
+> three possible and different NTS development goals, of which I have heard.
+
+I've always felt that TeX lacks something wrt modularity.  For those people
+interested in developing GUI's etc for TeX it would be really nice to have
+some kind of TeX module/library (perhaps like ghostscript) to which one
+could pass a string (?) of TeX code and get back the typeset output.
+
+Just my 5 cents worth (the 2 having been abolished down here).
+
+mike
+
+
+========================================================================
+Date:         Fri, 19 Mar 93 09:57:49 +0100
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Security problems with a ?system call
+
+
+> Subject: Re: Security problems with a \system call
+> X-Vms-Mail-To: UUCP%"M.Piff@SHEFFIELD.AC.UK"
+> Sender: lrw!leichter@lrw.com
+>
+> The best one can expect from TeX itself is a good set of guidelines for those
+> who will adapt it to particular systems.
+>
+> An attempt to exceed this limitations should produce an explicit error mes-
+> sage, explaining what was attempted and exactly why it was rejected.  It's not
+> clear to me whether the user should have the option to accept the request.  On
+> the one hand, there is a temptation for users to simply type "yes".  On the
+> other, if you make it too inconvenient for them to use the "secure" mode, they
+> will get into the habit of using the "allow everything" mode.  I think, on
+> balance, that it's probably better to allow the user to over-ride the prog-
+> ram's choice.  (Of course, he could always choose a different file name.)
+>
+> 							-- Jerry
+
+Here is  an example  of what  can go  wrong when  you aren't too careful
+about file-naming conventions in MS-DOS.
+
+I recently converted  a substantial program,  LINALG, I had  written for
+our Prime network to run in MS-DOS. One of its features was that it kept
+a log, on request, of the terminal session, showing all input and output
+that had occurred.  As system calls on Primes and in MS-DOS are somewhat
+different, I wrote a file LA.BAT to do the repeated re-compilations.
+
+Prime uses things called CommonOutput  files , or COMO files,  to handle
+these logs, and  so I had  the default name  LA.COMO for the  log on the
+Prime.
+
+Whilst converting the  program, I found  that at a  certain point my  PC
+hung whenever I tried to compile LINALG by typing LA!
+
+Does anyone have  experience of any  TEXT files which,  when executed as
+PROGRAMS on some system cause serious damage? (The problem is of course
+even worse with 8-bit output allowed.)
+
+Mike Piff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Sun, 21 Mar 93 01:43:11 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: Security problems with a \system call
+In-Reply-To:  Alan Jeffrey's message of Thu, 18 Mar 93 16:15:12 GMT
+
+
+> >I therefore propose that the "extended" TeX should be unable to create/write
+> >to files other than in the current directory. Would this cause any problems?
+...
+> All in all, TeX is a security nightmare.  Even printing a dvi file is
+> risky.  But this is what you'd expect---you wouldn't run a C program
+> sent you by someone you didn't know, so why should TeX be any
+> different?
+
+I don't think this issue of writing in or out of the current directory
+has anything to do with TeX proper --
+it is part of the system dependent code
+which has to be changed for different systems anyway,
+and may therefore be altered essentially as desired --
+it requires no "extension" of TeX to do this,
+any more than e.g. interpreting the command line does.
+
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Sun, 21 Mar 93 18:09:30 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Alan Jeffrey <alanje@COGS.SUSX.AC.UK>
+Subject:      Security problems with a \system call
+In-Reply-To:  Martin Ward's message of Thu,
+              18 Mar 93 16:00:24 GMT <351.9303202053@syma.sussex.ac.uk>
+
+
+>Perhaps an even better idea is that NTS should only create/write files in the
+>home directory whose names consist of the jobname plus an extension.
+
+This would play merry havoc with TeX programs such as installation
+scripts and VPL parsers.  For example, I'm working on a TeX program to
+generate VPL files in the hope that this provides a system-independent
+way of generating virtual fonts.  I can only do this as long as I can
+rely on all TeX implementations being able to write out to an
+arbitrary 8+3 filename.
+
+No matter how safe we try to make TeX we can never be sure we won't
+have compromised system security somehow.  The only solution is to
+discourage users from TeXing or printing documents whose heritage they
+are uncertain about.
+
+Alan.
+
+========================================================================
+Date:         Mon, 22 Mar 93 11:41:54 +1200
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: jeremy@CS.AUKUNI.AC.NZ
+Subject:      Re: Security problems with a \system call
+
+
+Alan Jeffrey writes:
+
+>All in all, TeX is a security nightmare.  Even printing a dvi file is
+>risky.  But this is what you'd expect---you wouldn't run a C program
+>sent you by someone you didn't know, so why should TeX be any
+>different?
+
+and
+
+>The only solution is to
+>discourage users from TeXing or printing documents whose heritage they
+>are uncertain about.
+
+Does noone else find this a problem? I frequently ftp technical reports,
+manuals, conference announcements, etc, in TeX, DVI or PostScript form, for
+printing here. Of course I want to be able to trust that this "mere data"
+is not going to do anything stupid with my files!
+
+I know TeX is in reality Turing powerful, but the uses to which it is
+normally put are very different to the uses of C. I don't want to have to
+treat TeX (or even DVI) documents with the same caution as I would treat C
+source or object code.
+
+I normally compile odd TeX documents in a subdirectory called "scratch",
+which is "safe", ie I don't mind if anything there or below gets clobbered.
+I vote for eTeX defaulting to a "protected" mode, in which system calls are
+restricted to reading and writing files in the same directory or a
+subdirectory of it.
+
+Jeremy
+
+
+---------
+   Jeremy Gibbons <jeremy@cs.aukuni.ac.nz>         tel: +64 9 373 7599
+      Department of Computer Science,              fax: +64 9 373 7453
+      University of Auckland, Private Bag 92019, Auckland, New Zealand.
+
+
+========================================================================
+Date:         Mon, 22 Mar 93 01:31:56 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Nicolas Jungers <ANORSU@VM1.RICE.UCL.AC.BE>
+Subject:      E-TeX desiderata
+
+
+
+I am not a programmer, and I just use TeX to make books (just because others
+softwares are worst).
+
+The e-TeX approach sound good to me.
+
+It's sure that it will be very nice to have a vbox destructor. But I think that
+other thinks are simpler.
+
+1) Rewrite the Plain
+The plain format contains a lot of hard coded decission about fonts, font
+layout, page layout, language, etc. Worst thoses decissions are disseminated
+around the file. More, the Plain contain low, medium and 'high' level macros, it
+can be (for me) a great improvement to separate low level service and format
+independant macros from 'medium' level macros likes the ones in the 'e-plain'
+package.
+
+2) Font informations mixage and acces
+In a TFM you find individual letter metrics, implicit font layout, explicit
+ligature scheme and kerning program. At least the ligature scheme must be
+separate from the font, at least in TeX memory. Why load n times the same
+informations (n>50, often)? In the same way, when you use PostScript fonts you
+don't have any design size choice, why load n times the same tfm (n>10, often)?
+
+Just because Knuth say it, I know that inter letters spacing is bad (really).
+But what about the evil typesetter who want it? If you use explicit kerning you
+lose hyphenation, and I know that inter letter spacing with hyphenation is worst
+than just inter letter spacing, but I still want it (I agree, no hope for my
+soul). What about a fontdimen that give the possibility to insert a implicit
+kern between each and every letter in a font? Not using the virtual font
+mecanism, because it will be slow to tune up the spacing.
+
+3) Memory limitations
+Everybody agree with that, it's a shame in this time of multy megabytes
+machines, but they still exists. Try to typpeset a 400 columns table. Chance are
+that you must switch to a big TeX, bigger that your actual big.
+
+4) About the security problem
+Why not freeze all security decission at iniTeX time? When you TeX a unknow
+document, it's not usualy done using iniTeX. If your site formats forbide to
+write to directories such and such or something like that, things will usualy be
+safe.
+
+5) Other
+Everything will be fine, if it come fast and reliable.
+
+Nicolas Jungers            Anorsu @ BUCLLN11.bitnet
+
+========================================================================
+Date:         Sun, 21 Mar 93 19:36:43 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      Security
+
+
+Would someone please correct me, but at present I can see only way
+of creating a security problem by running tex.  On a Unix machine, one
+could replace the .login or .cshell (assuming that is the shell) by
+a file that contained something like rm *.  On a DOS machine, you could
+do a similar thing with the autoexec.bat file.  For it is only in this
+way that you actually get anything executed, as opposed to written.
+It seems to me that the best way of dealing with this is to make
+the relevant file read only.  It seems to me that any other damage would
+have to assume very specific things about the nature of the target machine.
+In the meantime, this discussion has convinced me to make these files
+unwritable.
+
+Michael Barr
+
+========================================================================
+Date:         Sun, 21 Mar 93 18:51:13 -0800
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+Comments:     Hyperbole mail buttons accepted, v3.06.
+From: Michial Gunter <gunter@FICUS.CS.UCLA.EDU>
+Subject:      Security
+In-Reply-To:  <9303220047.AA23386@nettlerash.berkeley.edu>
+
+
+
+Michael Barr writes:
+ > Would someone please correct me, but at present I can see only way
+ > of creating a security problem by running tex.  On a Unix machine, one
+ > could replace the .login or .cshell (assuming that is the shell) by
+ > a file that contained something like rm *.  On a DOS machine, you could
+ > do a similar thing with the autoexec.bat file.  For it is only in this
+ > way that you actually get anything executed, as opposed to written.
+ > It seems to me that the best way of dealing with this is to make
+ > the relevant file read only.  It seems to me that any other damage would
+ > have to assume very specific things about the nature of the target machine.
+ > In the meantime, this discussion has convinced me to make these files
+ > unwritable.
+ >
+ > Michael Barr
+
+The .rhosts and .forward files need only be readable.
+(You could make these non-writable.)
+
+
+				mike
+
+========================================================================
+Date:         Mon, 22 Mar 93 15:11:35 +1200
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: jeremy@CS.AUKUNI.AC.NZ
+Subject:      Re: E-TeX desiderata
+
+
+>1) Rewrite the Plain
+>The plain format contains a lot of hard coded decission about fonts, font
+>layout, page layout, language, etc. Worst thoses decissions are disseminated
+>around the file. More, the Plain contain low, medium and 'high' level macros,
+ it
+>can be (for me) a great improvement to separate low level service and format
+>independant macros from 'medium' level macros likes the ones in the 'e-plain'
+>package.
+
+That's easy enough to do, but is independent of the NTS project (imho).
+
+>2) Font informations mixage and acces
+>In a TFM you find individual letter metrics, implicit font layout, explicit
+>ligature scheme and kerning program. At least the ligature scheme must be
+>separate from the font, at least in TeX memory. Why load n times the same
+>informations (n>50, often)?
+
+If you're asking why load the same ligature info many times for many
+different fonts, the answer is surely that the ligature information needn't
+be the same. Perhaps it is in CM, but TeX is not restricted to CM.
+
+>In the same way, when you use PostScript fonts you
+>don't have any design size choice, why load n times the same tfm (n>10, often)?
+
+Does TeX actually read in the tfm file several times if you load the same
+font at different mags? That would surprise me.
+
+>Just because Knuth say it, I know that inter letters spacing is bad (really).
+>But what about the evil typesetter who want it?
+
+Tough. :-)
+
+(e)TeX is a system for fine typesetting, inter-letter spacing is not fine
+typesetting, ergo inter-letter spacing is not needed in (e)TeX.
+
+Jeremy
+
+---------
+   Jeremy Gibbons <jeremy@cs.aukuni.ac.nz>         tel: +64 9 373 7599
+      Department of Computer Science,              fax: +64 9 373 7453
+      University of Auckland, Private Bag 92019, Auckland, New Zealand.
+
+
+========================================================================
+Date:         Mon, 22 Mar 93 10:04:48 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Security
+
+
+> From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+> Subject: Security
+> X-To: nts-l@vm.hd-net.uni-heidelberg.de
+> To: Multiple Recipients of <NTS-L@DHDURZ1.EARN>
+>
+>
+> Would someone please correct me, but at present I can see only way
+> of creating a security problem by running tex.  On a Unix machine, one
+> could replace the .login or .cshell (assuming that is the shell) by
+> a file that contained something like rm *.  On a DOS machine, you could
+> do a similar thing with the autoexec.bat file.  For it is only in this
+> way that you actually get anything executed, as opposed to written.
+> It seems to me that the best way of dealing with this is to make
+> the relevant file read only.  It seems to me that a========================================================================
+Date:         Mon, 22 Mar 93 16:59:58 -0500
+Reply-To: karl@cs.umb.edu
+From: Karl Berry <karl@CS.UMB.EDU>
+Subject:      dynamic allocation in e-tex
+In-Reply-To:  Nicolas Jungers's message of Mon,
+              22 Mar 93 01:31:56 CET <199303220046.AA20657@cs.umb.edu>
+
+
+    3) Memory limitations
+Ideally, a new version of TeX would do dynamic allocation.
+But that is incompatible with being just a change file from the existing
+tex.web -- I strongly suspect that the necessary changes would be far too
+pervasive to make a change file approach practical.
+
+========================================================================
+Date:         Mon, 22 Mar 93 17:28:05 -0500
+Reply-To: karl@cs.umb.edu
+From: Karl Berry <karl@CS.UMB.EDU>
+Subject:      E-TeX desiderata
+In-Reply-To:  Nicolas Jungers's message of Mon,
+              22 Mar 93 01:31:56 CET <199303220046.AA20657@cs.umb.edu>
+
+
+    4) About the security problem
+
+If e-tex cannot be configured to have no more security than TeX 3 (i.e.,
+none beyond whatever the o/s imposes), then I, for one, will be loath to
+use it.
+
+I understand that others have other desires.  If the e-tex implementors
+want to accommodate them, I obviously have no problem with that, as long
+as it's not forced on everyone.
+
+As a purely personal opinion, I suspect there are few (perhaps no)
+people refraining from using TeX because of its lack of security.
+
+========================================================================
+Date:         Mon, 22 Mar 93 23:59:17 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: dynamic allocation in e-tex
+In-Reply-To:  Karl Berry's message of Mon, 22 Mar 93 16:59:58 -0500
+
+
+>     3) Memory limitations
+> Ideally, a new version of TeX would do dynamic allocation.
+> But that is incompatible with being just a change file from the existing
+> tex.web -- I strongly suspect that the necessary changes would be far too
+> pervasive to make a change file approach practical.
+
+I'm puzzled by this remark of Karl's.
+He must be using the term "dynamic allocation"
+in a different sense to that I attach to it,
+which is just using malloc() for large arrays.
+
+I've done this on the Mac
+(I wanted a bigger TeX than OzTeX would allow me)
+using a change file,
+and in fact remarkably few changes were required.
+
+Admittedly more changes would be required
+if the sizes of the arrays were to be changed
+while TeX-ing (because some bound was exceeded).
+But even that would seem to me --
+though I haven't tried it --
+reasonably straightforward.
+
+A halfway house would be to allow large array sizes
+to be changed, eg in a configuration file,
+without re-compiling or creating new .fmt files.
+This would require a slight change in the format of .fmt files --
+but the format has already been changed in UnixTeX,
+so that cannot be against the rules.
+This would be quite a useful modification,
+it seems to me.
+
+Nb: I know there would still be a gulf
+between TeX and bigTeX,
+caused by a change in the size of memory_word.
+I'm thinking of changes within either TeX or bigTeX.
+
+
+
+
+and found very
+
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Tue, 23 Mar 93 11:02:26 +1000
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: michael lawley <lawley@OPERA.CIT.GU.EDU.AU>
+Subject:      Modular/structured E-TeX
+
+
+> From: Mike Piff <M.Piff@sheffield.ac.uk>
+>> From: michael lawley <lawley@OPERA.CIT.GU.EDU.AU>
+
+>> I've always felt that TeX lacks something wrt modularity.  For those people
+>> interested in developing GUI's etc for TeX it would be really nice to have
+>> some kind of TeX module/library (perhaps like ghostscript) to which one
+>> could pass a string (?) of TeX code and get back the typeset output.
+
+> Could I support this statement, although for other reasons?
+> I don't think that generally it would be practical, except in the most
+> trivial cases, to pass, for instance, a few lines of text to some
+> part of TeX and expect it to interpret it. For instance, to interpret
+> a bit of a LaTeX document, the header of the root file would have to
+> be know, so it necessary to pass that bit of text to a (whole) TeX with
+> the header already interpreted, and thus with not only TeX but most of
+> plain TeX and LaTeX in place---remember that even TeX by itself is capable
+> of doing very little.
+
+Actually, I envisioned allowing some kind of environment parameter to be
+passed back and forth.  Thus one could call the E-TeX routine with a ``null''
+environment and, for example, the LaTeX header text and have returned the
+environment after processing this text.  This could subsequently be passed
+to the E-TeX routine for processing further blocks of text.  I guess the
+environment would in fact be something like a closure.  Perhaps the initial
+``null'' environment should be the format file to use.
+
+> However, what about an e-TeX in which procedures are allowed as an alternative
+> to macros, and that included a fully structured programming language of the
+> sort one could expect in any system these days? It would be good if the
+> description of the way TeX' primitives work and the tools that the user
+> needs to utilise those primitives were separated into completely
+> separate modules with the bindings of those modules clearly defined.
+
+I think there is merit in this idea.  The all-macros style of TeX is fine
+when you are writing text and embedding things in it but it is a real loss
+once you start to try and program TeX.  It would be nice if there was some
+way to escape out into a programming mode with a language somewhat like
+lisp/scheme which is unaffected by all the macro expansions in force.
+
+> I think the TeX community still needs to learn the lesson of Algol68,
+> which was a brilliantly conceived language, but died a painful death well
+> before its time because it was just too difficult for the average
+> programmer to work with.  It could be TeX next, or even e-TeX.
+
+Yes, look at all that elisp code for emacs.  If only TeX was as easy to
+write for I think we'd find many more style and macros files available and
+they would break each other so much or operate like black boxes.
+
+Note that an extension language would not need to be written from scratch.
+There are plenty of suitable extension languages already out there (eg tcl)
+which only need to be tailored with a library of functions and then slotted
+in.
+
+mike
+
+
+========================================================================
+Date:         Mon, 22 Mar 93 22:20:26 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Dimitri Vulis <dlv@BWALK.DM.COM>
+Subject:      Re:      dynamic allocation in e-tex
+In-Reply-To:  <9303222201.AA28390@uu.psi.com>
+
+
+Karl Berry <karl@CS.UMB.EDU> writes:
+>
+>     3) Memory limitations
+> Ideally, a new version of TeX would do dynamic allocation.
+> But that is incompatible with being just a change file from the existing
+> tex.web -- I strongly suspect that the necessary changes would be far too
+> pervasive to make a change file approach practical.
+
+Hmm. emTeX does dynamic memory allocations for some, if not all, memory items.
+Just today I had to do "set emtexopt=/mt:15000" to set the trie_size
+large enough to hold both Russian and English patterns on this workstation.
+Ditto the iniTeX code.
+
+To quote the doc ('90 vintage, may be obsolete)
+> Option | Folgende Fehlermeldung wird beseitigt:   |  Bereich    | Vorgabewert
+>        | TeX capacity exceeded, sorry [...=###]   |  von-bis    | DOS / OS/2
+> -------+------------------------------------------+-------------+------------
+> /mf#   |  font memory (Zeichensatzdaten)          |  5000-65500 |      32766
+> /mn#   |  semantic nest size (Modus-Schachtelung) |    20-3000  |   40 / 100
+> /mp#   |  pool size (Zeichenketten)               | 20000-65500 |      50000
+> /ms#   |  save size (Rettung durch Gruppen)       |   100-16000 |        600
+> /mt#   |  pattern memory (Silbentrennung)         |  5000-65500 |      10000
+
+---
+dlv@bwalk.dm.com (Dimitri Vulis)
+Brighton Beach Boardwalk BBS, Forest Hills, N.Y.: +1-718-261-2013, 14.4Kbps
+
+========================================================================
+Date:         Tue, 23 Mar 93 08:14:00 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: malcolm <MALCOLMC@WESTMINSTER.AC.UK>
+Subject:      Re: E-TeX desiderata
+
+
+letter spacing in german: well, actually it is a throwback
+to (what i think of as) gothic, which was already so dreadfully
+black and unreadable, that to achieve emphasis was almost impossible.
+therefore a form of letterspacing was adopted. see, for example,
+jan tijschold's writings (i'll dig out the full reference
+if you want). now, this does not, to my mind, prove that
+letterspacing is needed forded for 'roman' glyphs; nor does t
+indicate that the letterspacing adopted was what passes for letterspacing
+today.
+
+i'm fascinated by the two threads (at least) in this tangled skein.
+on the one hand this requirement to incorporate what typesetters
+say they want (irrespective of its claim to quality); and the desire
+to have a machine for quality typesetting, to the extent of considering
+the 'skyline' model (which as far as i can see, no typesetter/typographer
+is on record as requiring).
+
+i'm glad to see someone else taking up the plea for modularisation
+of tex. although of course this was rather implicit in some
+bits of tex78 (the output section, for example). the problem i
+see with modularisation is that it would take an immense amount of time and
+effort, at which point you are back at the starting line: then you
+get the interesting stuff. texiv has to produce something significant
+soon before anyone will even consider adopting it (soon after the
+decision is made, not necessarily soon after now -- after all, i'll
+still be using tex3.etc when i retire).
+
+malcolm clark
+
+========================================================================
+Date:         Tue, 23 Mar 93 10:12:34 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: dynamic allocation in e-tex
+
+
+> From: Dimitri Vulis <dlv@BWALK.DM.COM>
+> Subject: Re: dynamic allocation in e-tex
+>
+> Karl Berry <karl@CS.UMB.EDU> writes:
+> >
+> >     3) Memory limitations
+> > Ideally, a new version of TeX would do dynamic allocation.
+> > But that is incompatible with being just a change file from the existing
+> > tex.web -- I strongly suspect that the necessary changes would be far too
+> > pervasive to make a change file approach practical.
+>
+> Hmm. emTeX does dynamic memory allocations for some, if not all, memory items.
+> Just today I had to do "set emtexopt=/mt:15000" to set the trie_size
+> large enough to hold both Russian and English patterns on this workstation.
+> Ditto the iniTeX code.
+>
+> To quote the doc ('90 vintage, may be obsolete)
+> > Option | Folgende Fehlermeldung wird beseitigt:   |  Bereich    | Vorgabewer
+ t
+> >        | TeX capacity exceeded, sorry [...=###]   |  von-bis    | DOS / OS/2
+> > -------+------------------------------------------+-------------+-----------
+ -
+> > /mf#   |  font memory (Zeichensatzdaten)          |  5000-65500 |      32766
+> > /mn#   |  semantic nest size (Modus-Schachtelung) |    20-3000  |   40 / 100
+> > /mp#   |  pool size (Zeichenketten)               | 20000-65500 |      50000
+> > /ms#   |  save size (Rettung durch Gruppen)       |   100-16000 |        600
+> > /mt#   |  pattern memory (Silbentrennung)         |  5000-65500 |      10000
+>
+> ---
+This isn't dynamic memory allocation. TeX works with a fixed array mem of 4 byte
+memory words. These parameters merely partition that array according to how
+much memory you estimate you might need for each function above.
+
+Getting TeX to do the shifting of these parameters itself is the difficult
+bit. What emTeX does is to make the above parameters, which are constants
+in TeX, into variables with a value fixed by the user at run time.
+They then have to remain constant, or sub-arrays will start overwriting one
+another.
+
+Separating the functions into different arrays, or possibly pointer lists,
+is presumably what Karl is talking about.
+
+Mike Piff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Tue, 23 Mar 93 12:41:54 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: tarjeij@EXTERN.UIO.NO
+Subject:      Re: dynamic allocation in e-tex
+
+
+Do anybody know what happened to the efforts to rewrite TeX in C (ctex?)?
+
+Regardless of this; if TeX is going to have any future it will have to either
+support dynamic allocation of memory or have so much space preallocated that
+memory problems is never encountered. As a support person I can't relearn the
+internals of TeX every few years when somebody gets into trouble due to lack
+of memory in TeX/LaTeX. So whatever happens make sure that somebody who might
+not be fluent in TeX will be able to port and or do simple maintenance on the
+program (e.g. increase default memory sizes, set up search paths, etc).
+
+If an implementation in C is available it should be used and an agreement made
+with the TeX autor to forward bug reports/fixes to the maintainer so that they
+can be fixed in both versions.
+
+Just in case: I mentioned C because it is the defacto standard systems
+programming language these days. If FSF (GNU) manages to release a decent Pascal
+or Modula-2 compiler it might be preferable to use one of these instead of C. My
+not so humble opinion is that one should use a safer language than C.
+
+
+Greetings,
+
+// Tarjei T. Jensen - if it ain't broken, fix it anyway!
+//    tarjeij@ulrik.uio.no       || +47 4 563411
+//   Support you local rescue centre: GET LOST!
+// Working, but not speaking for the Norwegian Hydrographic Service.
+
+========================================================================
+Date:         Tue, 23 Mar 93 13:18:49 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      letterspacing and skylines
+
+
+>
+> i'm fascinated by the two threads (at least) in this tangled skein.
+> on the one hand this requirement to incorporate what typesetters
+> say they want (irrespective of its claim to quality); and the desire
+> to have a machine for quality typesetting, to the extent of considering
+> the 'skyline' model (which as far as i can see, no typesetter/typographer
+> is on record as requiring).
+>
+>
+> malcolm clark
+>
+I cannot quite imagine requiring, or even wanting letterspacing for
+my modest typesetting needs, which are to type mathematical papers.
+Nonetheless, I am more than a little disturbed by people arrogating
+to themselves the right to decide what other people need or to
+decide once and for all what constitutes quality.  I am not
+convinced that the best way to get rid of a couple extra points of
+space isn't to distribute them among the 70 or so interletter spaces
+of the line.  But even if that is not so, it remains that it might
+be desirable in special applications.
+
+The reason no traditional typesetter has asked for a skyline model
+is that it is implemented without conscious thought in traditional
+typsetting.  The typesetter adds the leading required and thus does
+it automatically.  Let me see.  I am currently teaching a course in
+number theory, using Niven, Zuckerman and Montgomery.  I don't know
+how it was set in type, but the copyright date is 1991.  I happen to
+know that the publisher, Wiley, was not using TeX, but at least one
+editor was, in 1991, investigating it.  At any rate, I turn to the
+chapter on quadratic reciprocity which is likely to have lots of
+heavily leaded lines, owing to a plethora of Jacobi symbols (which
+          (p)
+look like (-) and are set with p and q in full size, even in line.
+          (q)
+(I have checked this in a number of books).  And sure enough at the
+bottom on p. 132 are two examples of skyline spaced lines.  The
+bottom on the Jacobi symbol on one line comes well below the top of
+the one on the next, this for two consecutive lines.  At the top of
+page 141 are two Jacobi symbols on successive lines that happen to
+come one atop the other and there there is enough leading to keep
+them apart (just).  It is evident that the typesetter was using a
+skyline model, probably without really thinking about it.
+
+Michael Barr
+
+========================================================================
+Date:         Wed, 24 Mar 93 11:32:06 +1200
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: jeremy@CS.AUKUNI.AC.NZ
+Subject:      Re: letterspacing and skylines
+
+
+>The reason no traditional typesetter has asked for a skyline model
+>is that it is implemented without conscious thought in traditional
+>typsetting.
+[description of Jacobi symbols]
+>And sure enough at the
+>bottom on p. 132 are two examples of skyline spaced lines.  The
+>bottom on the Jacobi symbol on one line comes well below the top of
+>the one on the next, this for two consecutive lines.  At the top of
+>page 141 are two Jacobi symbols on successive lines that happen to
+>come one atop the other and there there is enough leading to keep
+>them apart (just).  It is evident that the typesetter was using a
+>skyline model, probably without really thinking about it.
+
+I can see two meanings for "skyline spacing". One is the meaning presumably
+used by Michael Barr above: break the paragraph into lines as usual, then
+treat the paragraph as a sequence of skylines rather than a sequence of
+rectangles. A more interesting interpretation is to consider the skyline
+*before* line-breaking, and to attempt to break the paragraph to avoid
+conflicting skylines. Can TeX's paragraph-breaking algorithm be adapted to
+this purpose, having a "skyline-conflict penalty" as well as the hyphen
+penalties and so on?
+
+Jeremy
+
+---------
+   Jeremy Gibbons <jeremy@cs.aukuni.ac.nz>         tel: +64 9 373 7599
+      Department of Computer Science,              fax: +64 9 373 7453
+      University of Auckland, Private Bag 92019, Auckland, New Zealand.
+
+
+========================================================================
+Date:         Wed, 24 Mar 93 10:43:36 +0100
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      .LOG files in e-TeX
+
+
+I can think of one minor change that could immediately be implemented in e-TeX,
+and maybe should be in TeX too. TeX .LOG files are unnecessarily difficult
+for text editors to parse for error messages---possibly so for humans too.
+
+The standard indicator of position of an error is
+
+l.xxx   some text
+
+?
+
+and we and editors have to peer back through the listing to see which file is
+concerned. It is even possible for the text "(ffffffff.eee" to appear
+somewhere in the .LOG file and not indicate a change of file,
+being part of another error message.
+
+emTeX is capable of output of just one message containing current file,
+line number and name of .LOG file, to a separate error file, which can then
+be parsed by an editor. However, it only produces this information if one
+quits TeX with option "E".
+
+Would it not be possible to have some fairly unique marker, say
+
+ERROR in ffffffff.eee(nnn)
+   some text
+
+?
+
+implemented? Even better would be to have the character position on the
+error line output as well (nnn.pp).
+
+This would presumably be a minor change to <Print location of current line>.
+
+Any thoughts?
+
+Mike Piff
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 12:13:26 MEZ
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Burschik <UPP201@IBM.RHRZ.UNI-BONN.DE>
+Subject:      Re: Modular/structured E-TeX
+In-Reply-To:  Message of Tue,
+              23 Mar 93 11:02:26 +1000 from <lawley@OPERA.CIT.GU.EDU.AU>
+
+
+Using some variant of lisp/scheme as a programming language for e-TeX
+seems a very good idea to me (probably because I like to program in
+lisp anyway). I think the success of emacs is a strong argument in
+favour of such an approach. In fact, an emacs style typesetting
+program/programming language is about the best thing I can think of.
+
+Cheers,
+        Mike.
+
+========================================================================
+Date:         Wed, 24 Mar 93 12:44:12 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anselm Lingnau <lingnau@MATH.UNI-FRANKFURT.DE>
+Subject:      Re: Modular/structured E-TeX
+In-Reply-To:  (Your message of Wed,
+              24 Mar 93 12:13:26 EST.)
+              <9303241128.AA19620@gauss.math.uni-frankfurt.de>
+
+
+
+Michael Burschik writes:
+
+> Using some variant of lisp/scheme as a programming language for e-TeX
+> seems a very good idea to me (probably because I like to program in
+> lisp anyway). I think the success of emacs is a strong argument in
+> favour of such an approach. In fact, an emacs style typesetting
+> program/programming language is about the best thing I can think of.
+
+While this may be true (at least for you), I imagine that the bother to
+retrofit a general programming language (Lisp or whatever) to TeX would amount
+to writing the thing from scratch. If the outcome is to remotely resemble
+what we know as TeX today, this will be harder still. IMHO even anything like
+``let's make TeX more modular'', whatever that is supposed to actually *mean*,
+is too big a task to be feasible.
+
+I thought that the point of the current discussion was to identify problem
+areas that could be improved on in the short term and in an incremental
+manner, without breaking existing documents if at all possible. Maybe we
+should stick to that for the time being. I, for one, would love to hear more
+about ``we can't deconstruct \vbox'es'' and related things like that which
+might actually be fixed in a finite amount of time, instead of ``we want Lisp,
+a WYSIWYG interface and multicolour Chinese typesetting in arbitrary
+circles''. We've been through that on this list before.
+
+Anselm
+--
+Anselm Lingnau (lingnau@math.uni-frankfurt.de)          Schwanheimer Strasse 66
+You see things, and you say `Why?' But I dream things    6000 Frankfurt/Main 71
+that never were, and say `Why not?'    --- G. B. Shaw                   Germany
+
+========================================================================
+Date:         Wed, 24 Mar 93 12:07:00 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Modular/structured E-TeX
+
+
+> From: Michael Burschik <UPP201@IBM.RHRZ.UNI-BONN.DE>
+> Subject: Re: Modular/structured E-TeX
+>
+>
+> Using some variant of lisp/scheme as a programming language for e-TeX
+> seems a very good idea to me (probably because I like to program in
+> lisp anyway). I think the success of emacs is a strong argument in
+> favour of such an approach. In fact, an emacs style typesetting
+> program/programming language is about the best thing I can think of.
+>
+> Cheers,
+>         Mike.
+
+...but presumably not if you do any amount of calculations or looping?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 12:29:00 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: malcolm <MALCOLMC@WESTMINSTER.AC.UK>
+Subject:      Re: Modular/structured E-TeX
+
+
+come in nelson! when i suggested implementing any
+future tex in lisp i was trampled on by nelson for
+considering implementation (for some obscure reason).
+maybe he will reiterate his objections. sounds plausible
+to me though.....
+
+malcolm clark
+
+========================================================================
+Date:         Wed, 24 Mar 93 12:43:00 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Jonathan Fine <J.Fine@PMMS.CAM.AC.UK>
+
+
+Subject:  The \read, \write, and \system commands
+
+Dear Subscriber to the NTS discussion list
+
+It saddens me that in the furious discussion of security and TeX, the
+basic issue of the purpose of the \system command, and its merit as
+compared to the the "abuse of \write for the purposes of implementing
+a *\system command" (quoting Phil Taylor) has been lost.
+
+I will say a few words about security later.
+
+In the course of typesetting, TeX may wish to interact with another
+program.  For example, it may wish to extract a particular record
+from a database, or post a record to a database.  The posting could
+be written to a file, to be done after TeX has finished, but the
+extraction cannot wait.
+
+Suppose that the command
+        C:\MSDOS> getrecord 3456 tempfile.tex
+will write the desired record to |tempfile.tex|.  It is clear that a
+suitable \system command would allow this and other records to be
+extracted as and when required.  But what is the cost?  The operating
+system will have to find the getrecord command, load it, execute it,
+and exit.  If there are many little records to be fetched, it would
+be better to had TeX and a getrecord command both in memory at the
+same time, and communicating.
+
+How should this communication be done?  This is the idea of using the
+\read\n and \write\n commands in a special manner, for certain values
+of \n.
+
+The stub of a portable \system command will establish standards for
+communication between TeX and another program - the operating system
+shell or command processor or the like.  So why should this stub be
+constrained to communicate to a single fixed program, like the
+operating system itself.  Why not set up protocol for TeX to
+communicate with another program, which may or may not be the
+operating system.  This will be more powerful, more flexible, and
+more secure.
+
+It will be more secure because the linking of TeX to another program
+will be under the control of the person or process calling the pair
+into action.  One can run dubious documents with no or protected
+linking to the operating system.
+
+Now for security.  A certain amount of thought tells us that on a
+secure system, TeX being run with no special privileges will be
+unable to do any damage to system files or system integrity. However,
+it could damage any files it has access to.  (Of course, if there is
+a security bug, which Cliff Stoll describes in "The Cuckoo's Nest",
+such as afflicted EMACS, then damage could result from an
+unprivileged user running a privileged program.  Remember that the
+system command for changing a password is just a special sort of file
+editor).
+
+For those who run on a secure operating system, the solution is to
+run TeX only as a user with most limited privileges.  But this is an
+operating system and user problem, not a TeX problem.
+
+It is time for some conclusions.
+
+I believe it to be a mistake, to have only one program that TeX can
+be linked to, which is the operating system.
+
+I have no objections whatsoever to using \read\n and \write\n for
+special values of \n to communicate with other program(s).
+
+Philip Taylor suggests
+     an immediate goal of the NTS project should be the development of a
+     totally compatible ``extended-TeX'' (or e-TeX, for short) with proper
+     support for a \system primitive
+and then asks the subscribers to NTS-L
+     would they support the early implementation of a \system command in
+     e-TeX, rather than support the proposed abuse of \read and \write in
+     TeX-proper?
+
+My opinion - based probably on less experience of disparate operating
+systems and systems programming than he possesses - is that most or
+all of what the proposed \system command would achieve can be brought
+about without changing TeX at all!  What is required is, for each
+operating system, logical devices that behave as if they were files.
+The standard input/output <stdio> in 'C' and UNIX is such a file like
+non-file.  In this context please see my request for a timer for TeX,
+posted recently to TeXhax and UKTeX.
+
+These devices are quite common in MS-DOS.  For example, the RAMdisk
+device implements not just a file but a whole disk drive in software,
+which is indistinguishable except for speed of access from a physical
+disk drive.  And then there are nul files, and the printer devices
+lpt1 etc.
+
+Incidentally, why do so many assume that TeX will be calling another
+program, rather than the other way round.  Perhaps some other program
+will want to ask TeX to typeset some characters and report on the
+size, so that it can place them as a label in a diagram.
+
+On a more personal note, may I ask that contributors use strong
+language and strong words for one purpose only, and even then only
+sparingly.  This purpose is, of course, to express strong ideas.
+
+I am sure that I myself have not followed this advice on occasion, and
+to those who may have been affected by this error, I apologise.
+
+Jonathan Fine, 203 Coldhams Lane, Cambridge, CB1 3HY
+
+========================================================================
+Date:         Wed, 24 Mar 93 08:51:21 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      Skyline models
+
+
+> >The reason no traditional typesetter has asked for a skyline model
+> >is that it is implemented without conscious thought in traditional
+> >typsetting.
+> [description of Jacobi symbols]
+> >And sure enough at the
+> >bottom on p. 132 are two examples of skyline spaced lines.  The
+> >bottom on the Jacobi symbol on one line comes well below the top of
+> >the one on the next, this for two consecutive lines.  At the top of
+> >page 141 are two Jacobi symbols on successive lines that happen to
+> >come one atop the other and there there is enough leading to keep
+> >them apart (just).  It is evident that the typesetter was using a
+> >skyline model, probably without really thinking about it.
+>
+> I can see two meanings for "skyline spacing". One is the meaning presumably
+> used by Michael Barr above: break the paragraph into lines as usual, then
+> treat the paragraph as a sequence of skylines rather than a sequence of
+> rectangles. A more interesting interpretation is to consider the skyline
+> *before* line-breaking, and to attempt to break the paragraph to avoid
+> conflicting skylines. Can TeX's paragraph-breaking algorithm be adapted to
+> this purpose, having a "skyline-conflict penalty" as well as the hyphen
+> penalties and so on?
+>
+> Jeremy
+>
+> ---------
+>    Jeremy Gibbons <jeremy@cs.aukuni.ac.nz>         tel: +64 9 373 7599
+>       Department of Computer Science,              fax: +64 9 373 7453
+>       University of Auckland, Private Bag 92019, Auckland, New Zealand.
+>
+To paraphrase Lewis Carroll, when I invent a term, it means exactly
+what I want it to mean.
+
+I am not a computer scientist, but it seems to me that skyline
+overlap is one of those problems that are much harder to do
+digitallyl than with analog methods.  I suspect that it would add
+considerably to process time just to implement a skyline model and
+avoid overlap, but that programming to avoid skyline overlap would
+be unfeasible.
+
+Michael Barrn
+
+
+========================================================================
+Date:         Wed, 24 Mar 93 13:58:10 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Re: Modular/structured E-TeX
+
+
+Anselm Lignau wrote:
+
+>> I thought that the point of the current discussion was to identify problem
+>> areas that could be improved on in the short term and in an incremental
+>> manner, without breaking existing documents if at all possible. Maybe we
+>> should stick to that for the time being. I, for one, would love to hear more
+>> about ``we can't deconstruct \vbox'es'' and related things like that which
+>> might actually be fixed in a finite amount of time, instead of ``we want Lisp
+ ,
+>> a WYSIWYG interface and multicolour Chinese typesetting in arbitrary
+>> circles''. We've been through that on this list before.
+
+Let me strongly support this point of view.  The proposals currently before
+the NTS-L list are concerned with possible incremental improvements to TeX
+(to yield an e-TeX) which are in accordance with TeX's philosophy and which
+are achievable within a reasonable timescale using only finite resources.
+Whilst discussions on other aspects of a possible replacement for TeX are
+interesting and frequently enlightening, they do serve to distract attention
+from the present proposals.  May I urge all contributors to NTS-L to
+concentrate on the achievable (for the time being), leaving discussion on more
+general and philosophical issues for another time?
+
+					Philip Taylor, RHBNC
+					Co-ordinator, NTS project.
+
+
+========================================================================
+Date:         Wed, 24 Mar 93 09:36:57 EDT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Jerry Leichter <leichter@LRW.COM>
+Subject:      RE: .LOG files in e-TeX
+
+
+M J Piff suggests an improved (or alternative) TeX error message format,
+showing both file and line number in a clearly distinguishable form.
+
+I agree.  Error messages are TeX's biggest weakness.  In most cases, about
+all you can get out of an error message is an indication that something went
+wrong on some line; you then stare at the line and try to figure out what
+exactly needs to be done.
+
+A system with the complexity of TeX could easily use 10 or more times as many
+error messages, each more specific about what has gone wrong.  Unfortunately,
+TeX syntax and semantics makes it difficult in most cases to give a good
+indication.  If E-TeX is, indeed, to have an alternative programming inter-
+face, one thing it should be designed for is the ability to support much
+better error reporting.
+
+Even in the existing TeX model, one change I would very much like to see is in
+the reporting of missing close braces or \endgroup's, either at the end of the
+file or when the wrong kind of group gets closed.  When you get one of these
+nowadays, you are left to search your file for the unmatched brace - which can
+be non-trivial if you generated it in a macro with \lbrace!  (E-)TeX should
+record the file/line number at which each group begins, and report it if the
+group is not closed properly.  All this costs is a bit of memory, which is
+pretty cheap these days.
+							-- Jerry
+
+========================================================================
+Date:         Wed, 24 Mar 93 14:38:46 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: System interface
+
+
+> From: Jonathan Fine <J.Fine@dpmms.cambridge.ac.uk>
+> To: Multiple Recipients of <NTS-L@DHDURZ1.EARN>
+>
+>
+> Subject:  The \read, \write, and \system commands
+>
+> Dear Subscriber to the NTS discussion list
+>
+> It saddens me that in the furious discussion of security and TeX, the
+> basic issue of the purpose of the \system command, and its merit as
+> compared to the the "abuse of \write for the purposes of implementing
+> a *\system command" (quoting Phil Taylor) has been lost.
+>
+> I will say a few words about security later.
+>
+> In the course of typesetting, TeX may wish to interact with another
+> program.  For example, it may wish to extract a particular record
+> from a database, or post a record to a database.  The posting could
+> be written to a file, to be done after TeX has finished, but the
+> extraction cannot wait.
+>
+> Suppose that the command
+>         C:\MSDOS> getrecord 3456 tempfile.tex
+> will write the desired record to |tempfile.tex|.  It is clear that a
+> suitable \system command would allow this and other records to be
+> extracted as and when required.  But what is the cost?  The operating
+> system will have to find the getrecord command, load it, execute it,
+> and exit.  If there are many little records to be fetched, it would
+> be better to had TeX and a getrecord command both in memory at the
+> same time, and communicating.
+
+I doubt whether there are many commercial database programs around that
+would allow a program like TeX to sign on to their GUI and then interact
+with their multi-menu, multi-mouse operating system to specify which of several
+files is required, which fields, how to format those fields and where to
+send them. Databases are not written as filters. Nice idea,
+but I guess it will have restricted and decreasing applicability. None
+of the databases I have used even has a command form. Is Jonathan thinking in
+terms of some specific Unix database maybe?
+
+> My opinion - based probably on less experience of disparate operating
+> systems and systems programming than he possesses - is that most or
+> all of what the proposed \system command would achieve can be brought
+> about without changing TeX at all!  What is required is, for each
+> operating system, logical devices that behave as if they were files.
+> The standard input/output <stdio> in 'C' and UNIX is such a file like
+> non-file.  In this context please see my request for a timer for TeX,
+> posted recently to TeXhax and UKTeX.
+>
+> These devices are quite common in MS-DOS.  For example, the RAMdisk
+> device implements not just a file but a whole disk drive in software,
+> which is indistinguishable except for speed of access from a physical
+> disk drive.  And then there are nul files, and the printer devices
+> lpt1 etc.
+
+Provided user programs use the operating system interrupts to do disk
+input and output, a handler TSR program is easily implemented to intercept
+those reads and writes, and if they relate to drive E: say to fetch a
+record from or write a record to a protected area of RAM.
+
+This is somewhat different to calling another program and then sending it
+the correct sequence of commands to extract a lot of fields in records
+from several related files. Remember that in a relational database what look
+like fields from a continuous scroll can be pulled from hundreds of different
+files. For instance, take a BIBTeX record, but stored relationally.
+One field is author and another is e-mail address. You keep a file
+with info particular to that author:
+
+author:
+e-mail:
+address:
+telephone:
+
+Then in another file you have records of the form
+title:
+author:
+date:
+time:
+description:
+
+The relational database will match these into a single ``virtual record''
+title:
+author:
+e-mail:
+address:
+telephone:
+date:
+time:
+description:
+
+without you as user even being aware of this happening. The files will be
+encrypted, and you may not even know where they are or what their names are.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 15:03:13 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      RE: .LOG files in e-TeX
+
+
+> Date: Wed, 24 Mar 93 09:36:57 EDT
+> From: Jerry Leichter <leichter@LRW.COM>
+> Subject: RE: .LOG files in e-TeX
+>
+>
+> M J Piff suggests an improved (or alternative) TeX error message format,
+> showing both file and line number in a clearly distinguishable form.
+>
+> I agree.  Error messages are TeX's biggest weakness.  In most cases, about
+> all you can get out of an error message is an indication that something went
+> wrong on some line; you then stare at the line and try to figure out what
+> exactly needs to be done.
+>
+> A system with the complexity of TeX could easily use 10 or more times as many
+> error messages, each more specific about what has gone wrong.  Unfortunately,
+> TeX syntax and semantics makes it difficult in most cases to give a good
+> indication.  If E-TeX is, indeed, to have an alternative programming inter-
+> face, one thing it should be designed for is the ability to support much
+> better error reporting.
+>
+> Even in the existing TeX model, one change I would very much like to see is in
+> the reporting of missing close braces or \endgroup's, either at the end of the
+> file or when the wrong kind of group gets closed.  When you get one of these
+> nowadays, you are left to search your file for the unmatched brace - which can
+> be non-trivial if you generated it in a macro with \lbrace!  (E-)TeX should
+> record the file/line number at which each group begins, and report it if the
+> group is not closed properly.  All this costs is a bit of memory, which is
+> pretty cheap these days.
+> 							-- Jerry
+
+I like that idea of reporting nesting depth as well. You can get the
+information out of \tracingall, but only with some effort.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 16:32:26 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: Skyline models
+In-Reply-To:  Michael Barr's message of Wed,
+              24 Mar 93 08:51:21 EST
+              <9303241354.AA09327@azu.informatik.uni-stuttgart.de>
+
+
+on Wed, 24 Mar 93 08:51:21 EST, Michael Barr <barr@TRIPLES.MATH.MCGILL.CA> said:
+[...]
+MB> I am not a computer scientist, but it seems to me that skyline
+MB> overlap is one of those problems that are much harder to do
+MB> digitallyl than with analog methods.  I suspect that it would add
+MB> considerably to process time just to implement a skyline model and
+MB> avoid overlap, but that programming to avoid skyline overlap would
+MB> be unfeasible.
+
+You can break paragraphs as usual with the current model, where all
+lines are simple rectangular boxes.  If there's no necessity to insert
+\lineskip, then you don't have to look at the skyline.  Only if two
+lines are too near (e.g. distance<\lineskiplimit), you have to look
+into the two rectangular boxes and to check if the boxes inside
+overlap at one or more places.
+For the worst case (i.e., you have to look at the skyline for all
+pairs of lines) processing the skyline model consumes a lot of process
+time, but this shouldn't hinder us to test this idea and look at the
+results.
+
+Btw, the skyline model seems to be easy to implement in the current
+TeX, because we need only some changes when the finally broken lines
+of the paragraph are put on the vertical list.  There are more changes
+needed in the code, if the line break should be changed for the cases
+where it is possible to avoid an overlap with other break points, but
+IMHO it's nonetheless a relatively small change.
+
+-bernd
+
+========================================================================
+Date:         Wed, 24 Mar 93 14:57:51 +0100
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Modular/structured E-TeX
+
+
+> Date: Wed, 24 Mar 93 13:58:10 GMT
+> Reply-To: RHBNC Philip Taylor <P.Taylor@vax.rhbnc.ac.uk>
+> Sender: NTS-L Distribution list <NTS-L@DHDURZ1.EARN>
+> From: CHAA006@vax.rhbnc.ac.uk
+> Subject: Re: Modular/structured E-TeX
+> To: Multiple Recipients of <NTS-L@DHDURZ1.EARN>
+>
+>
+> Anselm Lignau wrote:
+>
+> >> I thought that the point of the current discussion was to identify problem
+> >> areas that could be improved on in the short term and in an incremental
+> >> manner, without breaking existing documents if at all possible. Maybe we
+> >> should stick to that for the time being. I, for one, would love to hear
+ more
+> >> about ``we can't deconstruct \vbox'es'' and related things like that which
+> >> might actually be fixed in a finite amount of time, instead of ``we want
+ Lisp
+>  ,
+> >> a WYSIWYG interface and multicolour Chinese typesetting in arbitrary
+> >> circles''. We've been through that on this list before.
+>
+> Let me strongly support this point of view.  The proposals currently before
+> the NTS-L list are concerned with possible incremental improvements to TeX
+> (to yield an e-TeX) which are in accordance with TeX's philosophy and which
+> are achievable within a reasonable timescale using only finite resources.
+> Whilst discussions on other aspects of a possible replacement for TeX are
+> interesting and frequently enlightening, they do serve to distract attention
+> from the present proposals.  May I urge all contributors to NTS-L to
+> concentrate on the achievable (for the time being), leaving discussion on more
+> general and philosophical issues for another time?
+>
+> 					Philip Taylor, RHBNC
+> 					Co-ordinator, NTS project.
+>
+
+Some modest suggestions, easily implemented.
+
+(a) Command to delete a file.
+(b) Command to rename a file.
+(c) Command to copy a file.
+(d) Command to create a directory (null if doesn't make sense).
+(e) Command to remove a directory (null if doesn't make sense).
+(f) Command to change directory (null if doesn't make sense).
+(g) Command to change drive (null if doesn't make sense).
+(h) A change in TeX' routine to open a file that allows the user to move
+   round directory structures listing file names until the correct one is
+   located.
+(i) Command to launch a child process, however destructive that might be.
+
+But who is going to desert TeX for e-TeX because of that lot? They should
+already be in TeX.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 16:28:44 MEZ
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Burschik <UPP201@IBM.RHRZ.UNI-BONN.DE>
+Subject:      Re: Modular/structured E-TeX
+In-Reply-To:  Message of Wed,
+              24 Mar 93 12:44:12 +0100 from <lingnau@MATH.UNI-FRANKFURT.DE>
+
+
+Anselm Lingnau writes:
+> I imagine that the bother to retrofit a general programming language
+> (Lisp or whatever) to TeX would amount to writing the thing from
+> scratch. If the outcome is to remotely resemble what we know as TeX
+> today, this will be harder still.
+
+This is, of course, true. A typesetting system using a general
+programming language would certainly be a *good thing*, but I do
+realize that this is at the very least a long-term goal and not
+exactly the immediate aim of the NTS project. I thus apologize
+for wasting bandwidth on this more or less philosophical point.
+
+Cheers,
+        Mike.
+
+========================================================================
+Date:         Wed, 24 Mar 93 15:40:26 +0100
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: System interface
+
+
+> From: spqr@minster.york.ac.uk
+>
+>  > format those fields and where to send them. Databases are not
+>  > written as filters. Nice idea, but I guess it will have restricted
+>  > and decreasing applicability. None of the databases I have used
+>  > even has a command form. Is Jonathan thinking in terms of some
+>  > specific Unix database maybe?
+> not sure why e-TeX has to be restricted to the world of one UK
+> academic's software environment.... not difficult to find a command
+> driven database at all!
+
+But does the user have any choice in the matter?
+
+>  >
+>  > without you as user even being aware of this happening. The files
+>  > will be encrypted, and you may not even know where they are or what
+>  > their names are.
+> well dang me I thought thats why we all use SQL, to avoid these
+> worries about how databases work!
+
+As in ``we all use Microsoft Word''?
+
+OK, accepted, so now we are restricting applicability to SQL databases.
+
+>
+> I have yet to hear an argument against some very primitive \system
+> macros which different OSes might interpret in different ways. So long
+> as I can \write to a command, what more do I need?
+
+Several channels to write to and several channels of reply?
+
+Please don't lower the tone of this discussion Sebastian.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 16:08:56 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Modular/structured E-TeX
+
+
+> Date: Wed, 24 Mar 93 16:28:44 MEZ
+> From: Michael Burschik <UPP201@IBM.RHRZ.UNI-BONN.DE>
+> Subject: Re: Modular/structured E-TeX
+>
+> Anselm Lingnau writes:
+> > I imagine that the bother to retrofit a general programming language
+> > (Lisp or whatever) to TeX would amount to writing the thing from
+> > scratch. If the outcome is to remotely resemble what we know as TeX
+> > today, this will be harder still.
+>
+> This is, of course, true. A typesetting system using a general
+> programming language would certainly be a *good thing*, but I do
+> realize that this is at the very least a long-term goal and not
+> exactly the immediate aim of the NTS project. I thus apologize
+> for wasting bandwidth on this more or less philosophical point.
+>
+> Cheers,
+>         Mike.
+
+I don't think you should back off that easily. I bet there are plenty of
+us out there who are dissatisfied with TeX' macro-based interface and desire
+something better.  If it is necessary to keep the macros and add something
+else on top then so be it. This could be done easily(?) by adding some new
+primitives, say a \while<condition>{...} primitive and possibly some
+expression evaluation.
+
+Another gap is the way assignments are only global or local. It would be
+nice to be able to pass assigned values down through just one level
+of nesting, so that after
+\a=1 {\return\a=2}
+\a has the value 2, but after
+\a=0 {\a=1 {\return\a=2}}
+it has the value 0. This would make it easy for macros to control the
+changes they make to control words, keeping almost all of them private
+by entering a group.  I think a \return primitive should be implemented.
+Perhaps \return\def and \return\let should also be allowed.
+
+What about allowing macros to have more parameters than 9?
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 16:34:41 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Alan Jeffrey <alanje@COGS.SUSX.AC.UK>
+Subject:      .LOG files in e-TeX
+
+
+On the subject of TeX's error messages...  Yes, trying to find the
+file a line number refers to is often a right pain.  Is the
+error-reporting part of TeX in the system-dependent code?  If it is,
+would it be possible to add the filename to an error report and still
+call the result TeX?
+
+One problem with TeX's error-handling is that it provides no way for
+the programmer to provide error-handlers.  For example, there's no way
+for a macro package to load a font if it exists, and if it doesn't to
+make an appropriate substitution.  All you can do is load the font and
+hope you don't die.
+
+Unfortunately, it's not obvious how an error handler would be coded.
+The obvious solution would be to introduce two new token lists
+\errhandler and \errwords, such that whenever an error occurred,
+\errwords would be set to the error message and \errhandler would be
+expanded.  The defualt \errhandler would then be
+\errmessage{\the\errwords}.
+
+Unfortunately, such an error handler won't work if you're inside an
+\edef, for example:
+
+   \errhandler{\errmessage{\the\errwords}}
+   \def\baz!{}
+   \edef\foo{\baz?}
+
+will result in defining \foo to be
+\errmessage{Use of \baz doesn't match its definition}
+rather than producing an error message, which isn't quite what you
+would expect.
+
+Any suggestions for a syntax for error handling in e-TeX?
+
+Alan.
+
+========================================================================
+Date:         Wed, 24 Mar 93 16:53:04 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: .LOG files in e-TeX
+
+
+> Date: Wed, 24 Mar 93 16:34:41 GMT
+> From: Alan Jeffrey <alanje@cogs.sussex.ac.uk>
+> Subject: .LOG files in e-TeX
+>
+>
+> On the subject of TeX's error messages...  Yes, trying to find the
+> file a line number refers to is often a right pain.  Is the
+> error-reporting part of TeX in the system-dependent code?  If it is,
+> would it be possible to add the filename to an error report and still
+> call the result TeX?
+>
+Yes, in my listing it is definitely labelled as system dependent.
+In fact, DEK suggests that on some systems a page(?) number might be
+printed.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 16:53:04 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: .LOG files in e-TeX
+
+
+> Date: Wed, 24 Mar 93 16:34:41 GMT
+> From: Alan Jeffrey <alanje@cogs.sussex.ac.uk>
+> Subject: .LOG files in e-TeX
+>
+>
+> On the subject of TeX's error messages...  Yes, trying to find the
+> file a line number refers to is often a right pain.  Is the
+> error-reporting part of TeX in the system-dependent code?  If it is,
+> would it be possible to add the filename to an error report and still
+> call the result TeX?
+>
+Yes, in my listing it is definitely labelled as system dependent.
+In fact, DEK suggests that on some systems a page(?) number might be
+printed.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 24 Mar 93 18:59:20 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Re: Modular/structured E-TeX
+
+
+Mike Piff offers ``some modest suggestions, easily implemented''
+
+>>> (a) Command to delete a file.
+>>> (b) Command to rename a file.
+>>> (c) Command to copy a file.
+>>> (d) Command to create a directory (null if doesn't make sense).
+>>> (e) Command to remove a directory (null if doesn't make sense).
+>>> (f) Command to change directory (null if doesn't make sense).
+>>> (g) Command to change drive (null if doesn't make sense).
+>>> (i) Command to launch a child process, however destructive that might be.
+
+Whilst thanking Mike very much for his positive suggestions, I would
+respectfully suggest that a general \system primitive could allow
+all of these to be implemented at the macro level rather than by
+applying changes to the WEB.  If that is generally accepted to be true,
+would it not be better to make the minimum number of changes to the
+WEB, rather than multiple changes which implement just a small subset
+of the all the things that could be achieved through one such primitive?
+
+>>> (h) A change in TeX' routine to open a file that allows the user to move
+>>>    round directory structures listing file names until the correct one is
+>>>    located.
+
+This is an interesting idea,  but very system dependent, unless e-TeX
+also defines a generic windows interface.  The implementation effort
+in achieving the latter should not be underestimated.
+
+>>> But who is going to desert TeX for e-TeX because of that lot? They should
+>>> already be in TeX.
+
+I hope that no-one will consider `deserting TeX' at all; my hope is that
+e-TeX will simply become accepted as offering everything that TeX does,
+in an entirely compatible manner, whilst offering additional facilities
+whose need is almost universally appreciated.  If that is achieved, and
+e-TeX at least as bug-free and universally available as TeX V3.1415, then
+I can see few reasons for not at least considering migration to e-TeX.
+
+					Philip Taylor, RHBNC
+					Co-ordinator, NTS project.
+
+========================================================================
+Date:         Wed, 24 Mar 93 14:50:35 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      Skylines
+
+
+> MB> I am not a computer scientist, but it seems to me that skyline
+> MB> overlap is one of those problems that are much harder to do
+> MB> digitallyl than with analog methods.  I suspect that it would add
+> MB> considerably to process time just to implement a skyline model and
+> MB> avoid overlap, but that programming to avoid skyline overlap would
+> MB> be unfeasible.
+>
+> You can break paragraphs as usual with the current model, where all
+> lines are simple rectangular boxes.  If there's no necessity to insert
+> \lineskip, then you don't have to look at the skyline.  Only if two
+> lines are too near (e.g. distance<\lineskiplimit), you have to look
+> into the two rectangular boxes and to check if the boxes inside
+> overlap at one or more places.
+> For the worst case (i.e., you have to look at the skyline for all
+> pairs of lines) processing the skyline model consumes a lot of process
+> time, but this shouldn't hinder us to test this idea and look at the
+> results.
+>
+> Btw, the skyline model seems to be easy to implement in the current
+> TeX, because we need only some changes when the finally broken lines
+> of the paragraph are put on the vertical list.  There are more changes
+> needed in the code, if the line break should be changed for the cases
+> where it is possible to avoid an overlap with other break points, but
+> IMHO it's nonetheless a relatively small change.
+>
+> -bernd
+>
+You may be right; I hope you are, but I am not certain.  The trouble
+is that currently as TeX builds a line, it puts it into a
+rectangular box, forgetting the shape of the skyline (both above and
+below of course) and deals henceforth only with that rectangular.
+To implement that change, TeX would have to treat it as a bunch of
+smaller rectangular boxes.  That sounds to me like a fairly major
+change.
+
+Michael Barr
+
+========================================================================
+Date:         Thu, 25 Mar 93 10:49:23 +1000
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: michael lawley <lawley@OPERA.CIT.GU.EDU.AU>
+Subject:      Re:      Re: Modular/structured E-TeX
+In-Reply-To:  Mail from 'CHAA006@VAX.RHBNC.AC.UK' dated:         Wed,
+              24 Mar 93 13:58:10 GMT
+
+
+
+Philip Taylor wrote:
+> Anselm Lignau wrote:
+> [This discussion should be about feasible, incremental improvements to TeX.]
+
+> Let me strongly support this point of view.  The proposals currently before
+> the NTS-L list are concerned with possible incremental improvements to TeX
+> (to yield an e-TeX) which are in accordance with TeX's philosophy and which
+> are achievable within a reasonable timescale using only finite resources.
+> Whilst discussions on other aspects of a possible replacement for TeX are
+> interesting and frequently enlightening, they do serve to distract attention
+> from the present proposals.  May I urge all contributors to NTS-L to
+> concentrate on the achievable (for the time being), leaving discussion on more
+> general and philosophical issues for another time?
+
+I fully agree.  My proposal was meant to suggest an embedded programming
+language be provided, taking an existing thing like Tcl, for example.  It
+was meant to be something that could be dropped in (almost) to TeX as it
+exists, not to require TeX or any existing macro files to be rewritten from
+scratch.  In fact I'd cobble together a proof-of-concept version myself if I
+didn't have a thesis to get finished.
+
+mike
+
+
+========================================================================
+Date:         Thu, 25 Mar 93 04:42:53 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Nicolas <ANORSU@VM1.RICE.UCL.AC.BE>
+Subject:      Letter spacing and other things
+
+
+
+A summary of things I have understand and/or interested me.
+
+1) Letter Spacing and fonts informations
+What I want is just an another typographic effect: paragraph with equal
+space between each letters. And I don't want to create an vpl file for each
+spacings (most of them will be trial spacings).
+
+In the same way, why should I have a different TFM if I want hanging
+punctuation, it's not a different font, is just an effect.
+
+Okay, as has say Barbara, Knuth has the use of reloading n times the same
+TFM, but why do that if the TFM are really the same. Yes you can change a
+fontdimen everywhere in a TeX file, but who do that? It's seems reasonable
+to me that at the iniTeX stage some management may be done.
+
+But in fact all the above problems are irrelevant with dynamic memory
+(except maybe the ligature problem - ask Yannis how many fonts he can load
+when they each have about the same 4000 ligatures).
+
+2) Solved problems
+Somebody ask : What about allowing macros to have more parameters than 9?
+It's a perfect solved problem, as a lot of other problem in TeX. (number of
+register, reading of "hidden" value as the length of a line before a
+display, ...). The question: why not implement a simpler solution to those
+wicked solutions? (Now and not in the easy to use/understand forcomming
+powerfull integrated true programming language.)
+
+3) Rewrite the Plain
+The Plain is not part of e-TeX, IMHO it's not a problem.
+Well, I can't agree with that. Plain is a problem in TeX. e-TeX is a way to
+improve TeX, why not look at the easy way? (I'm not sure that rewrite the
+Plain is easy, at least politically - there's so many way to do easy
+things). More of that, I believe that most of e-TeX features will receive a
+low level implementation. Where will be the support to those new features
+if not in Plain?
+
+4) Error messages
+I don't know is this fact is peculiar to my TeX, but by the way the
+processing of messages is the slowest thing that can occur in the TeX
+processing with TeXtures (Macintosh).
+
+5) Security
+I'm maybe very stupid, but if the TeX community can't easily agree on
+security features, why not:
+ a) change nothing by default;
+ b) allow any read/write authorization/prohibition setting at iniTeX stage;
+ c) let any site administrator choice is setting and forbid iniTeX to
+    simple users.
+ d) give explicit message to the user like: "your site administrator in his
+    great wisdom didn't allow you to do that: write/read ...".
+ e) publish a code of good conduct for travellings documents (maybe defined
+    in a Secure-Plain).
+
+6) Page Breaking and skyline
+Skyline sound fine, but what about a page breaking algorithm.
+I think that only very easy features must be incorporated in e-TeX before
+very usefull and not toodifficult ones. But, of course the appreciation of
+difficulty is left to the ones who will do the job.
+
+Nicolas Jungers            Anorsu @ BUCLLN11.bitnet
+
+========================================================================
+Date:         Thu, 25 Mar 93 15:35:52 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Jonathan Fine's discussion on \read/\write v. \system
+
+
+Jonathan Fine recently made some very sensible observations on the
+proposals for either an extensions to the semantics of \read/\write,
+or the implementation of a \system primitive; after some discussion, he
+concludes:
+
+>>> I believe it to be a mistake, to have only one program that TeX can
+>>> be linked to, which is the operating system.
+
+>>> I have no objections whatsoever to using \read\n and \write\n for
+>>> special values of \n to communicate with other program(s).
+
+But I think that Jonathan may have misunderstood what is implied by
+the idea of `linking to the operating system'.
+
+The ideas is not that e-TeX shall be capable only of communicating with the
+operating system at all; instead, e-TeX shall be capable of communicating with
+any program \stress {with which the operating system itself is capable of
+communicating}.  In most modern computers and operating systems, program loading
+and initalisation is a task invariably entrusted to the operating system once
+bootstrapping is complete.  The proposal that e-TeX shall communicate with the
+operating system is intended to exploit this fact.  Thus, using the proposed
+\system primitive, it is intended that e-TeX shall be able to ask the operating
+system to load and initialise any program, or to carry out some other operating-
+system task.  Once the program is loaded, and passed any parameters which the
+\special call specifies, the results of program execution must, of course,
+be made available to the TeX program in some well-specified manner, as well
+as the status (success or failure, + additional information if available), of
+the program's execution.
+
+What is not intended (and here, I think, I differ from Jonathan in what
+I believe both desirable and achievable) is that e-TeX shall, via this
+interface, be capable of \stress {interacting} with the program.  That may
+well be highly desirable; but I think it will prove both difficult to specify
+and difficult to implement; and I think that the simpler model of <load>;
+<initialise with parameters>; <execute>; <return result(s)>; and <return
+status> will meet most needs.
+
+The question of portability, too, enters here; whilst, under a multi-tasking
+operating system, communication between two programs may be feasible, in a
+small single-user system such as MS/DOS there are insufficient system
+resources to allow two significant programs to be concurrently resident
+and active; whilst it is fairly easy to arrange for TeX to swap itself out
+when invoking another image, it would be less than easy to arrange for
+the two images to co-swap as interaction takes place.
+
+But I would welcome further contributions in this area; is the need to \stress
+{interact} with a program, as opposed to \stress {invoke} a program, a need
+whose importance has been underestimated?
+
+					Philip Taylor, RHBNC
+
+========================================================================
+Date:         Thu, 25 Mar 93 16:20:36 +0100
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Modular/structured E-TeX
+
+
+> Date: Wed, 24 MAR 93 18:59:16 GMT
+> Subject: Re: Modular/structured E-TeX
+> Reply-to: Philip Taylor (RHBNC) <P.Taylor@vax.rhbnc.ac.uk>
+>
+> Mike Piff offers ``some modest suggestions, easily implemented''
+>
+> >>> (a) Command to delete a file.
+> >>> (b) Command to rename a file.
+> >>> (c) Command to copy a file.
+> >>> (d) Command to create a directory (null if doesn't make sense).
+> >>> (e) Command to remove a directory (null if doesn't make sense).
+> >>> (f) Command to change directory (null if doesn't make sense).
+> >>> (g) Command to change drive (null if doesn't make sense).
+> >>> (i) Command to launch a child process, however destructive that might be.
+>
+> Whilst thanking Mike very much for his positive suggestions, I would
+> respectfully suggest that a general \system primitive could allow
+> all of these to be implemented at the macro level rather than by
+> applying changes to the WEB.  If that is generally accepted to be true,
+> would it not be better to make the minimum number of changes to the
+> WEB, rather than multiple changes which implement just a small subset
+> of the all the things that could be achieved through one such primitive?
+>
+
+I don't quite follow that. The \system primitive presumably takes a
+parameter which is the OS command to do the operation, but that OS
+command will be different on different systems. On one it might be
+\def\delete#1{\system{del #1}}
+and on another
+\def\delete#1{\system{delete #1}}
+so we would then have to have separate style files for different OSs,
+or a style file which looked at a pre-defined macro to tell it which
+OS to use? That style would have to know about ALL OSs---namely Unix,
+MS-DOS, DR-DOS, OS/2, have I missed any out?
+
+Alternatively, the user types
+\system{del xxx.tex}
+which is far more dangerous as far as I can see.
+I just thought it would be better to provide a minimal uniform filehandling
+interface that could be agreed upon, as part of TeX, and possibly
+using a system procedure that is directly callable independently
+via \system. Otherwise, we have these problems about portability.
+Then, everyone gets a few ``safe'' commands and one dangerous one.
+
+
+Would there be ANY restrictions on what could be passed to the OS?
+How about a command to edit the file that is being TeXed.
+Is it envisaged that an error handler be set up that puts you back
+in the editor via a \system command?
+
+How about a login/out? Will piping and redirection be allowed?
+
+> >>> (h) A change in TeX' routine to open a file that allows the user to move
+> >>>    round directory structures listing file names until the correct one is
+> >>>    located.
+>
+> This is an interesting idea,  but very system dependent, unless e-TeX
+> also defines a generic windows interface.  The implementation effort
+> in achieving the latter should not be underestimated.
+>
+I guess it needn't be that complicated, as TeX doesn't have a window interface
+at present. Perhaps just an ability to change the current directory, list
+files, and eventually choose one, implemented via your \system command.
+
+Mike Piff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Fri, 26 Mar 93 09:36:53 +0100
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: dynamic allocation in e-tex
+
+
+> From: Timothy Murphy <tim@maths.tcd.ie>
+> Subject: Re: dynamic allocation in e-tex
+> To: Mike Piff <M.Piff@sheffield.ac.uk>
+> In-Reply-To: Mike Piff's message of Tue, 23 Mar 93 10:12:34 BST
+> Date: Fri, 26 Mar 93 0:59:48 GMT
+> Original-Sender: tim@maths.tcd.ie
+> Message-ID: <9303260059.aa01238@salmon.maths.tcd.ie>
+>
+> > This isn't dynamic memory allocation. TeX works with a fixed array mem of 4
+ byte
+> > memory words. These parameters merely partition that array according to how
+> > much memory you estimate you might need for each function above.
+>
+> I don't think you are right.
+> These are different arrays,
+> not part of the same array.
+> (Most of them are not memory_word arrays either.
+> Eg pool is an array of char.)
+>
+You are quite right, sorry, there ARE several arrays of different types.
+
+However, the point remains, whether there are several arrays or one, that
+their sizes are fixed at run time, which is not my idea of what dynamic
+memory allocation means. If the pool size could automatically increase to
+accommodate extra usage, I would accept that that is dynamic. However,
+e-TeX would then surely be much slower.
+
+You do have a good point, however, that perhaps the e-TeX standard should be to
+allow the user to fix their sizes at run time, which is not the way the
+WEB indicates that things should be done. eg, Section 11,
+
+pool_size = 32000;
+save_size = 600;
+
+etc. Are there modern implementations that keep to fixed arrays, determined at
+compile time, or is this emTeX command line/environment variable method of
+changing these Pascal ``constants'' universal?
+
+I guess the implementation-dependent details of command line parsing and
+allocating arrays at run time would prohibit this approach. Anyway, Pascal
+is brain-dead in this area.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Fri, 26 Mar 93 12:40:00 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Jonathan Fine <J.Fine@PMMS.CAM.AC.UK>
+Subject:      \write and \system
+
+
+Mike Piff says that \write is not adequate, because he may need
+>   Several channels to write to and several channels of reply
+but this is irrelevant to \system vs \write.
+
+To get several channels, multiplex a single channel.  This is
+*already* done with the \special command.
+
+As for database, perhaps bibliography or Math Reviews - wouldn't it
+be nice to be able to cite a paper by quoting it's Math Reviews
+number.
+
+Jonathan Fine
+
+========================================================================
+Date:         Fri, 26 Mar 93 14:13:09 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.ur========================================================================
+Date:         Mon, 29 Mar 93 08:39:35 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: \write and \system
+
+
+> Date: Fri, 26 Mar 93 12:40:00 GMT
+> From: Jonathan Fine <J.Fine@dpmms.cambridge.ac.uk>
+> Subject: \write and \system
+>
+> As for database, perhaps bibliography or Math Reviews - wouldn't it
+> be nice to be able to cite a paper by quoting it's Math Reviews
+> number.
+>
+
+Surely you already can do this, or something like it, using LaTeX and bibTeX?
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Mon, 29 Mar 93 10:55:18 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: "TEX at ICA" <tex@ICA.UNI-STUTTGART.DBP.DE>
+Subject:      Projects
+
+
+
+Dear friends
+
+Is there anybody who can tell me something about the momentary
+planned or running TeX-related projects, in particular about those
+supported by the European Community?
+
+I'm informed about the principle ideas of NTS and I know there
+must be a project called DIDOT.
+
+Please tell me more.
+
+Thank you
+
+-Steffen Kernstock
+
+==================
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                      Dipl.-Ing. Steffen Kernstock
+Institut f. Computeranwendungen (ICA) Institute for Computer Applications
+           Universitaet Stuttgart   University of Stuttgart
+               Tel. 0711/685-3634   Tel. *49/711/685-3634
+                    0711/685-3630        *49/711/685-3630
+               Fax  0711/685-3669   Fax  *49/711/685-3669
+  E-Mail: kernstock@ica.uni-stuttgart.dbp.de
+  or:           tex@ica.uni-stuttgart.dbp.de
+  !!!!!!!!!! My mail address VCU11671@DS0RUS54 is disconnected !!!!!!!!!!!!!
+                         Pfaffenwaldring 27
+                         D-7000 Stuttgart 80
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+========================================================================
+Date:         Mon, 29 Mar 93 08:51:00 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Minority Report
+
+
+> Date: Fri, 26 Mar 93 14:13:09 GMT
+> From: Timothy Murphy <tim@MATHS.TCD.IE>
+> Subject: Minority Report
+> In-Reply-To: Mike Piff's message of Wed, 24 Mar 93 14:57:51 +0100
+>
+> > Some modest suggestions, easily implemented.
+> >
+> > (a) Command to delete a file.
+> > (b) Command to rename a file.
+> > (c) Command to copy a file.
+> > (d) Command to create a directory (null if doesn't make sense).
+> > (e) Command to remove a directory (null if doesn't make sense).
+> > (f) Command to change directory (null if doesn't make sense).
+> > (g) Command to change drive (null if doesn't make sense).
+> > (h) A change in TeX' routine to open a file that allows the user to move
+> >    round directory structures listing file names until the correct one is
+> >    located.
+> > (i) Command to launch a child process, however destructive that might be.
+>
+> May I recall the immortal words of Ken Thompson,
+> "A program should do one thing, and do it well."
+>
+> Why on earth should you want to delete a file while running TeX?
+
+Easy! Some TeX macro package wants to do some calculations, or remember some
+text, and then later input that text.
+
+Grubby solution: create plethora of ``private'' files in user's directory and
+   exit.
+
+Clean solution: create plethora of ``private'' files in subdirectory,
+   created for purpose, with no possibilities of name clashes, and exit
+   by deleting the whole lot, including the directory.
+
+Could I also add other ``primitive'' commands?
+
+(x) Create unique new directory name.
+(y) Create unique new file name.
+
+> Why not a command to make a cup of coffee,
+> with amounts of sugar and milk as parameters?
+>
+
+Sounds like an excellent idea! Milk, no sugar, please.
+
+> I regard NTS/E-TeX as a dangerous heresy,
+> which I hope is dealt with appropriately by the Grand Inquisitor.
+> If E-TeX actually took off (which it won't)
+> it would simply split the TeX world.
+> Most people, and certainly most mathematicians,
+> will stick to the Official Version according to Knuth,
+> whatever happens.
+>
+
+Just as they stick to plain TeX, then LaTeX, then AMS-TeX, then AMS-LaTeX,
+then LMS-TeX, then LMS-LaTeX, then .....
+
+> Just a reminder that not everyone is on the side of progress!
+
+That's why we use TeX.
+
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Mon, 29 Mar 93 09:03:00 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: Modular/structured E-TeX
+
+
+> Date: Sat, 27 Mar 93 21:53:07 GMT
+> From: Timothy Murphy <tim@MATHS.TCD.IE>
+> Subject: Re: Modular/structured E-TeX
+> In-Reply-To: CHAA006@VAX.RHBNC.AC.UK's message of Wed, 24 Mar 93 18:59:20 GMT
+>
+> > If that is achieved, and
+> > e-TeX at least as bug-free and universally available as TeX V3.1415, then
+> > I can see few reasons for not at least considering migration to e-TeX.
+>
+> I for one would think twice about running a program
+> which might delete unspecified files as a side-effect.
+>
+
+Tim, how often have you run LaTeX and exited with ``x'' only to find that
+your .AUX file had been deleted and replaced by one that just said \relax?
+
+Wouldn't it be nice to have the facility of backing up the .AUX file as an
+insurance against this, or ``TeX capacity exceeded, sorry'' or other
+untoward things? Then, if all went well, the backed up copy could be deleted.
+Otherwise, you haven't lost anything.
+
+Some packages such as MFpic require you to specify an output file.
+If the file already exists, it is effectively deleted by the act of
+TeX opening it for output. If you make a mistake, you could lose a lot
+of typing.
+
+> Timothy Murphy
+>
+> e-mail: tim@maths.tcd.ie
+> tel: +353-1-2842366 (home/office)
+>      +353-1-7021507 (university)
+> fax: +353-1-2842295
+> s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Mon, 29 Mar 93 09:13:55 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: \system -- what for?
+
+
+> Date: Sun, 28 Mar 93 23:11:31 CET
+> From: J%org Knappen <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+> Subject: \system -- what for?
+>
+> ...
+> But there is another side of \system, I want to call it the monstrosity
+> side. Many people are thinking now, that TeX is a monster and diffficult to
+> tame. \system will add to this monstrosity. It will create a new paradise
+> for hackers creating system hacks. And it will make people turn away from
+> eTeX and use other products, even if they are far less secure.
+>
+> J"org Knappen
+
+Are you saying that you would prefer a better structured command
+language in eTeX, to discourage the hacker's mentality?
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Mon, 29 Mar 93 12:14:52 +0200
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Tight loops
+
+
+Here is another item to add to the wish list.
+
+Under certain circumstances, TeX gets into a tight loop, which cannot be
+interrupted by the user. One example is the one that occurs if
+\begin{enumerate} is followed by some text other than \item.
+
+A \vskip command in horizontal mode will hang if the definition of \par
+is made void. This effectively happens sometimes in LaTeX, where \par
+is defined by
+\let\@@par\par
+\def\par{\ifcondition \else\@@par\fi}
+
+No well-behaved program should hang like this. Thus eTeX should have
+our ability to interrupt it enabled at all times.
+
+
+Incidentally, was my suggestion that eTeX should have a loop primitive
+built into it accepted nem con? The plain TeX loop does not work in at least
+these respects:
+(a) Nested loops fail. They use the same \body, which is erroneous.
+(b) If the body of the loop closes a group the definition of \body is
+   forgotten, and an error message is issued at the next iteration.
+(c) If the body is large---it is absorbed as a parameter---TeX fails.
+(d) Only one exit is provided.
+
+Some thought would have to be given to the way that a loop primitive
+should behave as regards grouping, and the exact syntax of the loop.
+I suggested \while<condition>{<body>} before, but maybe
+\loop
+   ...
+   \if<condition>\exit
+   ...
+\repeat
+might be better.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Mon, 29 Mar 93 12:35:02 +0200
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      File backup
+
+
+One of the security aspects of current versions of TeX---a \write can destroy
+an existing file, and then the user or TeX decides to exit without recreating
+that file---could be overcome by making sure that TeX always backs up any
+files it opens for writing. OK, VMS, Novell Netware and other OSs may do this
+automatically, but I guess there are some OSs that do not do that.
+
+One example is that of an .AUX file in LaTeX. This is read at the beginning of
+each run and re-created at the end. It may take several runs of LaTeX to
+get the information in it correct. (3 for page numbers?)
+
+If an error occurs, and the user exits, or if TeX exceeds its capacity,
+that file is lost, and has to be recreated the hard way.
+
+Two solutions:
+(a) Make TeX backup the file.
+(b) Make the macro package do the backup, but provide the primitives it needs
+   to do that.
+
+Either way requires changes to TeX.
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Mon, 29 Mar 93 00:51:58 -0500
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: laurent@MATH.TORONTO.EDU
+Subject:      slip of the tongue
+
+
+
+
+Please read \vfshipout for \vfoutput in my nearby
+message.
+
+Laurent Siebenmann <lcs@matups.matups.fr>
+
+========================================================================
+Date:         Sun, 28 Mar 93 23:29:24 -0500
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: laurent@MATH.TORONTO.EDU
+Subject:      N. Jungers' ideas
+
+
+
+  > Okay, as has say Barbara, Knuth has the use of
+  > reloading n times the same TFM, but why do that if
+  > the TFM are really the same. Yes you can change a
+  > fontdimen everywhere in a TeX file, but who do
+  > that? It's seems reasonable to me that at the
+  > iniTeX stage some management may be done.
+
+Perhaps Nicolas would be happy with a
+
+   \scaledfont\bigtenrm=\tenrm scaled 1720
+
+which would use not much more storage space than
+a pointer to cmr10 and a 32 bit multiplier.
+
+But there are complications.  We normally want to be able to
+tune the font dimensions from within TeX and maybe
+the ligature tables too (and what else?).  That becomes
+difficult and ambiguous with such "pointer fonts".
+Should
+
+   \scaledfont\biggertenrm=\bigtenrm scaled 1200
+
+be allowable?
+
+     I am in favor of such for such pointer fonts and willing
+to accept limitations on their flexibility.  One can
+always resort to
+
+      \font\bigtenrm=cmr10 scaled 1720
+
+  > In the same way, why should I have a
+  > different TFM if I want hanging punctuation,
+  > it's not a different font, is just an effect.
+
+How should e-TeX facilitate hanging punctuation?
+
+  > But in fact all the above problems are
+  > irrelevant with dynamic memory.
+
+Do you mean infinite memory?  Virtual memory on disk?
+Inefficient programming seems able to gobble
+infinite amounts of space in a wink.
+
+
+Laurent Siebenmann <lcs@matups.matups.fr>
+
+
+
+
+
+
+
+========================================================================
+Date:         Sun, 28 Mar 93 23:31:22 -0500
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: laurent@MATH.TORONTO.EDU
+Subject:      \vfoutput
+
+
+
+
+ \vfoutput
+
+   It would be desirable and relatively simple for
+e-TeX to produce virtual fonts.
+
+    The key fact is that a vf character is
+very similar to a .dvi file page.
+
+    Let me motivate this "\vfoutput" by a simple
+application involving CM/PS fonts. Imagine that a
+formula with no easy break points runs into the right
+margin and one decides to scale it slightly to fit.
+(On old trick of phototypesetters.)  Since postscript
+fonts admit scaling there is in principle no problem
+except TeX's own clumsiness.
+
+    One could ask that e-TeX be able to output any
+box in particular the formula box as a virtual font
+of one character together with an appropriate rather
+minimal .tfm. The formula is then a readily
+available character. The appropriate scaling fo fit
+the formula can be applied in loading the new font;
+then the reduced formula can be set more or less as
+a single character.
+
+    This feature could be extended to incorporate
+into e-TeX systems (even those based on pk files) the
+space-saving performance of Ferguson's MLTeX. In
+printing a given .tex file e-TeX would have to run a
+second time to create the missing compound
+characters.
+
+      Here some details.  One has a raw-EC font
+system from which all compound characters are
+missing. But one uses complete EC .tfm files. When
+the driver is asked to print, it naturally becomes
+aware that it has lacunary virtual fonts, but it is
+consoled by a \system message from e-TeX that e-TeX
+stands ready to fill them in. The driver then
+inspects the .dvi file and lists the missing font
+characters, say
+
+  <eaccute> of ecr10 scaled \magstep1
+  <eaccute> of ecti10 scaled \magstep1
+  <eaccute> of ecbx10 scaled \magstep1.
+
+     There will be only a tiny fraction of all
+possible compound characters present. The driver
+sends a \system message  back to e-TeX causing
+e-TeX to fill in the missing characters with the
+help of a succinct .tex file containing "charsubdef"
+type information (an \accent construction for
+<eaccute> etc.) If the fonts are virtual, the filling
+is repeated use of output of a TeX box to a virtual
+font character as introduced above (no change to the
+.tfm here though).
+
+     In this way, one could automatic generation
+of a huge number of virtual fonts, simply by printing
+some artificial .tex files.
+
+     There is also a variant of this process in
+which lacunary .pk files are filled in to exactly
+the degree needed.  This variant requires that the
+driver be able to regard as a .dvi file the virtual
+font character specification for say "<eaccute> of
+ecr10 scaled \magstep1" and be able to use that to
+generate the missing bitmapped character.  (This of
+course requires the GF ==> PK compression, which
+makes the process delicate to manage.) In this way
+oldfashioned .pk based EC systems without virtual
+fonts could remain essentially as lean as CM
+systems, and (I wager) leaner than virtual font
+systems.
+
+     Ferguson's idea is a bit different. It does not
+use e-TeX to fill in the lacunary pk files, but
+rather to alter the .dvi to avoid the holes in the pk
+files.  And maybe that is better.  Incidentally,
+Ferguson's "charsubdef mechanism" has not yet been
+proposed for e-TeX/NTS. It seems a respectable
+candidate to me. ESPECIALLY since it exists and has
+been extensively tested.
+
+
+Laurent Siebenmann <lcs@matups.matups.fr>
+
+
+
+========================================================================
+Date:         Mon, 29 Mar 93 14:52:05 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Some clarification on various points raised (particularly
+              \system)
+
+
+There has been much discussion on how a \system primitive might interact with
+different operating systems, each with different functionality and a different
+syntax.  My idea was to extend the concept of a `TeX implementation', which at
+the moment implies the creation and application of a change-file to the master
+TeX source, to include an implementation-specific macro library.  Thus each
+implementor, as well as creating and applying a change file, would also be
+responsible for mapping a well-defined set of macros, through the \system
+primitive, to the syntax and functionality of the operating system for which
+he or she has assumed responsibility.  To cite a specific example:
+
+Assume that in e-Lib (a hypothetical macro library to accompany e-TeX),
+a macro \sys$delete_file {<parameters>} is partially defined; then each
+implementor would be responsible for mapping \sys$delete_file {<parameters}>
+to his or her own implementation of \system.  e-Lib would define the effect
+and the result(s), \system would provide the interface, and the implementor
+would be responsible for providing the mapping.
+
+The question has been asked: ``Why via \system and macros?  Why not via explicit
+primitives to carry out the various functions that are envisaged?''
+
+To which I would suggest that the answer is ``Because `the various functions
+which are envisaged' is both enormous (requiring many new primitives), and
+yet not large enough (because no matter what functionality we posit, someone
+will come up with an idea that has not been considered).''  By implementing
+just one \system primitive, and an extensible e-Lib macro library, one can
+create a robust and well-tested e-TeX whilst allowing new system interactions
+to be added at the simplest points: through the implementation-independent and
+implementation-specific components of e-Lib.
+
+Someone asked: ``what about an implementation that has no well-defined
+command-line interface? (e.g. Apple Macintosh)''  I would suggest that it is
+probably safe to assume that the operating system(s) concerned possess the
+necessary functionality; all that is lacking is the command-line interface.
+As this will never be accessed by the na\"\i ve user, this is of no concern:
+the implementor for such system(s) may choose what ever syntax he
+or she thinks most appropriate, and map that to internal O/S-specific calls.
+Of course, it would be nice if two or more implementors for the same O/S
+agreed on the same syntax, but not essential, since each would be responsibile
+for his or her own version of e-Lib; the user interface would remain identical.
+
+Many have questioned the issues both of security and of compatibility:
+I would suggest that, provided we can achieve the latter, the former can
+be assured: by default, the behaviour of e-TeX should be \stress {identical}
+with TeX V\pi; only by explicitly enabling the extensions shall they become
+accessible.  Thus we might posit an extension to the present format-specifier
+of TeX: the use of the ampersand character in the command-line to invoke
+a specific format.  In e-TeX, we could define that while &<format> loads
+<format>, &&<options> loads an options-file (in a format to be defined)
+which explicitly specifies which extensions to TeX are to be enabled
+(and which provides some mechanism by which an environmental enquiry can
+ be made by an e-TeX compliant program to ascertain which extensions, if
+ any, have enabled).  The semantics of the invocation of e-TeX would need
+to ensure that a user could override a (perhaps hidden) specification of
+the &&-component by an explicit &&-component on his or her own command-line,
+thereby enabling the concerned user to explicitly turn off all extensions
+regardless of the policy of the site or system administrator.
+
+					Philip Taylor, RHBNC.
+
+========================================================================
+Date:         Mon, 29 Mar 93 18:51:24 MEZ
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Peter Schmitt <A8131DAL@AWIUNI11.EDVZ.UNIVIE.AC.AT>
+Subject:      the NTS/e-TeX project in general
+
+
+The ongoing discussion on this list is quite lively, but
+let me put some more oil on the fire:
+
+It strongly supports my view (I think) that chances for a success of
+the NTS project are very low.
+
+I am convinced that outstanding software almost necessarily is the result of
+the efforts of one strong person (even if it finally includes
+contributions of many people), and not the product of well-meant committee
+work. (Just as it is the case in fields other than computer science, too.
+Positive examples are Pascal and, of course, TeX, (and perhaps C ???);
+negative examples are Algol68, and probably ADA, too.)
+
+Therefore, a successful successor of TeX (if any) will almost certainly
+reflect the views and preferences of its creator, and might quite well
+differ considerably from TeX.
+
+An NTS as envisioned by most contributors to this list will only be
+a convolutiion of the greatest common divisor and the least common multiple
+of the opions of this group and the `TeX community' (whatever this is),
+(more or less randomly) filtered by the selection done by those who are
+prepared to invest effort and time in actually implementing (some of) the
+proposals.
+The result is bound to be a mixture of featurism and forced compatibility.
+
+I am convinced that - until someone feels the urge to completely rethink
+the whole problem - the `joint efforts of the TeX community' would be
+better used to fully explore the power of TeX as it exists now, providing
+special purpose macro packages.
+
+The proposed method to use change files is certainly more sensible than
+a desire to rewrite the whole program, but I think that it should be
+restricted to the production of special purpose versions of TeX, and not
+be accumulated into one e-TeX with the intention to replace TeX.
+And if the same task could be solved using TeX
+and a suitable macro package, than the latter would be the better way ...
+
+Peter
+
+P.S. I do not want to prolong the safety discussion, but even if TeX is not
+entirely safe as it is, there is a *qualitative* difference between the
+ability to plant or destroy some file in reach via normal file handling
+commands (which, for instance, respect read only attributes)
+and the ability to *start* a potentially destructive process.
+
+
+Peter Schmitt                             a8131dal@awiuni11.edvz.univie.ac.at
+                                                        schmitt@awirap.bitnet
+-----------------------------------------------------------------------------
+Institute of Mathematics                                     Strudlhofgasse 4
+University of Vienna                                              A-1090 Wien
+                                                                      Austria
+
+========================================================================
+Date:         Mon, 29 Mar 93 18:15:08 -0500
+Reply-To: karl@cs.umb.edu
+From: Karl Berry <karl@CS.UMB.EDU>
+Subject:      \system -- what for?
+In-Reply-To:  "J%org Knappen"'s message of Sun,
+              28 Mar 93 23:11:31 CET <199303282212.AA28942@cs.umb.edu>
+
+
+  A \system command -- what for?
+One thing I thought of is to automatically generate sorted index files
+after TeX has output the raw data.
+
+Mike Vulis' vtex program has had a system command for a while, and he
+said there have been a number of uses, including something to do with
+graphics.  Unfortunately I forget the details.
+
+I agree that a \system cmd per se is not as interesting as, say,
+deconstructing boxes.  But it's lot more doable as an initial goal for
+an incrementally improved TeX.  I don't think \system by itself can be
+fairly called a ``monstrosity''.  In fact, it seems quite analogous with
+\special, and hence a fairly tame extension -- another reason why it is
+reasonable as an initial extension.
+
+Knuth himself added a number of random new features in TeX 3 --
+\holdinginserts, \emergencystretch, ...  Sure, they are all useful to
+lots of people.  \system and the other changes Phil mentioned would also
+be useful to lots of people.  Not to everyone, nothing useful to
+everyone, but to many people.
+
+Enough generalities.  Let's see a spec for \system!  Here's my initial
+thoughts (trying desperately to ignore implementation) -- I think
+\system should be expandable, and the expansion should be (a) empty, if
+the command was successful, or (b) the error message (as catcode 12
+characters, I guess) corresponding to the exit code.
+
+========================================================================
+Date:         Mon, 29 Mar 93 09:52:03 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Robin Fairbairns <Robin.Fairbairns@CL.CAM.AC.UK>
+Subject:      Re: Jonathan Fine's discussion on \read/\write v. \system
+In-Reply-To:  Your message of Thu,
+              25 Mar 93 15:35:52 +0000. <"swan.cl.ca.464:27.
+
+
+I half-drafted a response to Jonathan's original message, but gave it
+up when I realised I was drifting too far into my own (research)
+prejudices on the way operating systems should be organised.
+
+Phil's latest, however, provokes me to a specific response.  He
+writes:
+
+|> But I would welcome further contributions in this area; is the need to \stres
+|> {interact} with a program, as opposed to \stress {invoke} a program, a need
+|> whose importance has been underestimated?
+
+My guess is that models of interaction between programs are likely to
+change radically in the next few years.  TeX's model is of batch
+operation of major processing streams: nowadays, that model looks
+distinctly jaded.  Jonathan seems to be thinking of client-server type
+operations: these are indeed today's latest and greatest concept in
+the arena of commercial computing, and I can imagine situations where
+such operations would be beneficial to Te========================================================================
+Date:         Tue, 30 Mar 93 13:22:20 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Alan Jeffrey <alanje@COGS.SUSX.AC.UK>
+Subject:      \system -- what for?
+In-Reply-To:  Karl Berry's message of Mon,
+              29 Mar 93 18:15:08 -0500 <16818.9303300855@syma.sussex.ac.uk>
+
+
+>Enough generalities.  Let's see a spec for \system!  Here's my initial
+>thoughts (trying desperately to ignore implementation) -- I think
+>\system should be expandable, and the expansion should be (a) empty, if
+>the command was successful, or (b) the error message (as catcode 12
+>characters, I guess) corresponding to the exit code.
+
+If a \system command is required, should it not have a similar syntax
+and semantics to the a similar TeX command.  I can't think of anything
+else in TeX (prepares to be shown wrong) that expands in the mouth and
+has side-effects.  Should it not be like \read, \write etc. that is it
+generates a whatsit that is obeyed at shipout, unless preceeded by an
+\immediate, in which case it is done immediately by the stomach.
+There seem to be two obvious syntaxes, one like \write:
+
+   \system{foo}  or  \immediate\system{foo}
+
+and one like \read:
+
+   \system{foo} to \baz  or  \immediate\system{foo} to \baz
+
+The latter one would produce the exit code into \baz.  Should this be
+done with catcode 12 characters, or should it be done like \read, with
+the current catcodes?
+
+Alan.
+
+========================================================================
+Date:         Thu, 25 Mar 93 11:36:00 GMT
+Reply-To: rhorne@cix.compulink.co.uk
+From: Roger Horne <rhorne@CIX.COMPULINK.CO.UK>
+Subject:      Re: Modular/structured E-TeX
+
+
+
+Philip Taylor says---
+
+  > from the present proposals.  May I urge all contributors to
+  > NTS-L to concentrate on the achievable (for the time being),
+  > leaving discussion on more
+
+Not being a programmer, I do not know what is achievable... However one
+thing I would like to see is TeX being able to output multiple dvi files
+from a single run. (Maybe it can at the moment but I have not been able to
+get it to do so. I have not been able to change \jobname.) One reason is
+this. My standard macros produce at the end of each run (which may include
+three or four separate documents) an additional sheet containing details of
+the documents and other information such as time taken and suggested fee.
+This is used for charging purposes and naturally does not go to my clients.
+I have software which will enable me to "print" a dvi file to a fax-modem.
+No doubt I could use an additional program to remove this sheet before the
+fax is sent but I would prefer not to have to do so.
+
+Roger Horne
+roger@number7.demon.co.uk
+
+
+
+========================================================================
+Date:         Tue, 30 Mar 93 18:58:14 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+Subject:      NTS archive files now compressed
+
+
+Due to a disk space shortage I was forced to compress the backlogs of
+the NTS-L discussion list. Only the current month is available
+uncompressed in the future.
+
+For those who don't remember: Backlogs of the discussion on NTS-L are
+available by anonymous ftp from
+
+	ftp.th-darmstadt.de [130.83.55.75]
+	directory pub/tex/documentation/nts-l
+
+
+While I'm at it, a short note: The IP number might change in the next
+two months, I don't know yet if we switch our ftp server to another
+system. The name ftp.th-darmstadt.de will still work, of course --
+use your friendly nameserver. Please don't use the real name of this
+system; this will change for sure.
+
+--
+Joachim
+[THD TeX archive, maintainer]
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Joachim Schrod			Email: schrod@iti.informatik.th-darmstadt.de
+Computer Science Department
+Technical University of Darmstadt, Germany
+
+========================================================================
+Date:         Wed, 31 Mar 93 09:39:31 MEZ
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Hartmut Frommert <PHFROM@NYX.UNI-KONSTANZ.DE>
+Subject:      Re: the NTS/e-TeX project in general
+In-Reply-To:  Message of Mon,
+              29 Mar 93 18:51:24 MEZ from <A8131DAL@AWIUNI11.EDVZ.UNIVIE.AC.AT>
+
+
+Peter Schmitt <a8131dal@awiuni11.edvz.univie.ac.at> writes:
+
+> I am convinced that outstanding software almost necessarily is the result of
+> the efforts of one strong person (even if it finally includes
+> contributions of many people), and not the product of well-meant committee
+> work. (Just as it is the case in fields other than computer science, too.
+> Positive examples are Pascal and, of course, TeX, (and perhaps C ???);
+> negative examples are Algol68, and probably ADA, too.)
+
+As you know there are counterexamples (Gnu scene, perhaps OS/2).
+-hf
+
+========================================================================
+Date:         Wed, 31 Mar 93 00:34:52 -0800
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: "Paul Barton-Davis" <pauld@CS.WASHINGTON.EDU>
+Subject:      There's no-one here right now ...
+
+
+I am currently escorting 4 Brits around the Pacific Northwest.
+See finger for details of expected days in the lab. If I get things
+set up, I will be reading e-mail from home.
+
+
+
+========================================================================
+Date:         Wed, 31 Mar 93 10:52:37 +0200
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Skyline
+
+
+I am not sure I understand this skyline business. What is the skyline of the
+following bit of TeX?
+
+
+Consider the differential equation
+\hbox{$\displaystyle {d^2y\over dx^2}=2y-
+   \hbox{$\displaystyle {dy\over dx}-x^2$}$}.
+
+
+OK, nobody in their right mind would type it that way, but the fact remains
+that
+(a) some macro package could produce this as output,
+(b) the theoretical problem of nested boxes might be a problem.
+
+Does anyone know enough about the horizontal list that TeX breaks into a
+paragraph to say whether the nested boxes are still there at that stage?
+Also, what would be the skyline of something like
+
+$
+\begin{array}{*4c}
+     &  &  &a\\
+     &  &  &b\\
+   c & d& e&f\\
+     &  &  &g\\
+     &  &  &h
+\end{array}
+$
+
+in LaTeX?  Would the ``a'' entry produce a skyline over the ``c'' entry?
+
+Mike Piff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 31 Mar 93 12:22:47 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: Skyline
+In-Reply-To:  Mike Piff's message of Wed,
+              31 Mar 93 10:52:37 +0200
+              <9303310925.AA15007@azu.informatik.uni-stuttgart.de>
+
+
+on Wed, 31 Mar 93 10:52:37 +0200, Mike Piff <M.Piff@SHEFFIELD.AC.UK> said:
+
+MP> I am not sure I understand this skyline business. What is the skyline of the
+MP> following bit of TeX?
+
+MP> Consider the differential equation
+MP> \hbox{$\displaystyle {d^2y\over dx^2}=2y-
+MP>    \hbox{$\displaystyle {dy\over dx}-x^2$}$}.
+
+I would think, that the skyline of a box is determined by going $n$
+levels deep into the box contents (you can have boxes in boxes in
+boxes in ...).
+I think that in most cases $n=1$ would suffice to give good results
+and only for some rare cases a larger $n$ would be necessary.
+
+Additionally you have to introduce some new parameters.  I think of
+something like:
+	\skylineskiplimit    (b)
+		minimum vertical distance between two boxes
+	\skylinehorizontallimit   (a)
+		minimum horizontal distance
+
+
+line 1:       ------------
+        |     |
+        |     |             ----------
+        ------- <== (a) ==> |        |
+           ^                |        |
+          (b)               |        -------
+           v                |
+       ----------------------
+line 2:
+
+and other parameters, but the necessary parameter set, realization,
+etc. for "skylines" are subject of discussion.
+
+
+[..]
+MP> Does anyone know enough about the horizontal list that TeX breaks into a
+MP> paragraph to say whether the nested boxes are still there at that stage?
+
+Yes, they are there and you can inspect the hierarchy of boxes when
+you set \tracingoutput to some positive values.
+
+
+MP> Also, what would be the skyline of something like
+
+MP> $
+MP> \begin{array}{*4c}
+MP>      &  &  &a\\
+MP>      &  &  &b\\
+MP>    c & d& e&f\\
+MP>      &  &  &g\\
+MP>      &  &  &h
+MP> \end{array}
+MP> $
+
+MP> in LaTeX?  Would the ``a'' entry produce a skyline over the ``c'' entry?
+
+How large is the $n$ (see above)?  Normally the array is a box in the
+hbox produced from the mathematical formula.
+(Btw: each line of the array is a box containg others boxes for each
+column.  LaTeX enforces that all line boxes have the height and depth
+of an `strut', thus the skyline of the array could be the skyline of
+the first line giving a peak for the \strut in the first column and a
+peak for the `a'.)
+
+But there are some problems, if you have two lines where most
+characters have small heights/no depths and some of the characters
+have large depths/heights and you are using a small \baselineskip
+value:
+
+	-|-------|--     <--- line 1
+	 |       |         ^
+	 |   |   |         | baselineskip
+             |             v
+	-----|------     <--- line 2
+
+
+
+-bernd
+__________________________________________________________________________
+Bernd Raichle                   Email: raichle@Informatik.Uni-Stuttgart.de
+Institut fuer Systemdynamik und Regelungstechnik  | "Le langage est source
+Universitaet Stuttgart, Pfaffenwaldring 9         |  de malentendus"
+D-W-7000 Stuttgart 80, FRG                        |  (A. de Saint-Exupery)
+
+========================================================================
+Date:         Wed, 31 Mar 93 19:06:10 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Dean Guenther <GUENTHER@TIGGER.CSC.WSU.EDU>
+Subject:      Re: the NTS/e-TeX project in general
+
+
+> I am convinced that outstanding software almost necessarily is the result of
+> the efforts of one strong person (even if it finally includes
+> contributions of many people), and not the product of well-meant committee...
+
+
+I would amend that the software can be outstanding if the committee has a strong
+person as the chair. I should think that Philip would fit that bill. -- Dean
+
+

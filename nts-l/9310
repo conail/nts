@@ -1,0 +1,526 @@
+========================================================================
+Date:         Tue, 5 Oct 93 11:26:26 +0100
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: log like functions: strange TeX behaviour
+
+
+%>Date:    Mon, 20 Sep 1993 12:05:25 +0100
+%>From:    Richard Kaye <kaye@uk.ac.oxford.vax>
+%>Subject: log like functions: strange TeX behaviour
+%>
+%>
+%>I got some strange behaviour from TeX using \mathop.  Perhaps this
+%>might be a warning that TeX doesn't always do the `obvious' thing.
+%>I'd be glad if a TeX guru could tell me why it does what it does.
+%>
+%>Copying macros in plain tex (also used in LaTeX, etc) I have been
+%>defining loglike functions as follows:
+%>
+%>\def\fun{\mathop{\rm fun}\nolimits}
+%>
+%>This works fine.  \fun gives the right amount of spacing, like
+%>\sin, \log, etc.  Then one day I type
+%>
+%>\def\newfun{\mathop{\rm H}\nolimits}
+%>
+%>and I have problems.  The H comes out about 2mm too low.  This doesn't
+%>happen with all letters, but I don't know which letters in particular
+%>cause this problem.  Please can someone tell me why, and explain which
+%>letters I can expect this problem.  I would also like to know why TeX
+%>was designed this way.  (TeX doesn't have bugs so it's a feature!)
+%>I guessed the fix, since I had had strange problems with double superscript
+%>errors once when no amount of grouping would fix the problem*. The fix is
+%>
+%>\def\morefun{\mathop{\rm H{}}\nolimits}
+%>
+%>Question:  I know that AMS-LaTeX etc have macros for new loglike functions.
+%>Do they get my H example right or not?  I don't have a copy on hand else I'd
+%>try it myself.
+%>
+%>Richard Kaye
+%>
+%>*  ${{\bar a}^b}^c$  produces an error. TeX ignores the { }s because of
+%>the accent!  The fix is ${{\bar a{}}^b}^c$.
+%>
+
+The behaviour of math Op atoms consisting of a single ``symbol'' is
+explained in rule 13, Appendix G of The TeXbook. Single symbol Ops are
+centred but the rest are not. Seems as though this should have been an
+optional feature available with any sort of Op atom. I obtained the
+same when using "\rm d" as the text of a \mathop definition. (Yes I
+know I could have just typed {\rm d} everywhere, but the point is that
+the form was \mathop{} and the content was "\rm d", and the spacing
+should be the same for my d as for sin or cos.
+
+My fix was to include \kern\z@.
+
+There are (at least) 8 places where a sub/superscript/accent might be
+placed relative to the nucleus. Perhaps TeX should reflect this?
+
+Mike Piff
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Tue, 5 Oct 93 14:00:15 +0100
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: log like functions: strange TeX behaviour
+
+%>Date:          Tue, 05 Oct 1993 13:13:33 +0100
+%>From:          Richard Kaye <kaye@vax.oxford.ac.uk>
+%>To:            M.Piff@sheffield.ac.uk
+%>Cc:            kaye@vax.oxford.ac.uk
+%>Subject:       Re: log like functions: strange TeX behaviour
+
+%>Mike,
+%>
+%>Thanks.
+%>
+%>>There are (at least) 8 places where a sub/superscript/accent might be
+%>>placed relative to the nucleus. Perhaps TeX should reflect this?
+%>
+%>I'm not at all sure that TeX was designed in the best way for this sort of
+%>thing, but I guess we're stuck with it.  I think there should have been
+%>some mention in the TeX and LaTeX manuals that accents can cause
+%>double superscript errors.  As I remember all the manuals say is "add more
+%>braces"
+%>
+%>Richard
+%>
+%>
+
+Yes, these convert whatever into a nucleus, in Knuth's terminology.
+Putting a sub/superscript onto something *as well as* adding text above
+and/or below is equally a pain. Such as
+
+
+                        -----  i
+                        xxxxx
+                          p    j
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 13 Oct 93 22:06:55 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Nicolas Jungers <ANORSU@VM1.RICE.UCL.AC.BE>
+Subject:      Flaw in TeX design
+
+I experiment this summer a (i expect) very rar bug in my PC.
+The FPU unit didn't always give accurate result.
+
+I discovert then (after several days) that, the uggly TeX results i obtained
+wre due to the use of the FPU by TeX in the final stage.
+
+It means in pratice that you can't rely on the various TeX debbuging  helps
+to understand the look of your DVI.
+
+I think that's a wonderfull sample of inconsistency in a program. I hope
+that various NTS and e-tex projects will eliminate this.
+
+Nicolas Jungers.
+
+========================================================================
+Date:         Thu, 14 Oct 93 13:54:38 +1000
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: ecsgrt@LUXOR.LATROBE.EDU.AU
+Subject:      Re:  Flaw in TeX design
+
+Nicolas Jungers wrote:
+
+% I discovered then (after several days) that, the ugly TeX results I
+% obtained were due to the use of the FPU by TeX in the final stage.
+
+A PC was mentioned, so I suppose this refers to emTeX.  To the best
+of my understanding, Knuth's original TeX does not use any hardware
+floating point.  Instead, TeX models FP using integer operations
+(and then denies the user access to the FP simulation).
+
+Refer to _TeX: the Program_, volume B of _Computers & Typesetting_,
+by Donald E. Knuth, Addison Wesley (1986), ISBN 0-201-13437-3.
+
+All the Best!
+Geoffrey Tobin
+
+========================================================================
+Date:         Thu, 14 Oct 93 09:10:24 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      RE: Flaw in TeX design
+In-Reply-To:  ecsgrt@LUXOR.LATROBE.EDU.AU's message of Thu,
+              14 Oct 93 13:54:38 +1000
+              <9310140356.AA24163@ifi.informatik.uni-stuttgart.de>
+
+ecsgrt@LUXOR.LATROBE.EDU.AU (Geoffrey Tobin) said:
+GT> Nicolas Jungers wrote:
+
+GT> % I discovered then (after several days) that, the ugly TeX results I
+GT> % obtained were due to the use of the FPU by TeX in the final stage.
+
+GT> A PC was mentioned, so I suppose this refers to emTeX.  To the best
+                                     ^^^^^^^^^^^^^^^^^^^^ ;-)
+GT> of my understanding, Knuth's original TeX does not use any hardware
+GT> floating point.  Instead, TeX models FP using integer operations
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GT> (and then denies the user access to the FP simulation).
+
+[No, almost all TeX implementations uses some floating point routines,
+but DEK has been made sure, that the results are impl. independent.
+From TeX-The Program: "This calculation does not affect \TeX's
+decision making, so the precise details of rounding, etc., in the glue
+calculation are not of critical importance for the consistency of
+results on different computers." and "Alternatively, it is possible to
+deal with glue ratios using nothing but fixed-point arithmetic; see
+{\sl TUGboat \bf3},1 (March 1982), 10--27."]
+
+
+No, it's not TeX, which is mentioned by Nicolas (because this means,
+that the "TeX" he mentioned will fail the Trip-Test!!), IMHO it's the
+dvi driver, which produces the "ugly [..] results".
+
+-bernd raichle
+
+========================================================================
+Date:         Thu, 14 Oct 93 09:34:59 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      RE: Flaw in TeX design
+
+%>[No, almost all TeX implementations uses some floating point routines,
+%>but DEK has made sure, that the results are impl. independent.
+%>-bernd raichle
+%>
+
+Is this correct for emTeX? It seems subjectively not to run any faster since
+I installed a coprocessor. (I am using betatest versions.)
+
+Mike Piff
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Thu, 14 Oct 93 12:47:09 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Nicolas Jungers <ANORSU@VM1.RICE.UCL.AC.BE>
+Subject:      More on the supposed flaw
+
+Well, in fact, i use a Macintosh (not an IBM) PC. The program is TeXtures
+(v1.5 and 1.6). And when a view theDVI produced by TeXtures with another
+DVI driver the problem stay the same.
+
+Somebody tell me that when TeX is producing de DVI (then converting the glue
+to space) he use floating point calculation.
+
+Question
+DEK made de floating math independent of the hardware, but is this also true
+with a wickd hardawre failure?
+
+Nicolas Jungers
+
+========================================================================
+Date:         Thu, 14 Oct 93 16:37:04 (BST)
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: Flaw in TeX design
+In-Reply-To:  <01H437EBEHC000JCK4@mailgate.ucd.ie>
+              from"ecsgrt@LUXOR.LATROBE.EDU.au" at Oct 14, 93 01:54:38 pm
+
+Geoffrey Tobin writes:
+
+> A PC was mentioned, so I suppose this refers to emTeX.  To the best
+> of my understanding, Knuth's original TeX does not use any hardware
+> floating point.  Instead, TeX models FP using integer operations
+> (and then denies the user access to the FP simulation).
+
+I think you have made a rare (hardware?) error, Geoffrey.
+The field glue_ratio in memory_word (in tex.web)
+is a 4-byte floating-point number.
+
+On the other hand, I believe this is only used to distribute
+the "glue" spaces between words, _after_ the line break
+has been decided on.
+It seems to me that there would have to be a really gross
+floating point _error_ to produce a visible effect.
+This would have a much more devastating effect
+on other programs, and I never heard of that.
+
+Incidentally, there is a remark in tex.web
+to the effect that one could replace the floating-point calculations
+by integer calculations,
+with reference to a TUGboat article.
+I once looked at that article,
+and came to the conclusion that while it could have been applied
+to very old versions of TeX,
+it would require considerable extension to apply to the present version.
+
+Timothy Murphy
+
+
+========================================================================
+Date:         Thu, 14 Oct 93 16:48:37 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+Subject:      Re: More on the supposed flaw
+In-Reply-To:  <199310141239.AA30712@rs3.hrz.th-darmstadt.de> from "Nicolas
+              Jungers" at Oct 14, 93 12:47:09 pm
+
+You wrote:
+>
+> DEK made de floating math independent of the hardware, but is this also true
+> with a wickd hardawre failure?
+
+No. And it is not desirable. If your hardware is defect, fix it.
+Simple, isn't it?
+
+Applications do not have to care for these types of failure.
+    Otherwise, one does not only have to check for failures in the
+FPU, but also in the CPU and in the MMU and in the memory chips and
+in the disk drive and in the network adapter and in the ...
+
+I understand your frustration -- but you should go to your Mac dealer
+and complain there. You have my sympathy, but you're completely off
+in your demand here.
+
+Have a nice day,
+	Joachim
+
+--
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Joachim Schrod			Email: schrod@iti.informatik.th-darmstadt.de
+Computer Science Department
+Technical University of Darmstadt, Germany
+
+========================================================================
+Date:         Fri, 15 Oct 93 09:40:35 NZS
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Paul Hafner <hafner@MAT.AUKUNI.AC.NZ>
+Subject:      Re: More on the supposed flaw
+
+
+> From @VM.GMD.DE:NTS-L@DHDURZ1.BITNET Fri Oct 15 04:51:57 1993
+> Date: 14 Oct 1993 16:48:37 +0100 (CET)
+> From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+> Subject: Re: More on the supposed flaw
+> Sender: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+> To: "Paul R. Hafner" <hafner@mat.aukuni.ac.nz>
+> Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+> Content-Transfer-Encoding: 7BIT
+> Content-Length: 866
+>
+> You wrote:
+> >
+> > DEK made de floating math independent of the hardware, but is this also true
+> > with a wickd hardawre failure?
+>
+> No. And it is not desirable. If your hardware is defect, fix it.
+> Simple, isn't it?
+>
+> Applications do not have to care for these types of failure.
+>     Otherwise, one does not only have to check for failures in the
+> FPU, but also in the CPU and in the MMU and in the memory chips and
+> in the disk drive and in the network adapter and in the ...
+>
+> I understand your frustration -- but you should go to your Mac dealer
+> and complain there. You have my sympathy, but you're completely off
+> in your demand here.
+>
+> Have a nice day,
+> 	Joachim
+>
+> --
+> =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+> Joachim Schrod			Email: schrod@iti.informatik.th-darmstadt.de
+> Computer Science Department
+> Technical University of Darmstadt, Germany
+>
+
+This discussion has gone well outside the terms of reference of this list,
+I think. Nevertheless, here are my $0.02:
+
+There were stories going round of the HP LaserJetIV having a faulty
+floating point chip, which at odd occasions resulted in misplaced characters.
+A colleague of mine experienced that with our machine here (printing
+correctly on other printers).
+
+Cheers, Paul
+
+
++-----------------------------------------------------------------+
+|  Paul Hafner                  'phone +64 9 373-7599 x 5748      |
+|  Department of                 fax   +64 9 373-7457             |
+|    Mathematics and Statistics                                   |
+|  University of Auckland        e-mail hafner@mat.auckland.ac.nz |
+|  Private Bag 92019                                              |
+|  Auckland, New Zealand.        time   gmt +12 (13) (summer time)|
+|  latitude  S 36^ 51' 15.3''    longitude  E 174^ 45' 46.6''     |
++-----------------------------------------------------------------+
+
+========================================================================
+Date:         Fri, 15 Oct 93 13:13:00 CST
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: NIXFRED@AUDUCVAX.BITNET
+Subject:      Re: More on the supposed flaw
+
+quit remove NIXFRED
+
+========================================================================
+Date:         Sat, 16 Oct 93 15:56:05 MET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Helmut Horst Franke <frankehe@RZSUN2.RZ.UNI-AUGSBURG.DE>
+Subject:      QMS 850+
+
+Hallo,
+
+dringend suche ich Handbuecher, Reparaturanleitungen,
+Abgleichanleitungen und Schaltplaene fuer den Drucker
+
+QMS 850+          (so nannte ihn der Verkaeufer),
+PS Jet+           (steht auf der Einschaltstatusseite),
+PS Jet            (steht auf einem Schild neben den Schnittstellenausgaengen),
+HP 2686A          (steht auf dem Typenschild am unteren Gehaeuseteil).
+
+Den Drucker habe ich defekt und leider ohne jede Dokumentation gekauft
+und wuerde ihn gerne reparieren und benutzen. Er verfuegt ueber je eine
+RS 232C und eine RS 422 Schnittstelle.
+
+In diesem Zusammenhang waere ich auch sehr dankbar fuer genaue Dokumentation
+ueber die RS 232C in "IBM-kompatiblen" PC's mit 80386DX ISA-Board, ihre
+Register und wie sie zu programmieren ist unter DOS und Linux. Macht DOS eine
+Ein- und/oder Ausgabepufferung und welche Rolle spielt MODE dabei?
+
+Es scheint, als ob der Drucker kein Hardware-Handshake versteht, vielleicht
+aber Xon/Xoff (daher auch die Frage nach der Pufferung).
+Gibt es ein Programm unter DOS oder Linux oder am besten je eines fuer jedes
+der beiden Betriebssysteme, das eine Datei 1:1 ueber eine RS 232C des PC's
+unter zuverlaessiger Benutzung des Xon/Xoff-Protokoll's ausgibt?
+
+Der Verkaeufer des Druckers sagte, es gaebe ein Programm mit dessen Hilfe
+ueber die Schnittstelle Druckereinstellungen vorgenommen werden koennten.
+Falls das so ist, ist es fuer die meisten Einstellungen die einzige
+Moeglichkeit, daher haette ich auch gerne dieses Programm.
+
+Also, falls jemand mir die dringend erforderliche Dokumentation, Handbuecher,
+Schaltplaene oder Software besorgen kann, oder hilfreiche Adressen
+(z.B. QMS Deutschland oder HP Deutschland) weiss, waere ich sehr dankbar,
+wenn er mir das zukommen lassen oder mich benachrichtigen koennte.
+
+Hier meine Adresse:
+
+Helmut Franke
+Salomon-Idler-Str. 4 / 150242
+86159 Augsburg
+Tel. 0 821 581638
+e-mail: frankehe@rzsun2.rz.uni-augsburg.de
+
+
+===============================================================================
+S.V.B.E.E.Q.V.                                  Wer seinem Computer
+                                                Unsinn erzaehlt,
+Helmut Franke                                   muss damit rechnen!
+
+e-mail: frankehe@rzsun2.RZ.Uni-Augsburg.DE
+        frankehe@AULA.RZ.Uni-Augsburg.DE
+----------------------------------------------------------------------
+  **   The probability of someone watching you is proportional   **
+  **   to the stupidity of your action.                          **
+----------------------------------------------------------------------
+
+
+========================================================================
+Date:         Mon, 18 Oct 93 15:44:33 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+Subject:      Re: QMS 850+
+In-Reply-To:  <199310181248.AA22211@rs3.hrz.th-darmstadt.de> from "Helmut Horst
+              Franke" at Oct 16, 93 03:56:05 pm
+
+Helmut Horst Franke wrote:
+>
+> [Inquiry about QMS 850+ deleted.]
+>
+>
+ ===============================================================================
+>
+> [...]
+>
+> ----------------------------------------------------------------------
+>   **   The probability of someone watching you is proportional   **
+>   **   to the stupidity of your action.                          **
+> ----------------------------------------------------------------------
+
+Correct.
+
+--
+Joachim
+
+========================================================================
+Date:         Thu, 28 Oct 93 14:37:35 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Peter Breitenlohner <PEB@DMUMPIWH.BITNET>
+Subject:      what to implement in e-TeX
+
+
+The NTS project shall eventually produce an NTS (new typesetting system)
+program.  This will, however, take quite some time.  As an intermediate
+step it is planned to produce e-TeX (extended TeX) on a much shorter
+time scale.
+
+e-TeX will consist of a series of extensions to the existing TeX program
+and there may be 2 or 3 version available per year.  They will be
+available as system independent WEB change file and it is hoped that
+these extensions will be implemented in many (public domain, shareware,
+and commercial) versions of TeX without much delay.
+
+It shall be possible to enable and disable these extensions
+(individually or collectively) and e-TeX with all extensions disabled
+shall be 100% compatible with TeX.  Most probably enabling/disabling
+extensions will be possible by INITEX only.  Moreover it shall be
+possible for the user to determine if any extensions are enabled and if
+so which ones.
+
+Clearly e-TeX will necessarily be incompatible with TeX when some of the
+extensions are enabled (at least there will, e.g., be additional
+primitives that are undefined in TeX).  Such incompatibilities shall,
+however, be minimized as far as possible.  With each version of e-TeX
+there shall be documentation listing all the extensions, their function,
+and in particular all (known) incompatibilities with standard TeX.
+
+For the moment suggestions for possible exetensions are welcome.  Please
+send such suggestions on this list (NTS-L).  Preferably such proposed
+extensions should:
+  a) have an obvious use (something you always wanted from TeX and did
+     not get it).  Anything that can be done with standard TeX but would
+     be easier with an extesion is definitely out.
+  b) be not too difficult to implement
+  c) not interfere with each other unnecessarily.
+
+Peter Breitenlohner
+

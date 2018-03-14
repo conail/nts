@@ -1,0 +1,1677 @@
+========================================================================
+Date:         Thu, 8 Oct 92 13:12:09 -0400
+Reply-To: walsh@cs.umass.edu
+From: Norman Walsh <walsh%ibis@CS.UMASS.EDU>
+Subject:      font names
+
+
+Michael Barr writes:
+> There was a recent posting on one of the TeX networks by Bertholdi Horn
+> suggesting that future versions of TeX omit MS-DOS support.  The
+> reason for this absurd suggestion (which would lose probably 80% of all
+> users) was the restrictions caused by short font names that,
+> effectively, limited them to 6 chars, plus two for the design size.  It
+> also limited the latter to 99 point.  As a result, I made a suggestion
+> that I sent to the latex net.  This was inappropriate in that it would
+> require a minor change to TeX and output drivers and thus was tenable
+> only if TeX was being changed anyway.
+
+This issue has been discussed before.  I believe it is even mentioned in
+Karl Berry's article on font naming conventions.  A reasonable, architecture
+independant solution is to use a "name look-aside buffer".  Allow TeX and
+DVI drivers to look in some external file to associate font names with
+file names.  Then I could have:
+
+% font definition file
+cmr10 cmr10
+computer-modern-roman-10 cmr10
+adobe-something-else xyzzy
+%
+% blah, blah, blah
+%
+
+And I could say
+
+% tex file
+\font\rm=cmr10
+\font\alsorm=computer-modern-roman-10
+\font\somethingelse=adobe-something-else at 34pt
+%
+% blah, blah, blah
+%
+
+In fact, I believe that DEK even granted permission to incorporate this
+into TeX as a "system dependent" extension or some such.
+
+                                                  Regards,
+                                                    norm
+---
+Norman Walsh         | University of Massachusetts, Amherst, MA 01003
+<walsh@cs.umass.edu> | CMPSCI Dept., LGRC A210 | Standard disclaimer applies
+"A little sunlight is the best disinfectant."  -- Justice Louis Brandeis
+
+========================================================================
+Date:         Thu, 8 Oct 92 12:45:44 EDT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      font names
+
+
+
+There was a recent posting on one of the TeX networks by Bertholdi Horn
+suggesting that future versions of TeX omit MS-DOS support.  The
+reason for this absurd suggestion (which would lose probably 80% of all
+users) was the restrictions caused by short font names that,
+effectively, limited them to 6 chars, plus two for the design size.  It
+also limited the latter to 99 point.  As a result, I made a suggestion
+that I sent to the latex net.  This was inappropriate in that it would
+require a minor change to TeX and output drivers and thus was tenable
+only if TeX was being changed anyway.
+
+In naming fonts, we waste 3 chars of the 8.3 format imposed by MS-DOS to
+specify what amounts to 2 bits of information.  After all, a font name
+can have only one of 4 extensions:  gf, pk, pxl or tfm.  If I have left
+out a couple they can readily be accomodated.  My original proposal was
+to rename all the fonts so that the extension was dds where dd was the
+design size and s was a single character to designate the actual type,
+say g, p, x and m, respectively for the four above.  So cmr.10m would be
+the new name for cmr10.tfm and so on.  Then Frank Mittelbach observed
+that if we used hex designators, we could extend the 99pt limit to 255
+point.  Then cmr10.tfm would become cmr.0am.  A bit less than
+user-friendly, admittedly, but the typical user very rarely has to deal
+with it.  A lot less disruptive than dropping MS-DOS support.  Later,
+when NT has replaced MS-DOS, we can rethink this.  In the meantime, I
+would like to make this a formal suggestion if and when there is an NTS.
+Although 8 characters is not going to be sufficient either, it is a lot
+better than 6.
+
+Michael Barr
+
+========================================================================
+Date:         Thu, 8 Oct 92 18:26:38 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Transcending filename restrictions
+
+
+>>> This issue has been discussed before.  I believe it is even mentioned in
+>>> Karl Berry's article on font naming conventions.  A reasonable, architecture
+>>> independant solution is to use a "name look-aside buffer".  Allow TeX and
+>>> DVI drivers to look in some external file to associate font names with
+>>> file names.  Then I could have:
+
+An alternative, also mooted on LaTeX-L, would be to implement a virtual
+file system, allowing arbitrarily complex filenames to be used on all
+systems.  Real-time packers/unpackers such as STACKER [1] have shewn
+that the idea is viable even on simple operating system such as MS/DOS.
+
+					Philip Taylor, RHBNC.
+
+[1] STACKER: A proprietary real-time file compression/decompression utility
+    for MS/DOS.  Believed to now be bundled with DR/DOS.
+
+========================================================================
+Date:         Fri, 9 Oct 92 03:34:17 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: font names
+In-Reply-To:  <199210081714.AA01430@yarra.pyramid.com.au>; from "Norman Walsh"
+              atOct 8, 92 1:12 pm
+
+
+>
+> This issue has been discussed before.  I believe it is even mentioned in
+> Karl Berry's article on font naming conventions.  A reasonable, architecture
+> independant solution is to use a "name look-aside buffer".  Allow TeX and
+> DVI drivers to look in some external file to associate font names with
+> file names.  Then I could have:
+>
+> % font definition file
+> cmr10 cmr10
+> computer-modern-roman-10 cmr10
+> adobe-something-else xyzzy
+> %
+> % blah, blah, blah
+> %
+>
+....................
+> In fact, I believe that DEK even granted permission to incorporate this
+> into TeX as a "system dependent" extension or some such.
+>
+
+Just as an aside, I mentioned this before in comp.text.tex in a different
+context.  Let the file names be full OS-dependent paths to eliminate
+the horrible OS-dependent sub-directory searching that goes in
+(Unix)TeX and the dvi drivers.
+
+Let a simpler OS-dependent utility do the searching beforehand and set up
+the file.
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Thu, 8 Oct 92 23:32:44 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: yannis <yannis@GAT.CITILILLE.FR>
+Subject:      Re:  font names
+
+
+|
+| In naming fonts, we waste 3 chars of the 8.3 format imposed by MS-DOS to
+| specify what amounts to 2 bits of information.  After all, a font name
+| can have only one of 4 extensions:  gf, pk, pxl or tfm.  If I have left
+                                      WRONG:
+                                      you have also
+                     mf, log, pl, vpl, vf, dvi (output of GFtoDVI),
+                     ps (output of MacMF and MetaPost)
+    and I'm not trying to contradict you: it happens that I have everyday
+    files cmr10.mf, cmr10.log, cmr10.pl, NewTimesRoman.vpl, NewTimesRoman.vf
+          cmr10.dvi and cmr10.ps in front of me. Maybe some of them are not
+    actually ``fonts'' (like cmr10.dvi), but they still have the *same names*
+    as fonts.
+
+Yannis
+
+
+========================================================================
+Date:         Wed, 14 Oct 92 12:42:45 -0400
+Reply-To: karl@cs.umb.edu
+From: Karl Berry <karl@CLAUDE.CS.UMB.EDU>
+Subject:      font names
+In-Reply-To:  Norman Walsh's message of Thu,
+              8 Oct 92 13:12:09 -0400 <199210081713.AA04364@cs.umb.edu>
+
+
+    [from Norman Walsh]
+    In fact, I believe that DEK even granted permission to incorporate
+    this [a fontname mapping file]
+    into TeX as a "system dependent" extension or some such.
+
+I asked Knuth as a courtesy.  It is a system dependency (as is anything
+having to do with filenames), and thus is within the realm of allowable
+changes.
+
+    [from Philip Taylor]
+    An alternative, also mooted on LaTeX-L, would be to implement a virtual
+    file system, allowing arbitrarily complex filenames to be used on all
+
+You mean implement a virtual file system within TeX?  This sounds like a
+big job.  A simple lookup file does almost the same thing, doesn't it?
+
+    [from Anthony Shipman]
+    Let the file names be full OS-dependent paths
+
+I don't understand.  Are you really proposing putting filenames for
+fonts and input files like /foo/bar/baz into documents?  That would make
+them completely nonportable, it seems to me.
+
+    eliminate the horrible OS-dependent sub-directory searching that
+    goes in (Unix)TeX
+
+I don't think value judgements like ``horrible'' can serve a useful
+purpose on lists like this.  (In my own defense, as the person who
+perpetrated subdir searching, if you don't like subdirectory searching,
+you don't have to use it.)
+
+========================================================================
+Date:         Fri, 16 Oct 92 19:39:23 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: font names
+In-Reply-To:  <199210160928.AA07436@yarra.pyramid.com.au>; from "Karl Berry" at
+              Oct 14, 92 12:42 pm
+
+
+>     [from Anthony Shipman]
+>     Let the file names be full OS-dependent paths
+>
+> I don't understand.  Are you really proposing putting filenames for
+> fonts and input files like /foo/bar/baz into documents?  That would make
+> them completely nonportable, it seems to me.
+
+Not in documents of course.  Someone was proposing a
+map file that mapped from font names in documents to external names.  I
+suggested that the OS names be full path names for maximum flexibility, being
+more general and faster than subdirectory searching.
+
+
+
+>
+>     eliminate the horrible OS-dependent sub-directory searching that
+>     goes in (Unix)TeX
+>
+> I don't think value judgements like ``horrible'' can serve a useful
+> purpose on lists like this.  (In my own defense, as the person who
+> perpetrated subdir searching, if you don't like subdirectory searching,
+> you don't have to use it.)
+>
+
+The idea's fine.  But supporting very OS-dependent stuff like directory
+searching in both TeX and multiple driver programs is ``horrible'' plus
+there is the run-time overhead of directory searching.
+
+My suggestion is to do the searching off-line in the process of building the
+map file of above.  Then the searching code is extracted out into a single
+place, the map utility.
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Fri, 16 Oct 92 11:50:57 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Re: font names
+
+
+>>>     [from Philip Taylor]
+>>>     An alternative, also mooted on LaTeX-L, would be to implement a virtual
+>>>     file system, allowing arbitrarily complex filenames to be used on all
+
+>>> You mean implement a virtual file system within TeX?  This sounds like a
+>>> big job.  A simple lookup file does almost the same thing, doesn't it?
+
+No, not within TeX, without TeX.  If it were implemented within TeX, then
+a human would have to know the mapping between 8+3 & <infinity>; if implemented
+as an O/S-specific virtual file system, then only the author of the VFS would
+either care about, or need to know, the mapping (and even he or she need not:
+it could be entirely dynamic).  Of course, if the VFS is 1:1 and the mapping
+ill-defined, the na{\"\i}ve user might accidentally (or even deliberately)
+delete a TeX file (e.g. Delete 14AF20DE.0FC); better would be a many:one
+mapping, such that _all_ files in the VFS were mapped to (i.e. contained in)
+one native-mode file.  This is the technique which STACKER uses.  ** Phil.
+
+========================================================================
+Date:         Mon, 19 Oct 92 18:14:01 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: font names
+
+
+>     [from Anthony Shipman]
+>
+>     eliminate the horrible OS-dependent sub-directory searching that
+>     goes in (Unix)TeX
+>
+> I don't think value judgements like ``horrible'' can serve a useful
+> purpose on lists like this.  (In my own defense, as the person who
+> perpetrated subdir searching, if you don't like subdirectory searching,
+> you don't have to use it.)
+
+I for one think subdirectory searching is very useful.
+The number of style files has become so large
+that some organisation is essential.
+
+I'm not sure that Karl has implemented this
+in the optimal way at the moment --
+or maybe he hasn't explained clearly enough
+how one ought to organise one's TEXINPUTS tree.
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Tue, 20 Oct 92 13:18:10 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: font names
+In-Reply-To:  <199210191749.AA05647@yarra.pyramid.com.au>; from "Timothy
+              Murphy"at Oct 19, 92 6:14 pm
+
+
+Well I'm putting my money where my mouth is.  I've started work on what I call
+"texfs", a TeX font and file server.
+
+The need:
+  We have a number of work stations that I would like to run TeX on but
+of course I only want one copy of the fonts and style files etc.  The
+usual solution to this is NFS.  But with texfs I can go a step further.
+
+texfs is inspired by the X11R5 font server.  This supplies bitmap fonts
+to X servers on the LAN.  The bitmaps can be generated on the fly from
+eg Adobe Type 1 fonts.  This is what I would like to expand texfs into.
+(I decided it was easier to implement my own rather than try to modify
+the X11R5 fs protocol to suit TeX.)
+
+The stages I envisage are:
+
+1a      Get a basic texfs going that supplies existing font and other files
+        from a server.
+
+1b      Use the MakeTeXPK mechanism of xdvi to generate TeX fonts on the
+        fly.
+
+2       Generate pk files from Type 1 fonts, possibly using the free
+        font renderer supplied by Adobe to the X11R5 font server. Another
+        possibility is one of the Adobe->MF converters.
+
+3       Try for TrueType fonts.
+
+(Disclaimer: None of this solves the problem of math fonts of course.
+TeX math fonts may always be restricted to a few special ones like the
+Lucida New Math).
+
+All font directory layout policy can be centralised in texfs.  What I
+have in mind is if a directory in a font path has a file named
+"texfonts.dir" then it is looked up for mapping the file name to a
+different path which may be relative to the current path or absolute.
+
+Status:
+  Stage 1a is working in prototype with TeX on HPUX.  It is built using
+  the SUN RPC system (the same used by NFS).  At the moment texfs is
+  single threaded.  I have modified the web2c common/extra.c and a few
+  Makefiles to hook into the texfs client library when it opens files.
+  For simplicity, when a file is opened it is copied whole from the
+  server into /tmp on the local system and then TeX reads it from
+  there.  The format files are normally not served over the network!
+
+Comments? Brickbats?  Am I reinventing the wheel?  Suggestions for extra
+features?
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Tue, 20 Oct 92 09:36:50 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Nicolas Jungers <ANORSU%BUCLLN11.bitnet@vm.urz.Uni-Heidelberg.de>
+Subject:      Font Names & texfs
+
+
+
+Anthony Shipman wrote about a TeX font and file server.
+
+Some comments:
+1) as I understand texfs is not a TeX file!
+2) what about copyright?
+3) what will be the encoding vector of the bitmap generated
+4) what about names?
+   the actual problem for me is to distinguish between "Futura" from
+   Adobe, "Futura" from Bitstream, "Futura" from The Font Company,
+   "Futura" from Agfa, ...
+   All those "Futura" have very similar names (Futura-something) and
+   different shapes and metrics. In fact some font collection re-use
+   font from other collection, the best example is the Linotype
+   collection vs the Adobe collection.
+   Because of TeX TFM confusing content, the encoding vector must be
+   part of the name, and because MS-Dos user, the name must fit in
+   11 characters.
+
+There is one obvious solution to this problem. Just because Adobe
+is facing the realy same problem they have introduce the
+"unique ID" identification for fonts. Their is one 32 bits space
+for numbering each type of font (actually type 1, type 3 and the
+new type 0).
+But: 1) this unique ID is not mandatory (but almost for commercial
+        products),
+     2) what kind of user will be happy to deal with the font:
+           "0E142C41.1FM",
+     3) the font identification will take 9 characters (less with
+        a more compact expression of a 32 bits number),
+     4) you must also add the coding scheme, for exemple a K for
+        Cork, ...
+
+Nicolas Jungers
+
+========================================================================
+Date:         Tue, 20 Oct 92 19:03:32 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  <199210200841.AA23694@yarra.pyramid.com.au>; from "Nicolas
+              Jungers"at Oct 20, 92 9:36 am
+
+
+>
+>
+>
+> Anthony Shipman wrote about a TeX font and file server.
+>
+> Some comments:
+> 1) as I understand texfs is not a TeX file!
+	No. It's a C program.  Strongly UNIX oriented at the moment.
+
+> 2) what about copyright?
+	It will be freely available a la the rest of TeX plus/minus whatever
+	copyrights apply to the X11R5 stuff I use.
+
+> 3) what will be the encoding vector of the bitmap generated
+	This is an issue.  texfs should probably recode into cmr format.
+	It should be reconfigurable.
+
+> 4) what about names?
+>    the actual problem for me is to distinguish between "Futura" from
+>    Adobe, "Futura" from Bitstream, "Futura" from The Font Company,
+>    "Futura" from Agfa, ...
+>    All those "Futura" have very similar names (Futura-something) and
+>    different shapes and metrics. In fact some font collection re-use
+>    font from other collection, the best example is the Linotype
+>    collection vs the Adobe collection.
+>    Because of TeX TFM confusing content, the encoding vector must be
+>    part of the name, and because MS-Dos user, the name must fit in
+>    11 characters.
+
+	Is this 11 character limit just in the DOS file system?  What
+	is the maximum length of a font name in TeX itself?
+
+	If only DOS is the problem then it can be taken care of in a mapping
+	file.  The map key is the font name used in the document which
+	conforms to TeX rules.  The map result is a DOS file name.
+
+	e.g. for \font\fut=adobefutura12
+
+	the map file might contain
+
+	adobefutura12		c:\texfonts\adobe\futura12
+
+	where the DOS directory contains the .tfm and .pf? files.
+	Extra attention is needed for virtual fonts and recoding.
+
+	This can be implemented in emtex et al now.
+
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Tue, 20 Oct 92 19:03:32 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  <199210200841.AA23694@yarra.pyramid.com.au>; from "Nicolas
+              Jungers"at Oct 20, 92 9:36 am
+
+
+>
+>
+>
+> Anthony Shipman wrote about a TeX font and file server.
+>
+> Some comments:
+> 1) as I understand texfs is not a TeX file!
+	No. It's a C program.  Strongly UNIX oriented at the moment.
+
+> 2) what about copyright?
+	It will be freely available a la the rest of TeX plus/minus whatever
+	copyrights apply to the X11R5 stuff I use.
+
+> 3) what will be the encoding vector of the bitmap generated
+	This is an issue.  texfs should probably recode into cmr format.
+	It should be reconfigurable.
+
+> 4) what about names?
+>    the actual problem for me is to distinguish between "Futura" from
+>    Adobe, "Futura" from Bitstream, "Futura" from The Font Company,
+>    "Futura" from Agfa, ...
+>    All those "Futura" have very similar names (Futura-something) and
+>    different shapes and metrics. In fact some font collection re-use
+>    font from other collection, the best example is the Linotype
+>    collection vs the Adobe collection.
+>    Because of TeX TFM confusing content, the encoding vector must be
+>    part of the name, and because MS-Dos user, the name must fit in
+>    11 characters.
+
+	Is this 11 character limit just in the DOS file system?  What
+	is the maximum length of a font name in TeX itself?
+
+	If only DOS is the problem then it can be taken care of in a mapping
+	file.  The map key is the font name used in the document which
+	conforms to TeX rules.  The map result is a DOS file name.
+
+	e.g. for \font\fut=adobefutura12
+
+	the map file might contain
+
+	adobefutura12		c:\texfonts\adobe\futura12
+
+	where the DOS directory contains the .tfm and .pf? files.
+	Extra attention is needed for virtual fonts and recoding.
+
+	This can be implemented in emtex et al now.
+
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Tue, 20 Oct 92 15:11:58 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  Anthony Shipman's message of Tue, 20 Oct 92 19:03:32 EST
+
+
+Wouldn't it be simpler for the program
+just to look up a TFM file in a "map file"
+if it isn't found in TEXINPUTS?
+(This could easily be implemented in web2c,
+without any changes to tex.ch .)
+
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Tue, 20 Oct 92 15:41:00 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Re: Font Names & texfs
+
+
+Timothy Murphy wrote:
+
+>>> (This could easily be implemented in web2c,
+>>> without any changes to tex.ch .)
+
+I have made this point before, and am reluctant to labour it, but it
+seems still not to be widely understood (or perhaps, more realistically,
+not to be widely accepted):
+
+Not all the world uses, or wishes to use, Web2C or any of its derivatives
+(C-Web, etc).  The definitive source language for the TeX system is WEB, pure
+and simple (i.e. Pascal-based).  No modification to the TeX system will be
+portable if it can only be implemented through C; as the Pascal-to-C route is
+well-defined (as in Web2C), surely such proposals should be defined in terms of
+their implementability in <foo>.Web, not in system-dependent modules such as
+Web2C?
+
+					Philip Taylor, RHBNC.
+
+========================================================================
+Date:         Tue, 20 Oct 92 15:27:17 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: font names
+In-Reply-To:  Anthony Shipman's message of Tue, 20 Oct 92 13:18:10 EST
+
+
+> Well I'm putting my money where my mouth is.  I've started work on what I call
+> "texfs", a TeX font and file server.
+...
+> Comments? Brickbats?  Am I reinventing the wheel?  Suggestions for extra
+> features?
+
+Sorry, I was reading through my mail backwards,
+and came across your later posting first.
+I didn't realise you were talking about PK files,
+in other words TeX drivers rather than TeX itself.
+(Since you referred to the TeX program
+I assumed you were thinking of TFM files.)
+
+But much the same point holds.
+I don't see why I should have to list all my fonts in some file,
+just because you are very rich and have lots of workstations
+(and apparently don't want to run NFS).
+Why not just bring your yoke into effect
+if a font-file is _not_ found?
+
+In any case, it seems to me you would have to persuade Tomas Rokicki
+that what you are suggesting would be a Good Thing for dvips.
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Tue, 20 Oct 92 14:54:12 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: spqr@MINSTER.YORK.AC.UK
+Subject:      Re: Font Names & texfs
+
+
+ > Not all the world uses, or wishes to use, Web2C or any of its
+ > derivatives (C-Web, etc).  The definitive source language for the
+I seem to be getting strange messages from NTS these days. I thought
+it was about the philosophy behind a projected design of a New
+Typesetting System, but my mail seems to be about font files in TeX
+3.x, and Pascal WEB, and things like that. does anyone else get these
+anomalous mails?
+
+ > TeX system is WEB, pure and simple (i.e. Pascal-based).  No
+WEB is a philosophy, not a Pascal notation. Web to C is just one
+variant of the weaving process. a fine state we'd be in if we all had
+to rely on Pascal compilers - how many people reading this still
+*have* a Pascal compiler on their computer? or know of a public domain
+one they could acquire? does anyone think Knuth uses Pascal any more?
+or we more realistically in fact know that *he* uses C-Web and edits
+it with gnu emacs?
+
+by all means lets treat DOS as a lowest common denominator (sigh). but
+no need to sink as low as Pascal.
+
+ > in Web2C), surely such proposals should be defined in terms of
+ > their implementability in <foo>.Web, not in system-dependent
+ > modules such as Web2C?
+WEB is not set in concrete. describe what's needed in WEB and let the
+Weavers and Changefilewriters work out how to implement it on system X.
+
+as for the whole font mapping/naming/serving business, surely this is
+not really important to NTS? to TeX today, maybe, but the research
+into god-knows-what-sort-of-virtual-file-systems seems to be chugging
+along somewhere, so how about just using the general tools? like, as
+Timothy said, NFS....
+
+sebastian
+
+
+========================================================================
+Date:         Tue, 20 Oct 92 16:31:11 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Re: Font Names & texfs
+
+
+>>> WEB is not set in concrete. describe what's needed in WEB and let the
+>>> Weavers and Changefilewriters work out how to implement it on system X.
+
+[I agree that this is an inappropriate forum, so wil keep my reply brief]
+
+That was my point exactly: describe what's needed in WEB, and _don't_
+assume Web2C.  I don't think we really differ on this one; just a different
+perspective.
+
+					** Phil.
+
+========================================================================
+Date:         Wed, 21 Oct 92 14:42:13 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: font names
+In-Reply-To:  <199210201434.AA20032@yarra.pyramid.com.au>; from "Timothy
+              Murphy"at Oct 20, 92 3:27 pm
+
+
+>
+> But much the same point holds.
+> I don't see why I should have to list all my fonts in some file,
+> just because you are very rich and have lots of workstations
+> (and apparently don't want to run NFS).
+> Why not just bring your yoke into effect
+> if a font-file is _not_ found?
+
+That's what I had in mind.  The map file is used if it is found in a
+directory from the path, for appropriate paths.  One wouldn't expect users
+to create a map file when the path contains "." for example.
+
+I haven't implemented this map stuff yet so I can't claim experience on the
+best way to use it.  Some possible policies are
+
+	if map file exists in the directory
+		map through the file
+	else
+		check for the font in the directory
+
+or
+
+	if font file exists in the directory
+		use it
+	else
+	    if map file exists in the directory
+		    map through the file
+
+and you could mix in subdirectory searching as well although that's
+getting a bit heavy.
+
+pick a policy...
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Wed, 21 Oct 92 14:50:58 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  <199210201519.AA23136@yarra.pyramid.com.au>;
+              from"spqr@MINSTER.YORK.AC.UK" at Oct 20, 92 2:54 pm
+
+
+>
+> as for the whole font mapping/naming/serving business, surely this is
+> not really important to NTS? to TeX today, maybe, but the research
+> into god-knows-what-sort-of-virtual-file-systems seems to be chugging
+> along somewhere, so how about just using the general tools? like, as
+> Timothy said, NFS....
+
+People's philisophy on NTS differs.  I would hope that future
+technology builds on present-day experience.  I don't pretend that
+anything I am doing should make it into NTS, but...
+
+The font management in TeX is way behind the state of the art.  What I
+really want out of my texfs is a nice way to use all those TrueType and
+Adobe fonts that are floating around without having lots of bitmap
+files.  Windows generates bitmaps on the fly from TrueType fonts.  I
+want something like that.
+
+Perhaps something can be learned for the future from my experiences
+with texfs.  Take it or leave it.  I'm concentrating on solving my
+immediate problems.
+
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Wed, 21 Oct 92 12:17:18 MEZ
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  <199210210519.AA26195@rs3.hrz.th-darmstadt.de>; from "Anthony
+              Shipman" at Oct 21, 92 2:50 pm
+
+
+You wrote:
+>
+> > as for the whole font mapping/naming/serving business, surely this is
+> > not really important to NTS? to TeX today, maybe, but the research
+> > into god-knows-what-sort-of-virtual-file-systems seems to be chugging
+> > along somewhere, so how about just using the general tools? like, as
+> > Timothy said, NFS....
+>
+> People's philisophy on NTS differs.  I would hope that future
+> technology builds on present-day experience.  I don't pretend that
+> anything I am doing should make it into NTS, but...
+>
+> The font management in TeX is way behind the state of the art.  What I
+> really want out of my texfs is a nice way to use all those TrueType and
+> Adobe fonts that are floating around without having lots of bitmap
+> files.  Windows generates bitmaps on the fly from TrueType fonts.  I
+> want something like that.
+
+TeX does not have to do ANYTHING with bitmaps. This was already said,
+but obviously you did not listen.
+
+You do NOT talk about TeX -- you talk about drivers. This means
+especially that you name `texfs' is plain wrong. It's not a font
+server for TeX, it's a font server for systems which use bitmapped
+fonts in PK format. (Eg, DVI drivers for groff, GNU's troff version.)
+
+But: If you want to imply that NTS shall be a glyph based system,
+which knows already about the forms of letters, not only about their
+dimensions; if that is the reason you think that NTS-L is the
+appropriate forum for discussing font servers, than you should state
+this. (Needless to say, I'm opposed to an idea which would bring the
+state of the art back behind TeX.)
+    Otherwise comp.text.tex/info-tex might be the more appropriate
+forum for this idea. (I don't want to imply that I think it's a bad
+idea. IMHO here's simply not the place to discuss it.)
+
+--
+Joachim
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Joachim Schrod			Email: schrod@iti.informatik.th-darmstadt.de
+Computer Science Department
+Technical University of Darmstadt, Germany
+
+========================================================================
+Date:         Wed, 21 Oct 92 21:24:34 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  CHAA006@VAX.RHBNC.AC.UK's message of Tue, 20 Oct 92 15:41:00 BST
+
+
+Philip Taylor writes:
+
+> Not all the world uses, or wishes to use, Web2C or any of its derivatives
+> (C-Web, etc).  The definitive source language for the TeX system is WEB, pure
+> and simple (i.e. Pascal-based).  No modification to the TeX system will be
+> portable if it can only be implemented through C; as the Pascal-to-C route is
+> well-defined (as in Web2C), surely such proposals should be defined in terms o
+   f
+> their implementability in <foo>.Web, not in system-dependent modules such as
+> Web2C?
+
+Sorry Philip, I'd forgotten your sensitivities!
+BEGIN Some of my best friends use Pascal. END
+But surely the font-searching stuff can't really belong in the web file.
+It's intrinsically system dependent, as far as I can see.
+Anyway, the suggestion made related to PK files,
+so actually seems to have nothing to do with tex.web anyway.
+
+In fact it's always seemed to me that C++
+was the obvious language for playing with fonts,
+with a font object having "methods" to open and read it.
+There are several places in TeX which would benefit from C++, IMHO.
+And if the C++ were to come from web,
+presumably web would have to encompass objects.
+
+
+
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Fri, 23 Oct 92 19:18:51 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  <199210230907.AA14309@yarra.pyramid.com.au>; from "Joachim
+              Schrod"at Oct 21, 92 12:17 pm
+
+
+>
+> TeX does not have to do ANYTHING with bitmaps. This was already said,
+> but obviously you did not listen.
+>
+> You do NOT talk about TeX -- you talk about drivers. This means
+> especially that you name `texfs' is plain wrong. It's not a font
+> server for TeX, it's a font server for systems which use bitmapped
+> fonts in PK format. (Eg, DVI drivers for groff, GNU's troff version.)
+>
+
+I've talked about a lot of things, perhaps too much, following on from
+somebody else's discussion on font naming.
+
+I described texfs as both a font and file server.  A bitmap and a tfm
+file must correspond.  Generating a font on the fly at some variable
+point size means also generating the tfm file.  As an add-on at no
+extra cost it also serves style files etc. so that they can be all in
+one place.
+
+>     Otherwise comp.text.tex/info-tex might be the more appropriate
+> forum for this idea. (I don't want to imply that I think it's a bad
+> idea. IMHO here's simply not the place to discuss it.)
+
+Let's drop it then.
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Fri, 23 Oct 92 15:08:40 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.hd-net.uni-heidelberg.de>
+From: Timothy Murphy <tim@maths.tcd.ie>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  Anthony Shipman's message of Fri, 23 Oct 92 19:18:51 EST
+
+
+> I described texfs as both a font and file server.  A bitmap and a tfm
+> file must correspond.  Generating a font on the fly at some variable
+> point size means also generating the tfm file.  As an add-on at no
+> extra cost it also serves style files etc. so that they can be all in
+> one place.
+
+But one is much less likely to want to generate tfm files on the fly.
+Remember that the same tfm file corresponds to all magsizes of the font.
+Of course if you were talking about creating fonts on the fly
+which had say continuously varying tfm files
+there would be more to your argument.
+But are you?
+
+> Let's drop it then.
+
+You shouldn't be so easily browbeaten!
+
+My feeling was that you had not expressed very clearly
+how your "font manager" was going to fit in
+with a TeX system consisting of tex and driver(s).
+
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Sat, 24 Oct 92 01:38:35 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Anthony Shipman <als@BOHRA.CPG.OZ.AU>
+Subject:      Re: Font Names & texfs
+In-Reply-To:  <199210231426.AA25248@yarra.pyramid.com.au>; from "Timothy
+              Murphy"at Oct 23, 92 3:08 pm
+
+
+>
+> But one is much less likely to want to generate tfm files on the fly.
+> Remember that the same tfm file corresponds to all magsizes of the font.
+> Of course if you were talking about creating fonts on the fly
+> which had say continuously varying tfm files
+> there would be more to your argument.
+> But are you?
+
+I am.  The X11R5 font server model allows for this.  To be general
+shouldn't I assume that the metrics may change with different sizes?
+
+TeX's dichotomy betweem different design sizes and different scales
+seems to confuse things here.  I am assuming for generality that
+different sizes in non-TeX fonts correspond to different design sizes
+in TeX fonts and therefore the metrics may vary.  (Although Postscript
+fonts are a counter example here with constant .afm files and scaling
+in the printer).
+
+In any case I take the point that these are practical, implementation
+issues and don't belong here.
+
+--
+Anthony Shipman                 "You've got to be taught before it's too late,
+CP Software Export Pty Ltd,      Before you are six or seven or eight,
+19 Cato St., East Hawthorn,      To hate all the people your relatives hate,
+Melbourne, Australia, 3121       You've got to be carefully taught."  R&H
+
+E-mail: als@bohra.cpg.oz.au
+
+========================================================================
+Date:         Mon, 26 Oct 92 09:11:00 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: malcolm <MALCOLMC@MOLE.PCL.AC.UK>
+Subject:      kerning and correction
+
+
+NTS:
+
+two minor thoughts on a requirement of a new typesetting
+system
+
+kerning: it has been suggested from time to time in
+the typographic literature that two at a time kerning is
+not always appropriate, and that perhaps three (or
+more) at a time might be more appropriate (in the quest for
+fine typesetting). it is probably true that when
+compositors have the ability to adjust manually the
+inter-letter spacing, they will do it with regard to the
+cluster of characters, and not to individual pairs. should
+this be taken into consideration in a new system,
+committed to quality? David Kindersley suggested a
+technique which depends on the `optical' centres of
+characters, and claimed a much improved spacing. the
+details of his technique are a little awkward to unravel,
+but they seem to be linked to the fourth or fifth moment
+of the letter `mass', as some sort of weighting factor. he
+actually did the work with some sort of optical computer.
+since Kindersley is essentially a stone mason and
+calligrapher rather than a type creator, he may be
+tackling a slightly different problem (but Eric Gill was
+also a stone mason and engraver, rather than a
+typographer, and yet created some fine faces). the digital
+nature of Metafont might lend itself to calculation of the
+moments of the characters and lead naturally into an
+examination of this approach.
+
+the italic (sic) correction: surely any new system must
+avoid this. if the system looked ahead to the next but one
+character, it could automatically perform any necessary
+adjustment: in other words, an oblique character followed
+by a space, which itself was followed by a non-oblique
+character would have an adjustment. the model is probably
+more general. it might be possible that the space between
+a non-oblique and an oblique should be tightened
+slightly. and should (heaven forbid) backwards slanting
+typefaces enjoy (!) a vogue, some sort of correction or
+adjustment would also be necessary (therefore betwixt
+oblique and oblique). or between varying amounts of
+obliquity.
+
+malcolm clark (malcolmc@uk.ac.wmin -- ignore what it says elsewhere
+                                      i am not a number, i am a free man)
+
+========================================================================
+Date:         Mon, 26 Oct 92 10:17:30 +0000
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: L.A.Carr@ECS.SOTON.AC.UK
+Subject:      Re: kerning and correction
+
+
+Malcolm points out:
+>kerning: it has been suggested from time to time in
+>the typographic literature that two at a time kerning is
+>not always appropriate, and that perhaps three (or
+>more) at a time might be more appropriate (in the quest for
+>fine typesetting).
+and
+> David Kindersley suggested a
+>technique which depends on the `optical' centres of
+>characters,
+and
+>the italic (sic) correction: surely any new system must
+>avoid this.
+
+surely this is all down to the use of too simplistic a model
+for representing glyphs. Why oh why oh why are we still
+considering "a letterform" = "a rectangular box". The next
+step in the use of digital systems for typography must be
+to manipulate the letter shapes themselves, not simply
+some scant physical measurements and a (growing) handful
+of fudge factors.
+No?
+---
+        	Les
+
+
+========================================================================
+Date:         Mon, 26 Oct 92 09:25:01 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Tim Bradshaw <tim.bradshaw@ED.AC.UK>
+Subject:      Re: kerning and correction
+In-Reply-To:  L.A.Carr@soton.ecs's message of Mon,
+              26 Oct 92 10:17:30 +0000 <9210260915.aa19028@uk.ac.ed.festival>
+
+
+>>>>> On Mon, 26 Oct 92 10:17:30 +0000, L.A.Carr@soton.ecs said:
+
+>
+> Malcolm points out:
+> [Stuff about more-than-pair kerning + italic corrections]
+>
+> surely this is all down to the use of too simplistic a model
+> for representing glyphs. Why oh why oh why are we still
+> considering "a letterform" = "a rectangular box". The next
+> step in the use of digital systems for typography must be
+> to manipulate the letter shapes themselves, not simply
+> some scant physical measurements and a (growing) handful
+> of fudge factors.
+> No?
+
+You need rather a lot of parameters to represent a letter form.
+`Fudge factors' are a way of reducing the dimension of the space you
+need to work in by abstracting the parameters important to
+typesetting.  There undoubtedly are more parameters one should be
+using but treating the letter forms themselves doesn't look like a
+solution to me.
+
+Further: no, however much information you have about the letter, there
+are things you can do by looking at more than pairs which you can
+never do by just looking at pairs.  This is just the same as the
+line-at-a-time vs paragraph-at-a-time line breaking argument: There
+are things you just can't do by looking at only one line.
+
+--tim
+
+
+========================================================================
+Date:         Mon, 26 Oct 92 09:28:33 +0000
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Robin Fairbairns <Robin.Fairbairns@CL.CAM.AC.UK>
+Subject:      Re: kerning and correction
+In-Reply-To:  malcolm clark's message
+
+
+|> kerning: [...]
+|>                        David Kindersley suggested a
+|> technique which depends on the `optical' centres of
+|> characters, and claimed a much improved spacing. the
+|> details of his technique are a little awkward to unravel,
+|> but they seem to be linked to the fourth or fifth moment
+|> of the letter `mass', as some sort of weighting factor. he
+|> actually did the work with some sort of optical computer.
+
+When I was looking for a job recently, I talked to Harlequin, who have
+a product that implements Kindersley's ideas to some extent.  I didn't
+get to the bottom of it (and didn't join them) but the fact that they
+were willing to fight the fight of dealing with someone whose ideas
+are as vague as Kindersley's seem to me inclined me towards them...
+
+|> since Kindersley is essentially a stone mason and
+|> calligrapher rather than a type creator, he may be
+|> tackling a slightly different problem (but Eric Gill was
+|> also a stone mason and engraver, rather than a
+|> typographer, and yet created some fine faces). the digital
+|> nature of Metafont might lend itself to calculation of the
+|> moments of the characters and lead naturally into an
+|> examination of this approach.
+
+The fact the Kindersley's ideas _have_ proved digitally implementable
+(presumably in terms of PostScript fonts) seems to offer hopeful
+signs.  NTS could certainly _not_ acquire the Harlequin stuff as
+it stands (they typically ask big bucks simply for access to anything
+they do).
+
+Robin Fairbairns
+
+========================================================================
+Date:         Mon, 26 Oct 92 10:58:29 +0000
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: L.A.Carr@ECS.SOTON.AC.UK
+Subject:      Re: kerning and correction
+
+
+>You need rather a lot of parameters to represent a letter form.
+Yes. That's whatcomputers are good at. That'show  Metafont and
+PostScript work.
+
+>`Fudge factors' are a way of reducing the dimension of the space you
+>need to work in by abstracting the parameters important to
+>typesetting.
+But we aren't "abstracting" really, are we? We're "concreting", based
+on a physical model of typesetting which could be "irrelevant" now.
+
+>There undoubtedly are more parameters one should be
+>using but treating the letter forms themselves doesn't look like a
+>solution to me.
+Why not? We have a mathematical (!) description of the outline of
+each letter. All we need is somw way of relating that to the process
+of abutting letterforms in typesetting. Hmmm?
+
+>Further: no, however much information you have about the letter, there
+>are things you can do by looking at more than pairs which you can
+>never do by just looking at pairs.
+Yes I agree with that. I think I got prompted to stand on my soapbox
+by some of malcolm's auxilliary points.
+---
+        	Les
+
+
+========================================================================
+Date:         Mon, 26 Oct 92 06:01:07 -0500
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Karl Berry <karl@CLAUDE.CS.UMB.EDU>
+Subject:      Re:  kerning and correction
+
+
+I've tried to implement Kindersley's optical spacing
+algorithm.  I've read everything published about it (I think).
+What's published is not enough to do a good job.
+I think there are more secrets to be delved into.
+URW has some program or another which claims to do
+automatic spacing, but of course they are not publishing
+anything about how it does it.
+
+(Oh, I guess I lie ... I haven't read the British patent
+application Kindersley applied for, since I can't get it.
+)
+
+========================================================================
+Date:         Mon, 26 Oct 92 06:02:00 -0500
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Karl Berry <karl@CLAUDE.CS.UMB.EDU>
+Subject:      Re: kerning and correction
+
+
+The shapes + the side bearings + (if you want to generalize
+) space above and below the shape (for vertical typesetting).
+
+I don't think much is lost by assuming rectangles.
+
+========================================================================
+Date:         Mon, 26 Oct 92 11:20:09 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      Re: kerning and correction
+
+
+[Re: Malcolm Clark, Les Carr, Tim Bradshaw]
+
+>>> You need rather a lot of parameters to represent a letter form.
+>>> `Fudge factors' are a way of reducing the dimension of the space you
+>>> need to work in by abstracting the parameters important to
+>>> typesetting.  There undoubtedly are more parameters one should be
+>>> using but treating the letter forms themselves doesn't look like a
+>>> solution to me.
+
+Indeed.  In going from a rectangular box to a general outline, you are
+essentially going from 2-space to $n$-space, where $n$ is potentially large.
+The next step after an erect bounding box is presumably a parallellogram, then
+a convex polygon, then a concavo-convex polygon. I wonder whether it makes
+sense to go direct from the simplest representation to the most complex, or
+whether we might usefully explore the intermediate representations first?
+
+					Philip Taylor, RHBNC
+
+========================================================================
+Date:         Mon, 26 Oct 92 11:10:59 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: yannis <yannis@GAT.CITILILLE.FR>
+Subject:      Re:  kerning and correction
+
+
+These are good ideas about kerning, but it shouldn't be done
+automatically. I see this optical kerning method as a way of
+utilizing Metafont (rather than TeX) to obtain kerning pairs
+(or kerning n-uplets). Don't forget that some languages may
+have strange shapes and not require kerning; we should not
+think only of the Roman script.
+Since we are talking again about kerning, I would like to
+insist once again on vertical kerning. Also it would be nice
+to have a way to replace a ligature by a kerning pair, instead
+of just turning it off by \/ (for example in German words like
+Shif\/fahrt one doesn't want a ligature, but this isn't a reason
+to have the two `f's badly kerned).
+Finally it is a necessity to have the possibility of `external
+kerning pairs' in the manner of virtual fonts: inside a kerning
+table one should be able to define the kernings of the letters
+of the particular font with other characters from *other* fonts.
+For example I am currently designing a Slavonic font which has
+so many accented characters, that I have to use 3 font tables.
+Nevertheless all of these may appear in the same word (and hence
+have to be kerned --- and even strongly kerned, believe me). And
+there is no way of doing this virtually because the shape (in
+particular the width of the accent) depends on the letter: they
+have to be drawn separately. But since these 3 tables actually
+always have to go together it would be nice to have an inter-font
+kerning table!!
+
+Yannis Haralambous
+
+PS. every second or third message in this list is to say that `what
+is been discussed is not the subject of the list' and I'm beginning
+to have existential doubts. Was this message in the spirit of the list???? :-)
+
+========================================================================
+Date:         Mon, 26 Oct 92 11:18:09 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: yannis <yannis@GAT.CITILILLE.FR>
+Subject:      Re: kerning and correction
+
+
+| From NTS-L@DHDURZ1.BITNET Mon Oct 26 10:17:31 1992
+| Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+| Sender: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+| Subject:      Re: kerning and correction
+| To: Multiple Recipients of <NTS-L@DHDURZ1.BITNET>
+|
+|
+| Malcolm points out:
+| >kerning: it has been suggested from time to time in
+| >the typographic literature that two at a time kerning is
+| >not always appropriate, and that perhaps three (or
+| >more) at a time might be more appropriate (in the quest for
+| >fine typesetting).
+| and
+| > David Kindersley suggested a
+| >technique which depends on the `optical' centres of
+| >characters,
+| and
+| >the italic (sic) correction: surely any new system must
+| >avoid this.
+|
+| surely this is all down to the use of too simplistic a model
+| for representing glyphs. Why oh why oh why are we still
+| considering "a letterform" = "a rectangular box". The next
+| step in the use of digital systems for typography must be
+| to manipulate the letter shapes themselves, not simply
+| some scant physical measurements and a (growing) handful
+| of fudge factors.
+| No?
+| ---
+|         	Les
+|
+|
+
+I forgot this in the previous message. FontStudio from Letraset has this
+feature to determine kerning pairs: fro each letter you define a shape
+(usually an enveloppe of it, for example for a T it will look like a
+triange looking downwards, and for an A it will be an upwards looking one)
+and then the program just fits these shapes together and determines the
+exact amount of kerning pair.
+This can already be done very easily by Metafont!! here is a possible way
+to do it:
+for each letter you must define a shape which will be drawn when a certain
+boolean is on. Then you take all pairs of letters and apply a dichotomy
+method to find the closest distance between these auxiliary shapes (by
+dichotomy I mean: intersecting the shapes with parallel lines, and let
+Metafont check where the shortest distance is, then take the middle parallel
+line and so on, until we reach some kind of epsilon minimum distance).
+The kerning pair will be just minus this shortest distance. This calculation
+must be done for all pairs (256 x 256); it is the designers responsibility
+to design the correct auxiliary shapes.
+
+Cheers again
+Yannis
+
+========================================================================
+Date:         Mon, 26 Oct 92 11:54:21 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Tim Bradshaw <tim.bradshaw@ED.AC.UK>
+Subject:      Re: kerning and correction
+In-Reply-To:  L.A.Carr@soton.ecs's message of Mon,
+              26 Oct 92 10:58:29 +0000 <9210261019.aa23055@uk.ac.ed.festival>
+
+
+>>>>> On Mon, 26 Oct 92 10:58:29 +0000, L.A.Carr@soton.ecs said:
+
+
+>>There undoubtedly are more parameters one should be
+>>using but treating the letter forms themselves doesn't look like a
+>>solution to me.
+
+> Why not? We have a mathematical (!) description of the outline of
+> each letter. All we need is somw way of relating that to the process
+> of abutting letterforms in typesetting. Hmmm?
+
+The description of a letter you need to produce the ink on the page
+(as an outline) may be related only by some very hairy transformation
+to that you need to do, for instance, kerning (consider how long
+metafont takes to convert a description to a bitmap).  Further, I'm
+sure that you don't need *that* many parameters to do kerning.  So it
+seems to make sense to do the transformation once then keep the
+information you actually need, then keep the resulting abstraction of
+the shape in a metric file.  Metafont or some generalisation thereof
+seems the right place to do this operation.
+
+--tim
+
+========================================================================
+Date:         Mon, 26 Oct 92 12:38:09 MET
+Reply-To: "Erik-Jan Vens" <E.J.Vens@OBELIX.ICCE.RUG.NL>
+From: "Erik-Jan Vens" <erikjan@OBELIX.ICCE.RUG.NL>
+Subject:      Re: kerning and correction
+In-Reply-To:  <199210261123.AA01160@obelix.icce.rug.nl>; from "yannis" at Oct
+              26, 92 11:18 am
+
+
+yannis dixit:
+> I forgot this in the previous message. FontStudio from Letraset has this
+> feature to determine kerning pairs: fro each letter you define a shape
+> (usually an enveloppe of it, for example for a T it will look like a
+> triange looking downwards, and for an A it will be an upwards looking one)
+> and then the program just fits these shapes together and determines the
+> exact amount of kerning pair.
+
+That procedure looks a bit like what Calamus (an *excellent* DTP package for
+the Atari ST/TT) does. Each shape has an associated envelope, consisting of
+eight (I think) widths. Letters are placed as tight together as possible with
+respect to these widths.
+
+EJee.
+
+--
+
+Erik-Jan Vens.  E.J.Vens@icce.rug.nl
+
+========================================================================
+Date:         Tue, 27 Oct 92 11:23:17 +1300
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: jeremy@CS.AUKUNI.AC.NZ
+Subject:      Re: kerning and correction
+
+
+>fro each letter you define a shape
+>(usually an enveloppe of it, for example for a T it will look like a
+>triange looking downwards, and for an A it will be an upwards looking one)
+>and then the program just fits these shapes together and determines the
+>exact amount of kerning pair.
+
+I have yet to be convinced that there is an objective way to kern
+"correctly". Traditionally, the type designer fiddles around with spacing
+till it "looks right", and it isn't clear to me that there is a "more
+scientific" method that works as well.
+
+Yannis mentioned Malcolm's mention (I seem to have missed Malcolm's
+original message) of Kindersley's "optical kerning": for the purposes of
+kerning, each character is replaced by a circle centred on the centre of
+gravity of that character; the radius of the circle is determined by the
+fourth moment of the character (that is, the fourth root of the sum over
+all black pixels of the fourth power of their distance from the centre). On
+the UKTUG trip to Kindersley's studio, I tried to extract the reason why
+the fourth, as opposed to third or fifth or whatever, moment is used; the
+reason is apparently that it "looks right".
+
+We can construct elaborate schemes for kerning (Kindersley's fourth
+moments, FontStudio's (convex?) envelopes, Calamus' eight widths, etc), but
+the proof of the typographical pudding is in the eating of the resulting
+words, so to speak.
+
+Jeremy
+
+---------
+   Jeremy Gibbons <jeremy@cs.aukuni.ac.nz>         tel: +64 9 373 7599
+      Department of Computer Science,              fax: +64 9 373 7453
+      University of Auckland, Private Bag 92019, Auckland, New Zealand.
+
+
+========================================================================
+Date:         Tue, 27 Oct 92 16:43:38 +1300
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: jeremy@CS.AUKUNI.AC.NZ
+Subject:      Re:  kerning and correction
+
+
+Karl Berry writes:
+
+>I've tried to implement Kindersley's optical spacing
+>algorithm.  I've read everything published about it (I think).
+
+Do you have a bibliography of the material? In particular, do you have the
+publisher's address for "Optical Letter Spacing for New Printing Systems
+(London, Wynkyn de Worde Society, 1976)"? Is it worth me trying to buy this
+book, presumably from the publishers?
+
+>What's published is not enough to do a good job.
+>I think there are more secrets to be delved into.
+
+What's missing? I haven't tried to implement it, but thought I had got a
+handle on all the necessaries. Any observations you have will be gratefully
+received!
+
+Gunnlauger S Briem talked about "How to Space an Alphabet in 15 minutes"
+(or words to that effect) at Type90 in Oxford; I have a booklet from the
+talk, but can't find it at the moment---it must be at home.
+
+(Should we move this discussion to TYPO-L?)
+
+Jeremy
+
+---------
+   Jeremy Gibbons <jeremy@cs.aukuni.ac.nz>         tel: +64 9 373 7599
+      Department of Computer Science,              fax: +64 9 373 7453
+      University of Auckland, Private Bag 92019, Auckland, New Zealand.
+
+
+========================================================================
+Date:         Tue, 27 Oct 92 09:19:42 MST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: "Jonathan M. Gilligan" <gilligan@CENTRAL.BLDRDOC.GOV>
+Subject:      kerning and correction
+In-Reply-To:  jeremy@CS.AUKUNI.AC.NZ's message of Tue,
+              27 Oct 92 11:23:17 +1300
+              <9210270240.AA11505@lilac.csd.bldrdoc.gov>
+
+
+Jeremy Gibbons argues that kerning is traditionally done by eye,
+adjusting the kerning until the text looks good. He doesn't quite say
+that this is how we should handle kerning in electronic typesetting,
+but that's the impression I get. Particularly, he speaks of
+Kindersley's choice of the fourth moment as though the choice of a
+fourth moment over another function is any the worse because it was
+chosen for its subjective aesthetic appeal rather than from some first
+principal of pleasing design.
+
+The point I'm getting at is that linebreaking was also traditionally
+done by eye, and in some cases we must still insert manual
+linebreaking cues into our TeX documents. Knuth's penalty functions
+were chosen because they produced nice linebreaks.
+
+Knuth comments in the metafont book that the bitmaps generated by
+metafont will need to be edited manually, but that one goal of
+metafont is to reduce the amount of manual editing as much as possible
+(for an example of a place where a metafont generated bitmap needs a
+lot of help, look at the glyph for the character `M' in cmtt10 at 180
+dpi or below. It looks like an `H'.)
+
+There will always be places in kerning, linebreaking, and bitmap
+generation where the typographer's eye can never be replaced with an
+algorithm, but the point of electronic typesetting systems is to
+reduce the number of places where the typographer must intervene.  If
+a superior kerning algorithm can reduce the number of manual
+interventions, why not explore it?
+
+---Jon
+
+Disclaimer --- The government probably disagrees with my opinions.
+
+========================================================================
+Date:         Tue, 27 Oct 92 16:39:16 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Tim Bradshaw <tfb@AISB.ED.AC.UK>
+Subject:      Re: kerning and correction
+In-Reply-To:  jeremy@nz.ac.aukuni.cs's message of Tue, 27 Oct 92 11:23:17 +1300
+
+
+
+> I have yet to be convinced that there is an objective way to kern
+> "correctly". Traditionally, the type designer fiddles around with spacing
+> till it "looks right", and it isn't clear to me that there is a "more
+> scientific" method that works as well.
+
+This of course makes it a really good problem to approach with something
+like a connectionist system.  The problem would probably be the lack of
+good training data -- you really need lots of hand-kerned text to train
+on otherwise it would just learn to be like TeX/whatever.  The same
+problem gets you for paragraph breaking as well.  Does anyone know of
+large corpora of hand-set text in some machine-readable form?  I suspect
+strongly that none such exists alas and they'd be incredibly expensive
+to acquire.
+
+--tim
+
+========================================================================
+Date:         Wed, 28 Oct 92 19:49:59 -0500
+Reply-To: karl@cs.umb.edu
+From: Karl Berry <karl@CLAUDE.CS.UMB.EDU>
+Subject:      kerning and correction
+In-Reply-To:  jeremy@cs.aukuni.ac.nz's message of Thu,
+              29 Oct 92 11:52:34 +1300 <199210290015.AA02658@cs.umb.edu>
+
+
+    I'm not convinced that we
+    have reached that ideal situation yet.
+
+As I said, URW has not published anything (that I know of) on their
+program (Kerning on the fly), but their ad pamphlet for it, assuming
+they're not lying, is pretty convincing.  The spacing is just about as
+good as you could want.  Sure, you can always quibble over a few things
+here and there, but by and large it solves the problem.  Unfortunately,
+that doesn't help those of us who don't want to or can't buy their
+software.
+
+    No, it's no worse for that. Kindersley presumably experimented with
+    various moments to see what worked, and the fourth moment gave the
+    most pleasing results.
+
+In his book Kindersley said he originally started with 2nd degree
+equations, because that was intuitively the right thing (law of gravity
+and all that -- I'm not sure why it was so intuitive to him, but that's
+what he said).  Then he did 4th degree, and was pretty happy.  But I
+think he might later have changed things around to somewhere around
+degree 3.5...  I'm not sure.
+
+Anyway, my own experiments, which aren't worth a whole lot, I suppose,
+indicate that the exact degree doesn't matter a whole lot.  Some of the
+other parameters (sorry, I forget what they are now, but they were
+things that were implicit in K's discussion) had a lot bigger effect.
+And no combination of the parameters produced anything like a decently
+spaced font for all common combinations of letters.  (Say something
+capable of making testfont.tex's \text test look ok.)  My output didn't
+look anywhere near as good as his one example of optically spaced output
+in the book (and if you read carefully, you will see that he does not
+state that that output was produced with his algorithm, either via
+hardware or software).  In fact, Carter acknowledges this in her thesis
+-- ``sometimes the results are not so good and then you can hand-edit
+them''.
+
+
+========================================================================
+Date:         Thu, 29 Oct 92 11:52:34 +1300
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.hd-net.uni-heidelberg.de>
+From: jeremy@cs.aukuni.ac.nz
+Subject:      Re: kerning and correction
+
+
+>Jeremy Gibbons argues that kerning is traditionally done by eye,
+>adjusting the kerning until the text looks good. He doesn't quite say
+>that this is how we should handle kerning in electronic typesetting,
+>but that's the impression I get.
+
+That wasn't necessarily the impression I meant to give. Ideally, we would
+have more "automatic" methods for kerning, but I'm not convinced that we
+have reached that ideal situation yet.
+
+My point was that we could propose various schemes for automatic kerning
+(Kindersley's moments, bounding parallelograms, widths at eight different
+heights, etc), but the only way to see whether they work is to try them.
+
+>Particularly, he speaks of
+>Kindersley's choice of the fourth moment as though the choice of a
+>fourth moment over another function is any the worse because it was
+>chosen for its subjective aesthetic appeal rather than from some first
+>principal of pleasing design.
+
+No, it's no worse for that. Kindersley presumably experimented with various
+moments to see what worked, and the fourth moment gave the most pleasing
+results. The operative word here is "experiment".
+
+>the point of electronic typesetting systems is to
+>reduce the number of places where the typographer must intervene.  If
+>a superior kerning algorithm can reduce the number of manual
+>interventions, why not explore it?
+
+Indeedy.
+
+Jeremy
+
+---------
+   Jeremy Gibbons <jeremy@cs.aukuni.ac.nz>         tel: +64 9 373 7599
+      Department of Computer Science,              fax: +64 9 373 7453
+      University of Auckland, Private Bag 92019, Auckland, New Zealand.
+
+

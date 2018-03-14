@@ -15,6 +15,10 @@ Manually generated `files.list`, and did
 
     for f in $(cat files.list); do echo $f; wget $f; done
 
+Also:
+
+    for f in *.gz; do echo $f; gunzip -k $f; done
+
 ----------
 
 And 

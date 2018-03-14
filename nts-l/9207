@@ -1,0 +1,1491 @@
+========================================================================
+Date:         Tue, 30 Jun 92 20:15:44 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Jacques_Gelinas%CMR001.bitnet@vm.urz.Uni-Heidelberg.de
+Subject:      upwards compatibility again
+
+
+> does anyone really envisage changes that are so drastic as to
+> necessitate retyping older texts?
+>             Mike Dowling <I1041301@DBSTU1.RZ.TU-BS.DE>
+>
+      I  think that NTS has a duty to deliver a working, fast
+converter from TeX82 to NTS. The printed output could be different,
+just as luxury hardcover books differ from paperback editions, but
+users should NOT have to convert files by hand. Remember that Knuth
+wants TeX to be available after he, you and i are not able to write
+anymore.
+Note that the present proliferation of LaTeX style files makes it
+difficult, even 1 year later, to typeset certain LaTeX documents.
+
+========================================================================
+Date:         Tue, 30 Jun 92 20:49:20 EDT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      compatibility with DOS
+
+
+If Mike Dowling means, in his latest, that we should not worry about
+the 640K limit of current DOS, I  can only agree.  The point about current
+DOS extenders as I understand them is that they are now built in to the
+compilers.  Assuming, as seems reasonable, that NTS is written in some
+version of C, then at least some of the current C compilers for DOS
+simply use the DOS extender as needed.  It will no doubt be needed,
+as it is for many current versions of TeX, and called as needed.
+
+In 1987 the computer magazines were widely predicting that in five years
+DOS would be gone.  Well, it is five years later and there are probably
+at least twice as many computers using DOS today as there were then.
+So I wouldn't be too sure of any prediction made of its demise in the
+next five years either.  Sure, many of the new machines will come with
+OS/2 and, eventually, NT, but many won't.  I do, however, see the
+end in sight of the 640K limit, and not a moment too soon.  I also think it
+will be a cold day in hell before anyone builds another segmented chip.
+(Yes, I know the 386 and 486 allow segmentation, but they don't require
+you to use it and more and more programs don't.)
+
+Michael Barr
+
+========================================================================
+Date:         Thu, 2 Jul 92 17:31:58 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      RE: upwards compatibility again
+
+
+The compatibility issue worries me:
+
+>>>       I  think that NTS has a duty to deliver a working, fast
+>>> converter from TeX82 to NTS. The printed output could be different,
+>>> just as luxury hardcover books differ from paperback editions, but
+>>> users should NOT have to convert files by hand.
+
+>>> Remember that Knuth
+>>> wants TeX to be available after he, you and i are not able to write
+>>> anymore.
+
+TeX will be: that is guaranteed.  Knuth has frozen TeX (apart from
+bug fixes), and no changes will be made when he can no longer make
+them.  TeX will therefore continue to be available for as long as
+the systems on which it runs continue to function.  I therefore
+cannot see that NTS must be able to process TeX files.  It would
+be nice if it could, I agree; but surely far more important is that
+NTS should represent the `state-of-the-art' in Computer Typesetting.
+If, to achieve that, the designers/implementors of NTS wish to start
+again, and implement something which is totally unlike TeX, then I for
+one would be prepared to accept that.  Compatibility is good, but it
+mustn't stand in the way of progress.
+
+					Philip Taylor, RHBNC.
+
+========================================================================
+Date:         Thu, 9 Jul 92 16:51:37 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Downes <MJD@MATH.AMS.COM>
+Subject:      Re: The purpose of this discussion list
+In-Reply-To:  <01GL34MSUBFEEO5R1C@MATH.AMS.COM>
+
+
+> Date: 11 Jun 1992 17:05:30 +0200
+> From: Rainer Schoepf <schoepf@SC.ZIB-BERLIN.DE>
+> Subject: The purpose of this discussion list
+.
+> I close by quoting a list of questions Jost Krieger brought forward
+> during the discussion at Hamburg, and which should be answered before
+> the first line of code written down:
+>
+>   Who will (or should) use TeX?
+
+I'm not sure I understand the point of this question. Can the user
+population be restricted to anything more specific than
+
+    Everyone who is interested in high-quality typesetting and
+    portability of documents, including those who cannot afford an
+    expensive commercial typesetting system
+
+???
+
+Or do you mean, should we give NTS capabilities for handling
+complicated multi-column formats as in newsletters and magazines, or
+the (potentially infinite) features needed for arbitrary commercial
+advertisements?
+
+Or do you mean, should we give NTS capabilities for handling arbitrary
+chemical diagrams? Where do we draw the line between 'text' and
+graphics?  Should NTS be a full-featured graphics language with
+embedded text-typesetting algorithms? (Yet Another Graphics Language,
+a companion to yacc.)
+
+Or do you mean, should NTS include support for languages such as
+Arabic that have radically different typesetting requirements (I'm
+thinking of the way Arabic characters change shape according to their
+position in a word), or should such languages be handled by separate
+programs (probably incorporating part or all of NTS), as has happened
+with ArabTeX, TeXXeT, JTeX?
+
+Or do you mean, should we try to keep out of the NTS programming
+language anything tricky like current TeX's scanning of numbers and
+conditionals? So that users without much programming expertise can use
+the language with fewer chances of blundering? No, that's probably the
+interface question that you mentioned later.
+
+Off-hand, I would vote for continuing the idea of TeX as a
+text-typesetting engine that can be hooked into other systems, and
+making it as small and efficient as possible (even if this means some
+tricky parts in the programming language). Two standard complaints
+about TeX are
+
+  (a) math functions too limited,
+  (b) unexpected expansion at the end of scanning a number or dimension
+
+I suspect Knuth's answers to these would be
+
+  (a) A comprehensive math interface could bloat the program
+      to arbitrarily large size and might introduce many more
+      system-dependency problems.
+
+  (b) This is a feature: TeX's programming language is implemented as
+      a macro language, meaning that the idea of expansion underlies
+      everything; you must understand the language if you want to
+      program in it (would you attempt to program in PostScript
+      without trying to understand the notion of a stack-based
+      language?).  The alternative is to abandon the macro language
+      idea, but that means abandoning any advantages a macro language
+      implementation may have (smaller size, ease of use, ...?)
+
+Michael Downes                              mjd@math.ams.com (Internet)
+
+========================================================================
+Date:         Thu, 9 Jul 92 17:27:57 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Downes <MJD@MATH.AMS.COM>
+Subject:      Re: The purpose of this discussion list
+In-Reply-To:  <01GL34MSUBFEEO5R1C@MATH.AMS.COM>
+
+
+> Date: 11 Jun 1992 17:05:30 +0200
+> From: Rainer Schoepf <schoepf@SC.ZIB-BERLIN.DE>
+.
+> What will NTS be about?
+>
+> Karl Berry and Art Ogawa, among others, have expressed their feeling
+> that we should talk about a successor to TeX that is enhanced by what
+> is ``missing at the moment''. OK so far, only that I feel that this
+> limits the scope of the discussion too much. But if the majority of
+> the members of this discussion group feel the same, I don't want to
+> force you to follow my opinion. However, then we should start be
+> identify the things that we need, but TeX doesn't offer. Up to now,
+> there were mostly lists of details. I want to see named the real
+> problems in TeX's current model. To be more specific: Malcolm Clark
+> mentioned TeX's inability to consider spreads instead of pages; I will
+> go one step further and call TeX's simple locally optimizing page
+> break algorithm insufficient.
+
+If we want to generalize NTS to languages that are not written
+strictly left-to-right then one approach might be to increase the
+number of reference points available on character boxes and other
+boxes, and increase the number of ways to use the reference points.
+I can picture many plausible reference points:
+
+  a            b        c   d
+  +---------@@-+--------+@--+
+  |        @@@          .@@ |
+  |       @@@@          @@@@|
+  |     @@@@@          @@@@ |
+  |   @@@ @@@         @@@   |
+  |  @@@   @@        @@@.   |
+ e+@@@@     @@@+f   @@@ .   +g
+  |@@@       @@@     @  .   |
+  | @@        @@@   @@@@.   |
+ h*..@.........+@..@@@..+...+k
+  |          i @@@@     j   |
+  |             @@      .   |
+  |            @@       .   |
+ l+------------+--------+---+
+               m        n   o
+
+a,d,l,o: corners of the bounding box
+f: center of the bounding box
+e,g: vertical centers of the side boundaries
+b,m: horizontal centers of the top and bottom boundaries
+h: reference point currently used by TeX (baseline, left side)
+i,k: baseline reference points for horizontal center and right side
+c,j,n: points on alternate right side boundary = actual
+       boundary - italic correction.
+
+To avoid overburdening the diagram I have omitted a left-side `italic
+correction' line which might be wanted for right-to-left languages.
+Additional reference points might also be wanted to distinguish the
+nominal bounding box (the one used for normal typesetting) from the
+visual bounding box (the smallest box that contains all the pixels of
+the character).  There is more to this than just the italic correction
+possibility, cf. the differences between nominal bounding box and
+visual bounding box of the cmsy times sign and minus sign or any CM
+font accents.  Actually, if we leave out of consideration the times,
+minus, accents, etc., all the reference points shown above can be
+computed from the information currently present in TFM files. But it
+would be interesting to investigate the consequences of changing TeX
+to directly support various operations on the reference points. For
+example: direct positioning of mathop symbols like a sum symbol using
+a `center' reference point instead of computing a shift using the
+value of the math axis and the baseline reference point. In fact maybe
+the default positioning of most math symbols (mathrel, mathbin, etc.
+but not mathord and mathpunct) should also be done this way.
+Currently, mathrel and mathbin symbols are just plunked down on the
+baseline, and it is assumed that the proper vertical positioning of
+the symbol is built into the font by setting the height and depth
+values appropriately. But this is less than optimal if you try to
+mix fonts, e.g. cmsy with a math italic font that has a different
+x-height (such as Times math italic); the mathbins and mathrels then
+appear to be too low or too high. One solution is to never mix a
+symbol font with other fonts that it was not designed for; but in my
+opinion using a center reference point for positioning certain kinds
+of symbols is more natural from a logical standpoint and therefore
+should be preferred if the cost is not prohibitive.
+
+A more radical departure from TeX's current model would be to allow
+specifying between any two characters or boxes which reference point
+of the first should coincide with which reference point of the second,
+rather than requiring that all characters in a given
+{horizontal,vertical,diagonal,...} list must be placed along the same
+direction. This would allow serpentine typesetting of characters as
+well as many ways of superimposing characters to create composite
+symbols.
+
+I suppose at the lowest most generalized level, placing the next
+character in a list of characters could require all of the following
+information:
+
+  Starting point (normally, a reference point somewhere on the
+    previous character)
+  Vector to new position
+  Reference point of next character, to be placed on the new position
+  Rotation of next character
+
+The typesetting algorithm would presumably be optimized for the use of
+default values. For English, using the letter labels above, these
+would default to
+
+  k, (0,0), h, 0
+
+whereas for Japanese (vertical) I believe they would be
+
+  m, (0,0), b, 0
+
+and for sideways English:
+
+  k, (0,0), h, 90
+
+and for English with 1pt letterspacing (assuming units of scaled points):
+
+  k, (0,65536), h, 0
+
+and for superimposing two characters on their centers:
+
+  f, (0,0), f, 0
+
+Michael Downes                              mjd@math.ams.com (Internet)
+
+========================================================================
+Date:         Thu, 9 Jul 92 12:14:48 EDT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      Recent posts by Michael Downes
+
+
+I don't really disagree strongly, but let me just point out a couple things
+that contradict minor points.  First, we already need `right italic correction'
+in order to place left superscripts.  A year ago, I raised the question
+and never did get a totally satisfactory solution.  Second, you cannot now
+compute the height of a minus sign from the information in the tfm file.
+This was apparently a conscious choice made by Knuth, for I don't know
+what reason.
+
+Michael Barr
+
+========================================================================
+Date:         Mon, 13 Jul 92 16:42:00 EDT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: "NAME 'Richard S. Palais'" <PALAIS@BRANDEIS.bitnet>
+Subject:      A Position Paper
+
+
+%
+%%  Can be typeset using plain
+%%  Section 1:  Introduction.
+%
+\def\METAFONT{{\bf METAFONT}}
+\def\Amstex{{\the\textfont2 A}\kern-.1667em\lower.5ex\hbox
+        {\the\textfont2 M}\kern-.125em{\the\textfont2 S}\TeX}
+\def\Lamstex{L\raise.42ex\hbox{\kern-.3em\the\scriptfont2 A}%
+    \kern-.2em\lower.376ex\hbox{\the\textfont2 M}\kern-.125em
+    {\the\textfont2 S}-\TeX}
+\def\LaTeX{\leavevmode L\raise.42ex\hbox{$\scriptstyle\kern-.3em A$}\TeX}
+\def\initex{{\tt INITEX}}
+\def\sectionbegin#1.{\bigskip\centerline{\bf #1}\smallskip}
+\def\subsectionbegin#1.{\medskip \noindent{\bf #1.}\par\unskip}
+\def\newline{\hfil\break}
+\def\Special{{\tt \string\special}}
+\def\bullitem{\item{$\bullet$}}
+
+
+\noindent
+From:  Richard Palais
+
+\bigskip
+
+     This is going to be more a ``position paper'' than a simple message.
+I have been following the NTS-L mail list discussion with considerable interest
+and  finally felt that there were so many issues that I wanted to address and
+remarks that I wanted either to agree with or to dispute, that only a fairly
+extensive reply would do. Here is a table of contents:
+
+\medskip
+
+Section 1:  Introduction.
+
+Section 2:  The Many Faces of \TeX.
+
+Section 3:  A ``Standards'' Approach to Solving \TeX{} Portability Problems.
+
+Section 4:  The Matter of Compatibility.
+
+Section 5:  \TeX{} as a Programming Language.
+
+Section 6.  Changing the Fixed Point.
+
+Section 7.  \TeX{} as a Front End.
+
+Section 8.  Summary.
+
+Section 9.  Postscript.
+
+\medskip\noindent
+The document can be \TeX'ed with ``plain''.
+
+\bigskip
+
+\sectionbegin Introduction.
+
+    First a short personal introduction. The oldtimers of the \TeX{}
+world will perhaps remember me---I was the founding chairman of TUG,
+worked closely with Don Knuth during the early years of \TeX{}, and I
+wrote a column on mathematical typesetting in the {\it Notices of the AMS\/}
+for three years, with the goal of easing the transition in the mathematical
+community from the typewriter, along WYSIWIG road, and into the bright new
+Promised Land of \TeX. But my name may well be unfamiliar to more
+recent arrivals in the \TeX{} world, for lately I have been only a ``lurker''
+on comp.text.tex, and while I read TUGboat and use \TeX{} daily for writing
+my letters, papers, and  books, and in connection with my duties as an editor
+of the {\it Bulletin of the AMS\/}, I have not recently been contributing
+either to the development or to the public discussion of \TeX.
+
+   Next a disclaimer. While I know my way around in the \TeX book and have
+been writing my own macros and formats since 1978, I consider myself
+an amateur, not at all in the same league with \TeX perts like Barbara
+Beeton, Michael Downes, Victor Eijkhout, Karl Berry, Larry Siebenmann, Tim
+Murphy, and others who have been contributing  to this discussion. So I will
+happily defer to them on technical matters and hope that they will correct any
+of my misstatements. What I would like to do is take the point of view of a
+devoted \TeX{} user; one not so enamoured of \TeX{} as to be unable to see its
+warts, but one who appreciates what a unique software miracle \TeX{} is, and
+is willing to try to  fix things only if assured that it will not subvert that
+miracle. One more  fact about me bears emphasizing; as a mathematician I do
+have a somewhat  biased view of \TeX. For me \TeX{} is not just {\it a\/}
+typesetting system, it is {\it the\/} mathematical  and
+``\TeX{}nical'' typesetting system.
+
+   I would like to begin with a quotation from Don Knuth's ``Remarks
+to Celebrate the Publication of {\it Computers \& Typesetting\/}'' at
+the Computer Museum, Boston Massachusetts, May 21, 1986, as reprinted
+in TUGboat, Vol. 7 (1986) No.2, pp. 95--98:
+
+    {\narrower  \dots Ever since these beginnings in 1977,
+    the \TeX{} research project that I embarked on was driven
+    by two major goals. The first goal was {\it quality:\/}
+    we wanted to produce documents that were not just nice,
+    but actually the best\dots My goal was to take the last
+    step and go all the way to the finest quality that had
+    ever been achieved in printed documents\dots
+
+       The second major design goal was to be
+    {\it archival\/}: to create systems that would be
+    independent of changes in printing technology as much
+    as possible.  When the next generation of printing
+    devices came along, I wanted to be able to retain
+    the same quality already achieved, instead of having
+    to solve all the problems anew.  I wanted to design
+    something that would still be usable in 100 years.
+    In other words, my goal was to arrange things so that,
+    if book  specifications are saved now, our descendants
+    should be able to produce an equivalent book in the
+    year 2086. Although I expect that there will be a
+    continual development of ``front ends'' to \TeX{} and
+    \METAFONT{}, as well as a continual development of
+    ``back ends'' or device drivers that operate on the
+    output of the systems, I designed \TeX{} and \METAFONT{}
+    themselves so they will not have to change at all: They
+    should be {\it fixed points\/} in the middle, solid
+    enough to build and rely on. \par}
+
+\noindent
+Perhaps it is because I was in the audience when Don made those remarks that
+they seem particularly important to me, but in any case, as my
+contribution to the NTS discussion, let me attempt to analyse the  \TeX{}
+system and some of its purported shortcomings in the light of Knuth's
+quotation. More specifically, I would like to address the following:
+
+
+\proclaim
+QUESTIONS.              \newline
+   1)   Are Knuth's two goals consistent, or has the continual quest for
+      ultimate quality in typesetting exposed problems with \TeX{} so
+      intractible that they cannot be addressed simply by creating
+      new and better front and back ends for the \TeX{} system?    \newline
+   2)   If so, can these ``intractible'' problems be solved by changes to
+      \TeX{} that will leave it compatible with the current version (and in
+      particular able to pass Knuth's ``trip-test''). \par
+
+\sectionbegin
+                      The Many Faces of \TeX.
+
+   \TeX{} is a complex system that can appear as many things to different
+people (or even to one person at different times).  In fact it
+is a little like the proverbial elephant that the blind men  perceived in
+so many ways depending on how they ``interfaced'' with it.
+
+   I think that this many-faceted nature of \TeX{} may account, at least in
+part,  for some of the unfocused and chaotic discourse that has been taking
+place  on this mailing list. Someone will comment either critically or in
+praise of one aspect of the \TeX{} system and someone else will contradict
+that comment, but really in reference to some other aspect of the system. As
+anyone scanning comp.text.tex realizes, \LaTeX{} users face a whole different
+set of problems than plain \TeX{} users, and likewise \Amstex{} and
+\Lamstex{} provide still other environments, with differing attendant
+strengths, problems, and difficulties. The complaint, repeated several times
+in the recent discussions, that \TeX{} is incompetent to do commutative
+diagrams, may seem obvious to a frustrated user of plain \TeX{},  but it would
+perplex a user of \Lamstex{} who will tell you that it is an absolute snap
+using ``\TeX'' to make beautiful commutative diagrams, even very complicated
+ones with arrows set at almost arbitrary slopes and with all kinds of
+decorations on them.  Likewise, it is well-known that designing tables can
+be a painful chore with (plain) \TeX{}.  But there are a number of excellent
+macro packages around that automate this problem away. Even that most serious
+problem of integrating graphics into \TeX{} can be considered solved in the
+right \TeX{} environment. In the hands of a competent artist, a Macintosh
+equipped with Textures, Adobe Illustrator, and a PostScript printer can
+create strikingly professional integrated graphics and text. Yes, I know that
+this solution gives up the portability of \TeX{} documents---bad things can
+sometimes even happen between the proofing device and the high resolution
+camera copy typesetter---but the point is that {\it many apparent problems
+with \TeX{} can be solved by coupling \TeX{} to suitable front and back ends,
+with no reprogramming at all of \TeX{} itself\/}. Someone suggested that
+\TeX{} needs Bezier curves as a new primitive. I will argue that the Bezier
+curves belong in an Illustrator-like program, {\it not\/} in \TeX{}. Solving
+the problem of  portability is trivial in comparison with the nightmarish
+difficulties that I foresee as virtually certain to follow from trying to add
+anything so foreign as Bezier curves to \TeX{}'s data structures!
+
+\sectionbegin
+A ``Standards'' Approach to Solving \TeX{} Portability Problems. \par
+
+   As just suggested above, I believe that at least some of the major
+defects currently perceived in the \TeX{} system are not so much problems
+with \TeX{} itself, but rather arise from the vital requirement that
+{\it \TeX{} documents should be completely portable between various hardware
+platforms\/}.   As long as we are dealing  with \TeX{} itself, this
+portability is assured  by the minimal requirement that all true \TeX{}
+systems will produce the  same DVI file from a given source file. But of
+course a DVI file is only  part of the way to a printed page, so \TeX{}
+without some sort of back end is virtually useless. We sometimes forget that
+even the software combinations formed by a set of font glyphs (either bitmaps
+or outlines) and a screen previewer or printer driver is  already a back end
+to \TeX{}. If we are willing to stick with the Computer Modern family of
+fonts in the bitmapped format provided by \METAFONT, then virtually all
+screen previewers and printer drivers will work faultlessly and provide
+``identical'' output to a tolerance limited only by resolution. The reason
+of course is that these fonts are a carefully specified standard, on
+which the writer of a device driver can completely rely.  But of course
+Knuth never intended \TeX{} to be limited to the CM family of fonts, or
+even to \METAFONT{} designed fonts. Currently, Adobe's Postscript Type 1
+fonts are the world's favorite, and it has become increasingly the case
+that a typesetting system, if it is to  remain acceptable, {\bf must} be
+able to deal at the very least with the  basic thirty-five fonts
+built into Postscript printers. Of course \TeX{} was easily up
+to the challenge.  All that is necessary is to build a TFM file for each
+Type 1 font (or better yet an AFM to TFM conversion program), and add the
+basic code to the device driver to handle a Type 1 font. On any given
+system this is an easy task, since again the Type 1 format is a completely
+specified standard. I know this was done several years ago on the
+Macintosh, and I believe it has also been done for most of the other major
+hardware platforms. There are now even a number of well hinted Type 1
+versions of the basic Computer Modern fonts available. However even
+this quite simple new back end leads to portability problems between
+systems. I have never tried it, but I suspect strongly that if I sent
+a colleague with an IBM clone one of my Textures source files that used Times
+Roman, it would not work under PC\TeX{} or em\TeX{} without modification. The
+problems here are quite trivial, involving little  more than
+differences in font naming conventions. All that would be  necessary to
+regain complete cross-platform portability when using Postscript fonts
+is some standardized naming conventions. I have made a point of this not
+because it is a difficult problem that has worried people much; rather
+because it is a simple problem with an easy solution---but one that I think
+can be generalized to solve many other \TeX{} problems without in any way
+tampering with \TeX{} itself.
+
+   For a hard example, let's consider a problem that has been the subject
+of a great deal of discussion in the \TeX{} community and in TUGboat,
+namely specifying graphics within a \TeX{} source file.  Of course one
+possibility that has been mentioned would be to add a number of graphics
+primitives to \TeX{}: lines, circles, Bezier curves, colors, fills, bitmaps,
+etc. To my mind this would be absolute madness, and I find it hard to believe
+any one would seriously consider it.  The obvious reason to reject this
+approach is that it would lead to a program infinitely more complex than \TeX{}
+that could never be made bug free or portable. Moreover in a few years, when
+Bezier curves  are perhaps out of fashion, and some new graphics goodies are
+all the rage, there will be a call for yet another ``upgrade'' of \TeX{}. But
+a better reason to reject it is that one should not attempt to brush one's
+teeth with a paintbrush or try to paint a picture with a toothbrush---use
+the correct tool for each job.  And while Swiss Army knives may make fine
+souvenirs and conversation pieces, they are not high quality tools.
+
+   The simple  and straightforward solution is to consider a graphic
+as just another box (a ``bounding box''), just like any other \TeX{}
+box, and let some  appropriate back end worry about what is inside the box
+and render it  appropriately on a screen or sheet of paper. Then one can
+always create graphics with the very best front end graphics tools currently
+available on a given platform, save it in an appropriate ASCII-based file
+format, such as encapsulated Postscript, tell \TeX{} about its bounding box
+and its format, and let the back end take over from there.  ``But wait a
+minute'', you say, ``isn't that  exactly the old ``\Special'' approach?''
+Of course it is, and I claim that the \Special{} mechanism has worked very
+well {\it except\/} for the problems with  portability that it has
+introduced.    Now experience has taught that the correct approach to
+portability problems  is  {\it not\/} to create complex do-it-all programs
+and then struggle to   make them work on dozens of different platforms.
+Rather, one should have  single purpose modules with simple data structures
+and well-defined  interfaces, and use these to build up more complex systems.
+So, I maintain that what is required to solve the portability difficulties
+caused by graphic elements in \TeX{} is to make a serious effort to set up
+cross-platform  \TeX{} standards for various officially recognized graphics
+formats and a standard syntax for \Special's to go along with them. It would
+have to be understood that as technology advances, older formats will
+probably die out and  be replaced by newer ones, so there should probably
+be a  standing committee, perhaps of TUG, to oversee the promulgation and
+maintenance of  these graphics standards.  In the same way there could be
+another standing committee for setting \TeX{} standards for font formats and
+naming conventions for fonts.
+
+   By the way, while we are on the matter of fonts and standards, let me
+complain about what I feel is a serious failing of the \TeX{} community. The
+Grand Wizard, as a sort of parting gift, gave us a potentially very valuable
+tool to handle all sorts of font problems. This was in the form of a
+well-defined standard---I'm referring of course to virtual fonts (VF).
+I'm a little over my head here technically,  but I believe that as well as
+solving the more obvious problems for which they were introduced, virtual
+fonts could be used to handle some more esoteric tricks like adding
+color and other attributes to fonts.  But my feeling is that we have dropped
+the ball. Not enough \TeX{} systems have implemented VF to make it a
+dependable  way to solve cross-platform \TeX{} problems---even Blue Sky
+Research,  which prides itself in providing a state of the art \TeX{}
+environment for their TeXtures system on the Macintosh has yet to
+implement it.
+
+   Let me end this part of the discussion with a mention of one thing
+that I feel should neither be a part of NTS nor even a standardized
+front end for it, and that is the user interface. I would not have brought
+this up except that there has been discussion on this list giving favorable
+mention to creating a standardized graphical user interface as part of
+NTS.  But the hardest part of programming these days, and the most system
+dependent, is building a GUI. Even on a single platform, like the Macintosh,
+these can break when a new system update comes out. In general, even
+with systems as close in spirit as the Mac OS, Windows, and NeXt, it is
+extremely difficult to write a uniform GUI for a program meant to run on
+several platforms, and porting a  GUI from one of these to say X-Windows on
+UNIX would be even harder. Moreover, each platform has certain User Interface
+Guidelines for its own GUI, and users get quite upset when a program deviates
+from them. Since these guidelines differ from one platform to the next, some
+users, and most likely all, would be upset by any uniform choice. Finally,
+what is the point? All this would do is stifle creativity and progress. Let
+the implementors of NTS on each platform design and construct the user
+interface most suitable for that platform.
+
+\sectionbegin The Matter of Compatibility.
+
+   There has been a lot of discussion on NTS-L concerning the question of
+whether NTS should necessarily be compatible with the current version of
+\TeX{}. Until this  point I have tried to be calmly analytical, but this is
+a crucial issue, and one I feel very strongly about, so I am going to drop
+into a more polemical mode at this point (though I will try to keep  my
+arguments rational). In a word I feel that {\it backwards compatibility is
+an absolute sine qua non for any system that aspires to be accepted as a
+``successor''  to \TeX.\/}
+
+   Of course, if a group wants to break off to design a completely new
+typesetting  system from scratch that is fine with me---just as long as
+they don't use \TeX{} in the name or pretend it is some sort of ``successor''
+to \TeX{}.  As for me, I would like to see NTS be an improved
+version of \TeX{}, and for this, it should either be 100\% compatible
+with \TeX{}, or if not it should at least default to a ``compatibility mode''
+which is 100\% compatible.  I will suggest later a method by which
+major internal changes could be made to \TeX{} and still satisfy this
+essential requirement, but now let me be precise about what I mean
+by compatibility and say why I feel that this a no-compromise issue.
+
+   \initex{} is the core \TeX{} program, the basic compiled version of the
+\TeX{} code that knows only \TeX's primitives. In a certain sense
+\initex{} {\it is\/} \TeX. It is the implementation of \initex{} that
+determines whether a ``\TeX'' system is authentic, i.e., passes Knuth's
+trip-test, and I think  there is little doubt that \initex{} is one of the
+``fixed points'' that  Don was referring to in the above quotation. Let me
+argue as strongly as I can that {\bf whatever NTS is, its core typesetting
+function should be  based on} \initex---a version that will pass the trip-test.
+The reason  has nothing to do with ``keeping the faith''. Rather it is purely
+practical. If the new system is compatible with \TeX{}, it will find ready
+acceptance. But if it is not, then the immense installed base of \TeX{} users
+will almost certainly shun it, and it will consequently be stillborn.
+
+   Let me provide some details about the part of this ``user base'' that I
+know  something about, the mathematical community, since I have seen comments
+on the mailing list that indicate a serious lack of comprehension of how
+sizable this group is (relative to the \TeX{} community) and how dependent it
+has become on \TeX. This in turn may have led to what I consider a very unfair
+comment, namely that \TeX{} is a ``toy for mathematicians''. By the way, while
+my firsthand knowledge is restricted to mathematics, I know by  hearsay that
+much of the following holds true for theoretical physics and also in many
+other scientific and technical disciplines in which mathematical text makes
+up a substantial part of papers written in that discipline.
+
+   First, virtually all mathematics graduate students now write their
+dissertations in \TeX{}, and from then on write all their papers in \TeX{}.
+Secondly, nearly all mathematicians below age forty have learned \TeX{},
+and an increasing number of the older generation are either switching to
+\TeX{},  if they write their own papers, or else are having their secretaries
+and technical typists learn \TeX{} and write their papers in it. A couple of
+years ago many mathematicians were still using WYSIWYG mathematical word
+processors, but now one sees very few preprints prepared in any format except
+\TeX{}.  There are of course lots of reasons for this rapid, wholesale
+switching to \TeX{}, and probably different reasons have been important for
+different people. Here are a few:
+
+\bullitem   Mathematics set by \TeX{} looks much more professional.
+\bullitem   Setting mathematics with \TeX{} is faster and easier
+            (after a painful, but short, learning curve).
+\bullitem   Mathematical text in \TeX{} format can be sent over the Internet
+            and works on all machines. This makes \TeX{} an ideal medium
+            for joint authors to use in their collaboration. WYSIWYG formats
+            are machine dependent and need special coding and decoding
+            when sent over the net.
+\bullitem   As a result of the above, the \TeX{} mathematical input language
+            is becoming a {\it lingua franca\/} for the linearization of
+            mathematical text in email and other ASCII documents, even if they
+            are not meant for typesetting.
+\bullitem   The two largest mathematical publishers, The American Mathematical
+            Society and Springer-Verlag (and many others besides), now accept
+            papers in \TeX{} format, either on disc or over the Internet.
+            Papers submitted this way often get published more rapidly and of
+            course final proofreading is minimal.
+
+\noindent
+In any case, the mathematical community now has become so dependent on \TeX{}
+and has such a substantial investment in software, personal macro files, and
+source files for the current version of  \TeX{}, that I believe {\it it is
+virtually certain to reject any purported successor system that does not
+protect that investment\/}.
+
+   Since I seem to be at odds with Mike Dowling on this matter, let me
+quote some of his remarks and point out an important issue he seems to
+have overlooked:
+
+{\medskip\narrower\noindent
+%
+           (1) Upwards compatibility is a very minor issue for the user.
+            Theses are written only once; there is little or no need to
+            recompile under the successor to TeX after the thesis has been
+            submitted.  The same comment goes for publications. It is easy to
+            dream up exceptions to this,  but I contend that they are just
+            that, exceptions. (A good counter example is a script
+            accompanying a course. This script will be modified and recompiled
+            every time the course is offered.)     \par\medskip\noindent}
+%
+ Well, let me dream up another minor exception for you! If you take a look in
+your local science library you will find several feet of shelf space occupied
+by the issues of Mathematical Reviews (MR) from just the past year. In fact,
+every year the American Mathematical Society not only publishes many tens of
+thousands of pages of books and primary mathematical journals in \TeX{}, it
+also publishes more tens of thousands of pages of MR. The cost of producing
+just one year of MR is well in excess of five million dollars, and all of MR
+going back to 1959 (about one million records) is stored online {\it in \TeX{}
+format\/} in the MathSci database. People all over the world download
+bibliographic data and reviews from MathSci and use \TeX{} software to preview
+or print it. Many others spend hundreds of dollars per year to lease two
+CD-ROMs with the last ten years of MathSci. Obviously  the AMS is unlikely
+to agree with the above assessment of the importance of compatibility. In
+fact they are certain to protect their investment in MathSci by making sure
+that the retrieval system they have invested in so heavily does not break.
+And they have a powerful means to protect that investment---with Knuth's
+blessing, they own the trademark on the \TeX{} name and logo, and will not
+let it be used for a system that does not pass the trip-test.
+
+\sectionbegin \TeX{} as a Front End.
+
+   Early in the NTS-L discussion there was some discussion concerning
+extending \TeX{} so it could flow text around pictures, and have other
+sophisticated facilities of page layout programs such as PageMaker or
+QuarkXPress. This quickly died out, I think because most people on the list
+had thought enough about such matters to realize that typesetting and page
+layout are almost orthogonal activities. The ability of \TeX{} to break
+text into lines, paragraphs, and pages is aimed at producing printed
+pages consisting mainly of text for books and journals. Of course, such
+pages frequently do need diagrams, pictures, and other graphic elements. But
+these usually fit neatly inside captioned boxes, with no need to have text
+flow around them, and we have already discussed making such extensions to
+\TeX. The page layout programs, on the other hand, are designed with the
+quite different purpose of producing illustrated magazines, newsletters,
+and newspapers.  These are documents in which the graphics often outweighs
+the text, and in which each page can have a complex, and different pattern
+of text and pictures.  Building such pages is an interactive process best
+handled  with a WYSIWYG interface. The good page layout programs often have
+only quite limited word-processing facilities  built in, because the proper
+way to use them is {\it not\/} for creating  either text or graphics, but
+rather to organize into pages text and graphics imported from other programs.
+
+    But this brings up an interesting point. To what extent would it be
+possible to import text typeset by \TeX{} into a page layout program?
+Certainly this would not be easy! The way \TeX{} freezes the shape of a
+paragraph, once it has created it, is quite different from the way a normal
+word processor works, so one would probably have to create a special page
+layout program, one that understood \TeX's data structures and could have an
+interactive dialog with \TeX{} during the layout process. This would be a
+tough but worthy undertaking.
+
+\sectionbegin \TeX{} as a Programming Language.
+
+   Many contributors to NTS-L have complained that the \TeX{} programming
+language is terrible. In its favor one should point out that it is
+Turing effective---and so just as powerful as say C or Pascal---and it
+is the programmability provided by this macro language that gives
+\TeX{} its remarkable flexibility and survivability. However, there is no
+denying that, while \TeX{} macros may indeed always behave exactly the way
+(a careful reading of) the \TeX{}book says they will, it often takes a
+lot of study for a non-wizard to find the features  responsible for a macro
+behaving the crazy way it does, rather than the way that was intended.
+Still, most \TeX{} users do learn easily enough to write simple
+substitution macros or even special purpose macros with parameters.
+The real problems arise when one tries to write a complex package of general
+purpose macros for others to use in an unknown environment. One can take the
+attitude that this activity is simply intrinsically difficult, and should be
+left to the experts,  but it seems to me that those complaining have a good
+point.  Someone who has learned to program in a standard programming language
+should not have to learn another whole new system of programming; they
+should be able to use the familiar syntactic and semantic features that they
+are used to for programming \TeX.  Since changing the \TeX{} macro language
+would  introduce the worst kind of compatibility problems, some other solution
+is called for.  One that comes to mind is to write a ``compiler'' whose
+source language would be some sort of high-level, ALGOL-like language,
+with all the usual features such as strongly typed variables and scoping
+rules, and whose target language would be the \TeX{} macro language.
+Creating such a compiler would not be an easy task, but it would constitute
+another important application of Knuth's principle of keeping \TeX{} itself
+a  fixed point while making ``changes'' to the \TeX{} system by creating new
+front ends.
+
+\sectionbegin             Changing the Fixed Point.
+
+    I would be a lot happier if I could stop at this point and conclude that
+there is no need for any changes to the \TeX{} code itself---that all of
+\TeX's perceived problems can be solved by creating the appropriate front
+and back ends. For the  overwhelming majority of \TeX{} users this is in fact
+the case. If one is willing to put up with occasionally having \TeX{} fall
+just short of perfection,  or if one doesn't mind making up for these lapses
+on \TeX's part by doing some careful manual tuning (my own approach),
+then the  current \TeX{} is all one will ever need.  But for those who take
+seriously Knuth's goal of not compromising on quality, and moreover insist on
+a system that permits them to automate excellence, a very good case has been
+made that \TeX{} has several serious deficiencies hard-wired into it.
+
+    Frank Mittelbach made this point very cogently and convincingly in
+his presentation ``E-\TeX: Guidelines for future \TeX'' at the 1990
+TUG meeting (published in TUGboat vol.\ 11 no.\ 3, September 1990). And
+Michael Downes amplified and extended Mittelbach's comments in a message he
+sent to the tex-euro mail list, February 20, in response to an announcement
+by Joachim Lammarsch of the intent of Dante e.V. to set up a working group
+on ``Future Developments of \TeX''. Downes posted a copy of that message
+to this mailing list on June 2, and I see no need to repeat either of their
+remarks here.
+
+   Instead I would like to suggest a mechanism to permit necessary changes
+to be made to \TeX{} code and still maintain compatibility in the sense
+described above. The idea is both simple and obvious. When NTS starts up
+it will be ordinary \TeX{}. However if the first string of characters in the
+source is, let us say, ``{\tt $\backslash$VERSION=NTS}'' then the \TeX{}
+code will be rolled out of RAM and replaced with NTS code.
+
+   But how are we going to get from \TeX{} to NTS?  My own preference would
+be to take a gradual approach, analyzing the problems that have been pointed
+out in  \TeX{} into families of related problems, each reasonably independent
+of the others, and then tackling these families one by one in stages, from
+easiest to hardest, starting from the original \TeX{} sources and gradually
+perturbing them. In this way NTS could evolve in a controlled way from the
+current version of \TeX{} through a sequence of versions, each compatible
+with standard \TeX{}, each new version curing one more of the difficulties
+that Mittelbach, Downes and others have pointed out, and each being carefully
+tested  before going on to the next stage. I know this may seem like a dull
+and pedestrian way to go about things, particularly to those wishing to
+strike out boldly in new directions. But I think it has the a very good
+chance of success. It will not demand many resources to get started so it
+stands a reasonable chance of getting off the ground. And once the first
+step is taken, well as the saying goes, nothing succeeds like success.
+
+\sectionbegin                    Summary.
+
+\noindent
+Let me now summarize my major points and suggestions:
+
+\bullitem  Many of the problems and ``missing features'' in the \TeX{} system
+           that have been discussed in NTS-L are not really deficiencies of
+           \TeX, but rather features omitted as a consequence of Knuth's
+           decision to limit the functionality of \TeX, in order to make it
+           stable and transportable. Many of these problems have been solved
+           in a quite satisfactory manner on one or more platforms by coupling
+           \TeX{} with the appropriate front or back end. What remains is
+           to solve these problems in a manner that preserves transportability
+           of \TeX{} sources, and the way to do this is to specify standard
+           file formats and other data strucures, and a standard \Special{}
+           syntax for instructing \TeX{} to interact with them.
+
+\bullitem  To carry out the above, TUG should appoint a ``Committee on \TeX{}
+           Standards''. This committee should have the overall responsibility
+           for deciding what types of standards are important to insure that
+           important front and back ends for \TeX{} can be built in a way
+           that is platform independent, and it should appoint committees of
+           experts to promulgate and maintain these various standards.
+
+\bullitem  Nevertheless, an excellent case has been made that certain specific
+           features of \TeX's primitives and coding make it nearly impossible
+           to automate certain functions required to attain one of Knuth's
+           goals for \TeX{}, production of ``the finest quality that had ever
+           been achieved in printed documents''. While most users may never
+           feel the need for the subtle touches that make the difference
+           between typesetting that is merely excellent, and typesetting
+           that is ``the finest quality'', for those that do a follow-on to
+           \TeX{}, NTS, should be developed.
+
+\bullitem  NTS should be backward compatible with source files from the
+           current version of \TeX. This means that it should default to a
+           ``compatibility mode'' that would pass the trip-test, and that any
+            new features that might introduce incompatibilities should have
+            to be ``turned on'' by the user.
+
+\bullitem  NTS should be developed in a sequence of versions, starting with
+           \TeX{} and curing its problems one at a time.
+
+
+\sectionbegin Postscript.
+
+    As indicated above, I believe it is possible for a group to design
+and implement {\it ab ovo\/} a completely new and state of the art
+typesetting system---a ``\TeX{} for the Twenty-first Century'' to use
+Philip Taylor's words. As explained above, I also believe that such a
+system could be implemented in a way that would keep it functionally
+compatible with the current \TeX{} system. But before getting started on
+such a massive  project ample consideration should first be
+given to some prior considerations:
+
+\bullitem  Don't forget what a monumental task the creation of \TeX{} was,
+           and remember that its author is a totally exceptional individual.
+           He is not only a great computer scientist who happens to love
+           and understand high quality typography, he is also, fortunately,
+           an incredibly good programmer---and finally he has unmatched
+           {\it sitzfleisch\/}. Whole work groups of system analysts and
+           programmers could easily have failed in the same task---and if
+           they had succeeded they would probably have taken longer to create
+           a buggy program that runs on a single platform.  {\it And they
+           certainly would not have put the code in the Public Domain!\/}
+
+\bullitem  Knuth is a tenured Full Professor at Stanford. While he was
+           designing \TeX{} and writing the code, he had NSF grant support
+           that not only provided him with the time and equipment he needed,
+           but also supported a team of devoted and brilliant graduate students
+           who did an enormous amount of work helping design and write the
+           large quantity of ancillary software needed to make the \TeX{}
+           system work.
+
+\bullitem  So, consider this question:  Where will the resources come
+           from for what will have to be at least an equally massive effort?
+           And will the provider of those resources be willing, at the end
+           of the project, to put the fruits of all this effort in the Public
+           Domain? I consider this point particularly important. I think it
+           is accepted that it is the combination of the quality and the PD
+           status of the \TeX{} code that have been the two principal factors
+           responsible for its remarkable and unique universality. I doubt
+           that any system that is not PD would have much chance of weaning
+           away a sufficient number of \TeX{} users to make all the effort
+           worthwhile.
+
+\bullitem  Finally, don't repeat the sad history of ALGOL 68! The ALGOL 60
+           programming language was a gem. True, it had its flaws, but these
+           were well-known and understood, and I think all of us ALGOL
+           lovers assumed that the ALGOL 68 design committee was going to
+           polish that gem for us and remove the flaws. Instead they
+           decided to start over from scratch and came up with a language
+           that nobody understood, loved, or used. And that spelled the
+           doom of poor old ALGOL---who was going to maintain an ALGOL 60
+           compiler once ALGOL 68 was ``on the way''? Needless to say, even
+           a botched NTS isn't going to kill \TeX, but it would be sad to
+           waste all that time and effort---and a great opportunity.
+
+
+\bye
+
+========================================================================
+Date:         Tue, 14 Jul 92 17:04:49 MDT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: "Nelson H. F. Beebe" <beebe@MATH.UTAH.EDU>
+Subject:      Response to Robert Palais' comments on NTS/TeX
+
+
+I've communicated offline with Robert Palais about his interesting
+remarks on NTS posted in a position paper yesterday to the NTS-L list.
+He suggested that I repost to NTS-L this portion of my response to
+him:
+
+>> ...
+>> You comment in the section `TeX as a front end' on the question of
+>> page makeup by other systems.  The article
+>>
+>> @Article{Asher:TB13-1-13-22,
+>>   author =       "Graham Asher",
+>>   title =        "{{Inside Type \& Set}}",
+>>   journal =      TUGboat,
+>>   year =         "1992",
+>>   volume =       "13",
+>>   number =       "1",
+>>   pages =        "13--22",
+>>   month =        Apr,
+>> }
+>>
+>> describes the Type & Set system that is used to produce about 100 medical
+>> journals; TeX makes lines and paragraphs, and Type & Set does the page
+>> makeup.
+>>
+>> In the next section, `TeX as a Programming Language', you correctly
+>> note the difficulty of programming in TeX.  The article
+>>
+>> @Article{Semenzato:TB12-3+4-434-441,
+>>   author =       "Luigi Semenzato and Edward Wang",
+>>   title =        "{{A text processing language should be first a
+>>                  programming language}}",
+>>   journal =      TUGboat,
+>>   year =         "1991",
+>>   volume =       "12",
+>>   number =       "3+4",
+>>   pages =        "434--441",
+>>   month =        Nov,
+>> }
+>>
+>> describes work that provides a Lisp front end to TeX, for just the reasons
+>> you discuss.
+>> ...
+
+
+========================================================================
+Nelson H.F. Beebe
+Center for Scientific Computing
+Department of Mathematics
+220 South Physics Building
+University of Utah
+Salt Lake City, UT 84112
+USA
+ Tel: +1 801 581 5254
+ FAX: +1 801 581 4148
+ Internet: beebe@math.utah.edu
+========================================================================
+
+========================================================================
+Date:         Mon, 27 Jul 92 13:46:47 +0200
+Reply-To: Schoepf@sc.ZIB-Berlin.DE
+From: Rainer Schoepf <schoepf@SC.ZIB-BERLIN.DE>
+Subject:      Re: A Position Paper
+In-Reply-To:  <9207132104.AA28762@sc.zib-berlin.dbp.de>
+
+
+Two weeks ago, Richard Palais posted a somewhat longer position paper
+on this list. Since then, only one message came to answer that. I have
+finally found the time to order my thoughts sufficiently so that I am
+able to write a coherent answer.
+
+Richard Palais starts by quoting Don Knuth (omissions by me):
+
+  "The first goal was quality; [...]
+  The second major design goal was archival."
+
+and continues by analysing, as he writes "the TeX system and some of
+its purported shortcomings in the light of Knuth's quotation."
+
+I agree entirely with his first point, namely that many of the
+perceived problems of TeX can be solved by suitable front- or
+backends, although I find it necessary to add that the lack of
+standardization (where possible) is still a serious obstacle.
+
+The second important point he makes is that of backward compatibility.
+He writes:
+
+  "As for me, I would like to see NTS be an improved version of
+  \TeX{}, and for this, it should either be 100\% compatible with
+  \TeX{}, or if not it should at least default to a ``compatibility
+  mode'' which is 100\% compatible."
+
+Here I disagree. I hasten to say that I do not intend to force users
+to rewrite their documents. But I don't believe that 100%
+compatibility is necessary -- nor desired. (As an aside, let me remind
+you that not even TeX3 is 100% upwards compatible with TeX2: the input
+^^af, for example, is treated differently.) The point I am making is
+that it is a must (and insofar I agree with what is said in the paper)
+that users are able to process their old documents with the new
+system. But from this it does {\em not} necessarily follow that the
+new system must accept {\em every} TeX input. Take for example the
+feature of characters having \mathcode 32768, or that the number
+following a \delimiter primitive must be a positive 15bit integer.
+These are features that are not only unlikely to be used by the great
+majority of users, but, equally important, are easily converted to
+something else in the new system that has the same semantics, by means
+of a preprocessor, for example. To repeat this statement in a less
+technical language:
+
+  It is sufficient that the the new system is supplied with a frontend
+  that emulates TeX.
+
+One can now argue whether this should be true only at the input level,
+i.e., whether the new system is allowed to produce output different
+from TeX's aoutput (but hopefully better). This is one of the issues
+that need to be discussed.
+
+
+
+               The frontend -- interactive TeX?
+
+This point is a very interesting one, and I would like to see it
+discussed further. This touches the question of the user interface.
+But before one discusses what the user interface should {\em look}
+like we should first be clear about the semantics of the underlying
+program.
+
+
+
+                      TeX extensions?
+
+I do not intend to go into the technicalities of possible extensions to
+TeX---there are too many of them, and others have already pointed them
+out. I only want to make two general remarks.
+
+First of all I feel that the discussion on this list is too much
+confined to what happens and is said in the TeX community. In my
+opinion, this is in contradiction to the first of the design goals
+quoted in the beginning, namely {\em quality}. If someone outside the
+TeX world has something better to present, we should look at it, and
+use it, if possible.
+
+Examples include the interesting system Aleph (cf. TUGboat 12#3,
+p.434), or the research papers published in the series of proceedings
+of the International Conferences on Electronic Publishing. In an
+earlier message I asked the question whether someone has already an
+overview over the literature, but have received no response so far.
+
+My second general remark is concerned with the development of the
+current TeX. The program itself is frozen, its implementations are
+not! I'm still waiting for general availability of some improvements
+like
+
+ - an interaction with the underlying operating system using \read nad
+   \write streams. (To forestall opposition: this is already approved
+   by Don Knuth.);
+
+ - loadable xord/xchr tables at IniTeX time to support multiple
+   character sets (implemented in emTeX, for example);
+
+ - dynamic memory management instead of static arrays (implemented
+   already in at least one of the Atari ST implementations). An error
+   message like "maximum buffeer size exceeded [1024]" is a joke in
+   these days;
+
+ - improved user interaction (I find it truely appalling that TeX
+   looks for a file .tex if you give a null answer to its question for
+   another file name.);
+
+ - having the same search path for \input and \openin (not available
+   in, e.g., VAX/VMS TeX);
+
+ - extended font naming (proposed by Karl Berry, if I recall
+   correctly).
+
+None of these points violates the rule that "TeX is frozen". I'm sure
+there must be more of them.
+
+
+
+               How can such a project evolve?
+
+Coming back to the position paper by Richard Palais, I'd like to
+comment what he said in his postscript about what made the creation of
+TeX possible: that Don Knuth is a full tenured professor at Stanford
+who not only had NSF grant support for his project, but also he is a
+unique individual who is able to accomplish such a task alone.
+
+I do indeed believe that these is one of the critical issues of the
+whole NTS project: Lots of resources are needed to allow completion of
+the project. In my opinion it will not be possible to accomplish this
+solely in the spare time of some volunteers. I can only hope that
+there will be sufficient support for it.
+
+Rainer Sch"opf
+Schoepf@sc.ZIB-Berlin.de
+
+========================================================================
+Date:         Mon, 27 Jul 92 15:19:16 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Elmar Schalueck <elmar@KOETHE.UNI-PADERBORN.DE>
+Subject:      Linebreaking algorithm in math mode
+
+
+
+Some 0.02$ comments.
+
+What I do not like with TeX:
+
+Mainly I am writing math and I am bored of thinking how to avoid
+TeX's line breaking algorithm in math mode.
+So here's my suggestion:
+
+The line breaking algorithm in math mode should be group oriented, i.e. one
+might have a logical structure like
+
+$(x+y)z \in {\cal X} \iff x \in Y \forall z \in Z$  could be broken
+after the \iff. If not there, then perhaps in front of the \forall or
+(less desired) in front of each \in. The mostly unwanted breakpoint is between
+(x+y) and z.
+
+Is it possible to give a hierachy to each math operator? Can this be changed
+by the user by using some grouping commands?
+
+I think such a technique is neccessary to most of us mathmaticians.
+
+Thanks           Elmar
+================================================================================
+Elmar Schal"uck                   email: elmar@uni-paderborn.de
+Uni-GH Paderborn                  phone: ..49-5251-602621
+FB 17
+
+
+
+
+
+========================================================================
+Date:         Mon, 27 Jul 92 15:19:16 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Elmar Schalueck <elmar@KOETHE.UNI-PADERBORN.DE>
+Subject:      Linebreaking algorithm in math mode
+
+
+
+Some 0.02$ comments.
+
+What I do not like with TeX:
+
+Mainly I am writing math and I am bored of thinking how to avoid
+TeX's line breaking algorithm in math mode.
+So here's my suggestion:
+
+The line breaking algorithm in math mode should be group oriented, i.e. one
+might have a logical structure like
+
+$(x+y)z \in {\cal X} \iff x \in Y \forall z \in Z$  could be broken
+after the \iff. If not there, then perhaps in front of the \forall or
+(less desired) in front of each \in. The mostly unwanted breakpoint is between
+(x+y) and z.
+
+Is it possible to give a hierachy to each math operator? Can this be changed
+by the user by using some grouping commands?
+
+I think such a technique is neccessary to most of us mathmaticians.
+
+Thanks           Elmar
+================================================================================
+Elmar Schal"uck                   email: elmar@uni-paderborn.de
+Uni-GH Paderborn                  phone: ..49-5251-602621
+FB 17
+
+
+
+
+
+========================================================================
+Date:         Mon, 27 Jul 92 17:35:04 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: A Position Paper
+In-Reply-To:  Rainer Schoepf's message of Mon, 27 Jul 92 13:46:47 +0200
+
+
+> My second general remark is concerned with the development of the
+> current TeX. The program itself is frozen, its implementations are
+> not! I'm still waiting for general availability of some improvements
+> like
+>
+>  - dynamic memory management instead of static arrays (implemented
+>    already in at least one of the Atari ST implementations). An error
+>    message like "maximum buffeer size exceeded [1024]" is a joke in
+>    these days;
+
+I wouldn't regard this as an extension of TeX;
+it seems to me part of the implementation of TeX,
+which is essential in some cases -- eg on the Macintosh --
+and easily introduced in all implementations, at least those in C.
+
+I'd vote for asking Karl Berry to put it into web2c
+(as I believe he is thinking of doing).
+
+I don't think it raises any issue of principle.
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Tue, 28 Jul 92 12:35:33 +0200
+Reply-To: Schoepf@sc.ZIB-Berlin.DE
+From: Rainer Schoepf <schoepf@SC.ZIB-BERLIN.DE>
+Subject:      Re: A Position Paper
+In-Reply-To:  <9207281034.AA25037@sc.zib-berlin.dbp.de>
+
+
+Timothy Murphy writes:
+
+ > >  - dynamic memory management instead of static arrays (implemented
+ > >    already in at least one of the Atari ST implementations). An error
+ > >    message like "maximum buffeer size exceeded [1024]" is a joke in
+ > >    these days;
+ >
+ > I wouldn't regard this as an extension of TeX;
+ > it seems to me part of the implementation of TeX,
+ > which is essential in some cases -- eg on the Macintosh --
+ > and easily introduced in all implementations, at least those in C.
+
+This was exactly my point.
+
+Rainer Sch"opf
+
+========================================================================
+Date:         Tue, 28 Jul 92 00:04:23 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: A Position Paper
+In-Reply-To:  Rainer Schoepf's message of Mon, 27 Jul 92 13:46:47 +0200
+
+
+> My second general remark is concerned with the development of the
+> current TeX. The program itself is frozen, its implementations are
+> not! I'm still waiting for general availability of some improvements
+> like
+>
+>  - improved user interaction (I find it truely appalling that TeX
+>    looks for a file .tex if you give a null answer to its question for
+>    another file name.);
+
+As far as I can see, this is explicitly stated in tex.web
+to be @^system dependent@>,
+which I take to mean that implementors are free
+to decide the issue as they think best.
+On a PC for example, this would be an invalid file-name.
+
+So it seems to me that Rainer should blame the implementation,
+and not TeX.
+
+Timothy Murphy
+
+e-mail: tim@maths.tcd.ie
+tel: +353-1-2842366 (home/office)
+     +353-1-7021507 (university)
+fax: +353-1-2842295
+s-mail: School of Mathematics, Trinity College, Dublin 2, Ireland
+
+
+========================================================================
+Date:         Thu, 30 Jul 92 16:06:20 EDT
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      A tirade
+
+
+Probably many of you have seen this flame (from c.t.t).  It came as a response
+to a question I raised in connection with something I was trying to do
+to make \uppercase work on things like \oe.  The code
+\newif\iftest
+\mark{\testtrue <some text>}
+generates an error message about an unmatched \iffalse.  The explanation
+was accompanied by a tirade (labeled as such) that I agree with and
+I think is worth reading, especially by the adherents of the
+``TeX is perfect'' school.
+
+Michael Barr
+
+
+
+> From cameron@symcom.math.uiuc.edu Thu Jul 30 13:03:16 1992
+> Return-Path: <cameron@symcom.math.uiuc.edu>
+> Received: from mira.math.uiuc.edu by triples (4.1/SMI-4.1)
+> 	id AA00521; Thu, 30 Jul 92 13:03:12 EDT
+> Received: by mira.math.uiuc.edu id AA02439
+>   (5.65d/IDA-1.4.3 for barr@triples.Math.McGill.CA); Thu, 30 Jul 1992 12:05:11
+ -0500
+> Date: Thu, 30 Jul 1992 12:05:11 -0500
+> From: Cameron Smith <cameron@symcom.math.uiuc.edu>
+> Message-Id: <199207301705.AA02439@mira.math.uiuc.edu>
+> To: barr@triples.Math.McGill.CA
+> Subject: Re:  Your tirade
+> Status: RO
+>
+> [ Tirade alert!  The question does get answered, though. ]
+>
+> Wow!  A question about expansion versus evaluation that I can answer!
+> After a mere 7 years of using TeX daily, I'm finally catching on!
+>
+> Michael Barr (barr@triples.Math.McGill.CA) asks why the following
+> produces an error:
+> %%%%%%%%%%%% file starts here %%%%%%%%%%%%%%
+> \let\uc=\uppercase
+> \newif\ifucase
+> \def\ss{\ifucase SS\else\char"19\fi}
+> \def\aa{\ifucase\AA\else\accent23a\fi}
+> \def\ae{\ifucase\AE\else\char"1A\fi}
+> \def\oe{\ifucase\OE\else\char"1B\fi}
+> \def\o{\ifucase\O\else\char"1C\fi}
+> \def\uppercase#1{{\ucasetrue \uc{#1}}}
+>
+> \mark{\uppercase{chapter}}
+> \bye
+> %%%%%%%%%%%% file ends here %%%%%%%%%%%%%%
+> Specifically, TeX complains of an "incomplete \iffalse".  Barr asks
+> whether this may reflect a bug in "\mark".
+>
+> No, no, silly, it's *supposed* to do that, of course!  It's obvious
+> that TeX is doing just what you want it to do.  Right?  Well, OK, it's
+> not at all obvious to me, either -- I can explain it now that I've seen
+> it, but I never would have predicted it (a statement that is all too
+> true of too too much of TeX).  In any case, it is working as documented.
+>
+> Here's why: macros are expanded but not evaluated inside a "\mark"
+> (and in some other places -- such as a \write).  So the "\uppercase"
+> macro inside the "\mark" gets expanded into "{\ucasetrue \uc{chapter}}",
+> and then "\ucasetrue" itself is expanded.  The hack that "\newif" uses
+> to create conditionals defines "\ucasetrue" to be "\let\ifucase=\iftrue".
+> If the ordinary sequence of evaluation were happening (as it is, for
+> example, in horizontal mode when TeX is building a paragraph) then
+> "\ucasetrue" would be expanded, then the tokens resulting from the
+> expansion would themselves be expanded (etc. etc.) until a nonexpandable
+> token (which \let is) was detected, and that would then be evaluated.
+> The evaluation of the "\let" would "gobble up" the "\ifucase=\iftrue"
+> tokens *without* *expanding* *them*; the assignment would be made
+> (locally to the enclosing group), and all would be well.  BUT inside
+> the "\mark" construction evaluation is suppressed, so when the expansion
+> of "\ucasetrue" produces the tokens "\let\ifucase=\iftrue", the "\let"
+> is seen to be unexpandable AND SO THE SCANNER JUST SKIPS OVER IT,
+> preserving it for later processing, AND ENCOUNTERS THE "\ifucase"
+> (which would have been "gobbled" had the "\let" been evaluated).
+> Now the current meaning of "\ifucase" is "\iffalse" (because when
+> "\newif" creates a conditional, it makes the conditional initially
+> false).  But "\iffalse" is handled by the expansion processor, *not*
+> the evaluation processor, and expansion *does* take place inside
+> a "\mark" (that's how we got into this mess in the first place),
+> so TeX goes merrily off looking for a matching "\fi" for the "\iffalse".
+> It doesn't find one, of course, but it does find (two tokens after
+> the "\iffalse") another conditional, the "\iftrue" on the other side
+> of the equals sign, so there are actually TWO unclosed conditionals
+> inside the "\mark"!  Bummer!
+>
+> You see what an insane "programming language" TeX is?  Far too much
+> of The TeXbook is a compendium of cute hacks and absurd kludges, made
+> necessary by TeX's ingenious but demented evaluation strategy.
+>
+> Of course, the solution is to defer the evaluation of the "\uppercase"
+> macro.  If we replace the next-last line of the file by
+>
+>    \mark{\noexpand\uppercase{chapter}}
+>
+> then the error goes away (try it).  But don't fool yourself into
+> thinking that the problem has been solved!  You see, we've only
+> deferred expansion of the single token "\uppercase"; the rest of
+> the mark text is still expanded.  So if the construction were
+> actually
+>
+>    \mark{\noexpand\uppercase{\ae sop's \oe uvres}}
+>
+> then there would be no error, but we'd see "aeSOP'S oeUVRES" in the
+> running head (or wherever it is that the mark text is used).  We would
+> have to type
+>
+>    \mark{\noexpand\uppercase{\noexpand\ae sop's \noexpand\oe uvres}}
+>
+> for our true intentions to be realized.
+>
+> And that, ladies and gentlemen, is why I'll use software of Don Knuth's
+> to typeset my letters, or even my doctoral thesis, but I'd never ever
+> let him write air traffic control software or even balance my checkbook.
+> He is very very clever (which is good), and so are his programs (which isn't).
+>
+> Incidentally, I *still* may not have it right; if not, I'd be
+> grateful for corrections.
+>
+> Anybody rememeber Strachey's GPM?  The General Purpose Macrogenerator
+> was a macro-expansion tool Strachey developed to assist in bootstrapping
+> a CPL compiler on the Titan (Atlas 2) computer.  The GPM was a complete
+> (in the sense of "as powerful as any Turing machine") programming system
+> that worked exclusively by macro expansion.  In the article in which he
+> described the GPM (in the Computer Journal, sometime in 1965 -- the date
+> isn't on the photocopy I'm looking at) Strachey showed how to define
+> (very slow) routines to do integer addition and multiplication,
+> conditionals and loops, all with macros.  Strachey wrote:
+>
+>    ...one of the remarkable features of the GPM is its great power
+>    in spite of using so little apparatus... albeit at the cost of
+>    a very considerable obscurity of the written programs.
+>    It has been our experience that the GPM, while a very powerful
+>    tool in the hands of a ruthless programmer, is something of a
+>    trap for the sophisticated one.  It contains in itself all the
+>    undesirable features of every possible machine code---in the
+>    sense of inviting endless tricks and time-wasting though fascinating
+>    exercises in ingenuity... It can also be almost impenetrably
+>    opaque, and even very experienced programmers indeed tend to spend
+>    hours simulating its action when one of their macro definitions
+>    goes wrong...
+>
+> Strachey could easily have been looking into a crystal ball and
+> pre-reviewing TeX (and Metafont, which is worse).  Poor Knuth: I think
+> he meant to be one of Strachey's "ruthless" types and ended up being
+> one of the "sophisticated" ones instead.  And poor users of TeX:
+> we're all in the same boat with him.  Strachey's GPM article appeared
+> twelve years before Knuth began work on TeX;  I never cease to wish
+> that he had read it and heeded its warning, but I suspect that he did
+> read it and was seduced by it.  Macro processing is like the Dark Side
+> of the Force: profoundly powerful and shockingly dangerous.
+>
+> By the way, Strachey's article had a bug in it: one of the examples
+> is missing one level of quotes around one comma.  The effects are
+> detectable only in very special circumstances (I don't recall the
+> details, but it's something like "when a two-digit number is being
+> incremented and the second digit is a 9, calling for a carry to
+> be performed").  Maybe this error was only typographical, introduced
+> in the typesetting of the journal, but the CPL program he published
+> that implements the GPM also has bugs.  I find this somehow strangely
+> comforting:  it's not just me; *nobody* can get these damn macro systems
+> to work right!
+>
+> --Cameron Smith
+>   cameron@symcom.math.uiuc.edu
+>
+

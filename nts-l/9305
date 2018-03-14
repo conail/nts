@@ -1,0 +1,51 @@
+========================================================================
+Date:         Mon, 31 May 93 19:00:00 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: "J%org Knappen" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      On TeX--XeT
+
+Dear Yannis, dear members of twgmlc-l,
+
+in fact I had a very similar idea to handle right-to left setting. There is
+a new \directioncode (with syntax analogous to \uccode, \lccode, \sfcode)
+assigned to each input character. The basic ones are
+0 -- transparent (space, full stop...)
+1 -- left-to-right (latin letters, digits...)
+2 -- right-to-left (hebrew letters, arab letters...),
+a truely international NTS will also have codes for vertical typesetting
+and some special cases.
+
+The question is how to use this idea consistently. One could extend the
+notion of TeX's modes. Horizontal mode is in fact left-to-right mode, a
+right-to-left mode is missing. To be complete, this mode will be acquipped
+with boxen and all the stuff a TeX's mode has.
+
+At the beginning of a paragraph NTS decides which mode to choose by the
+\directioncode of the first input character. Sometimes the first character
+will have the wrong code, in this case the insertion of an explicit
+control sequence (like \lrbox{}) is necessary. If a character with another
+directioncode occurs, NTS starts a \rlbox and finishes it as soon as a
+character with the original \directioncode appears or at the end of the
+paragraph.
+
+There are problems remaining. Probably the worst is the handling of
+parentheses: ISO 10646 had right and left parentheses (always to be
+displayed the same way, no matter of directionality), whereas UNICODE 1.0
+had opening and closing parentheses, which's presentation depends on the
+direction of typesetting. The compromise is to allow both models and even
+to have control characters switching between them.
+
+Another problem is surely line breaking. If the inserted pieces of the
+`wrong' directionality become to long, what to do than ? Is manual
+interaction necessary or can an algorithm be found to produce good
+results in this case ?
+
+Contrary to TeX, UNICODE specifies modifiers (like accents) to come after
+the modified letter. How to handle this ? Ligatures does not seem to be
+appropriate here, because one cannot foresee any combination a user might
+want to enter. Probably, NTS needs some backspacingaccent-routine to cope with
+this problem. And a directioncode 4 -- backspacingaccent (which can be
+above, below or even inside the glyph of the accentee).
+
+Yours, J"org Knappen.
+

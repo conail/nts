@@ -1,0 +1,277 @@
+========================================================================
+Date:         Wed, 1 Dec 93 11:08:03 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: seroul@MATH.U-STRASBG.FR
+Subject:      about erasing macros
+
+
+Could it be posible to erase a macro from eTeX memory ?
+
+Actualy (I hope I am not going astray), you can only empty a macro.
+
+
+R. Seroul,
+Laboratoire de Typographie Informatique,
+Strasbourg,
+seroul@math.u-strasbg.fr
+
+
+========================================================================
+Date:         Wed, 1 Dec 93 10:52:56 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: David Carlisle <carlisle@COMPUTER-SCIENCE.MANCHESTER.AC.UK>
+Subject:      Re: about erasing macros
+In-Reply-To:  <9312011027.AA01523@m1.cs.man.ac.uk> (seroul@MATH.U-STRASBG.FR)
+
+
+> Could it be posible to erase a macro from eTeX memory ?
+
+\global\let\macro=\undefined
+
+More or less does this in curent TeX.
+
+David
+
+========================================================================
+Date:         Wed, 1 Dec 93 11:25:22 LCL
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: about erasing macros
+
+%>From:          David Carlisle <carlisle@computer-science.manchester.ac.uk>
+%>Subject:       Re: about erasing macros
+%>> Could it be posible to erase a macro from eTeX memory ?
+%>
+%>\global\let\macro=\undefined
+%>
+%>More or less does this in current TeX.
+%>
+
+With respect, David, I don't think this does the job. Knuth points out that
+the macro name is never actually removed from TeX' hash table, because
+of problems that might cause. The explanation appears in the section of
+tex.web headed "The hash table", second paragraph. (Perhaps this is what you
+meant by "more or less"?)
+
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                            %%  e-mail:
+%% School of Mathematics and Statistics   %%
+%% University of Sheffield                %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                         %%
+%% SHEFFIELD S3 7RH                       %%  Telephone: (0742) 824431
+%% England                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 1 Dec 93 12:02:00 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: David Carlisle <carlisle@CS.MAN.AC.UK>
+Subject:      Re: about erasing macros
+In-Reply-To:  <9312011144.AB04072@m1.cs.man.ac.uk> (message from Mike Piff on
+              Wed, 1 Dec 93 11:25:22 LCL)
+
+
+> ...the macro name is never actually removed from TeX' hash table,
+> because ...
+> ... (Perhaps this is what you meant by "more or less"?)
+
+yes, that was the less part:-)
+
+David
+
+========================================================================
+Date:         Wed, 1 Dec 93 13:41:28 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Tim Bradshaw <tfb@EDINBURGH.AC.UK>
+Subject:      Re: about erasing macros
+In-Reply-To:  <9312011139.aa16947@uk.ac.ed.castle>
+
+* Mike Piff wrote:
+
+> With respect, David, I don't think this does the job. Knuth points out that
+> the macro name is never actually removed from TeX' hash table, because
+> of problems that might cause. The explanation appears in the section of
+> tex.web headed "The hash table", second paragraph. (Perhaps this is what you
+> meant by "more or less"?)
+
+I think that what the original poster wanted was something like
+`unintern' in Lisp, i.e make the symbol not exist any more.  I think
+that it's actually better *not* to have unintern in a language like
+TeX because it brings up all sorts of exciting problems of what
+happens to other references to the symbol, which is presumably why TeX
+does not do this.  Scheme, notably, does not have unintern.
+
+--tim
+
+========================================================================
+Date:         Wed, 8 Dec 93 14:56:48 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Martin Schr'oder <l15d@"ALF.ZFN.UNI-BREMEN.DE.\"".hrz.th-darmstadt.de>
+Subject:      \everyfontchange
+
+New primitive: \everyfontchange
+
+Description:
+
+\everyfontchange     tokens to insert after every font change
+
+Usage:
+
+\everyfontchange={<token list>}
+
+Rationale:
+
+Currently there is no way in TeX to execute a token sequence after
+every font change (this may be possible in LaTeX 2.09++, but is not
+easy).
+Suppose for example that a new implementation of \raggedright wants
+to set the \spaceskip to some fixed value. With TeX you need two
+commands for this: One for proportional and one for monospaced fonts
+(\raggedright and \ttraggedright in plain TeX), since the \spaceskip
+for monospaced fonts should equal \fontdimen2. But with
+\everyfontchange \raggedright could look at \fontdimen3\font and
+\fontdimen4\font to test if a monospaced font has been selected, and
+could set \spaceskip accordingly to \fontdimen2\font or some other
+value.
+
+Implementation:
+
+Should not be too difficult. I am not familar with TeX.web and have
+until now not discovered what exactly happens when TeX changes to a
+font (and where \everyfontchange should be executed).
+
+Greetings
+	Martin
+/--------------------------------------------------------------------\
+|           Martin Schr{\"o}der, L15D@ZFN.UNI-BREMEN.DE              |
+|\bye % This is the way the file ends, not with a bang but with a bye|
+|               Donald E. Knuth, The TeXbook, p340                   |
+
+========================================================================
+Date:         Wed, 8 Dec 93 15:09:18 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Martin Schr'oder <l15d@"ALF.ZFN.UNI-BREMEN.DE.\"".hrz.th-darmstadt.de>
+Subject:      \outputunit
+
+New primitive: \outputunit
+
+Description:
+
+\outputunit       unit to be used when e-TeX shows some dimen or glue
+                     value
+
+Usage:
+
+\outputunit=<unit of measure>       (s. TeXbook p. 270)
+
+Rationale:
+
+Currently TeX forces the user to think in points when it outputs any
+dimen or glue value (e.g. when issueing an overfull hbox warning).
+But a program should adapt to the conventions of the user instead the
+other way round. The addition of \outputunit whould make TeX much
+more user-friendlier, since only a few people are thinking in points
+(most of them TeXperts, I believe).
+
+Implementation:
+
+Should not be too difficult. I am not familar with TeX.web, but the
+main change would be in $65 print_int to add an second parameter unit
+and scale the integer; and all places where 'pt' is printed whould
+have to be changed.
+
+Greetings
+	Martin
+/--------------------------------------------------------------------\
+|           Martin Schr{\"o}der, L15D@ZFN.UNI-BREMEN.DE              |
+|\bye % This is the way the file ends, not with a bang but with a bye|
+|               Donald E. Knuth, The TeXbook, p340                   |
+
+========================================================================
+Date:         Wed, 8 Dec 93 15:09:33 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Martin Schr'oder <l15d@"ALF.ZFN.UNI-BREMEN.DE.\"".hrz.th-darmstadt.de>
+Subject:      \tracinghyphenation
+
+New primitive: \tracinghyphenation
+
+Description:
+
+\tracinghyphenation    controls the logging of hyphenation infomation
+
+Usage:
+
+\tracinghyphenation=<constant>      (s. TeXbook p. 269)
+
+Rationale:
+
+TeXs hyphenation algorithm is one of the best known, but it is not
+perfect. But checking hyphenations in an dvi-file is difficult, since
+TeX is not able to produce information about found and used
+hyphenation points (unless you switch on \tracingparagraphs and get
+much more information than you need to check hyphenation), and so you
+have to scan the whole document.
+Here is what should happen when you set \tracinghyphenation to some
+value:
+0: nothing happens
+1: All hyphenated words are output with all found hyphenation points
+   shown, used hyphenation points are marked
+2: All words are output with all found hyphenation points shown, used
+   hyphenation points are marked
+The information about used hyphenation points can only be extracted
+from the dvi-file if \hyphenchar has not been changed. Also only TeX
+has the information about all found hyphenation points.
+
+Implementation:
+
+Should not be too difficult. But I am not familar with TeX.web. (:-))
+
+Greetings
+	Martin
+/--------------------------------------------------------------------\
+|           Martin Schr{\"o}der, L15D@ZFN.UNI-BREMEN.DE              |
+|\bye % This is the way the file ends, not with a bang but with a bye|
+|               Donald E. Knuth, The TeXbook, p340                   |
+
+========================================================================
+Date:         Wed, 8 Dec 93 22:11:32 GMT
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Tim Bradshaw <tfb@EDINBURGH.AC.UK>
+Subject:      Re: \everyfontchange
+In-Reply-To:  <9312081411.aa04294@uk.ac.ed.castle>
+
+* Martin Schr'oder wrote:
+> New primitive: \everyfontchange
+
+> Description:
+
+> \everyfontchange     tokens to insert after every font change
+
+I think this one would be a good thing, for exactly the reasons
+stated.  If you want to set high-quality ragged-right text you need to
+do stuff each time the font is changed.
+
+On the other hand, perhaps it's easy enough to arrange for this at a
+higher level in the presence of NFSS (I don't remember it being very
+hard when I had to do it).
+
+--tim
+
+========================================================================
+Date:         Thu, 9 Dec 93 20:30:57 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE
+Subject:      Re: \everyfontchange
+
+The idea of having a \everyfontchange sounds quite attractive, however I
+want to point out a potential problem:
+
+In TeX accent and accentee can come from different fonts (the TeXbook
+contains an example of faking a typewriter hungarian umlaut), and this
+feature I needed in using the international phonetic alphabet efficiently.
+An implementation of everyfontchange (either as a primitive or by advanced
+macros) should not mess up this feature.
+
+--J"org Knappen.
+

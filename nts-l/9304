@@ -1,0 +1,452 @@
+========================================================================
+Date:         Fri, 2 Apr 93 15:33:44 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      RE: \system -- what for?
+
+
+[The NTS-L list, as received at RHBNC, seems to go in fits and starts,
+ with often some thirty-sixx hours or more between batches of messages.
+ Is this generally perceived to be the case, or is there some hold-up
+ which affects this site more than others?  ** Phil]
+
+Alan Jeffreys wrote:
+
+>>> If a \system command is required, should it not have a similar syntax
+>>> and semantics to the a similar TeX command.  I can't think of anything
+>>> else in TeX (prepares to be shown wrong) that expands in the mouth and
+>>> has side-effects.  Should it not be like \read, \write etc. that is it
+>>> generates a whatsit that is obeyed at shipout, unless preceeded by an
+>>> \immediate, in which case it is done immediately by the stomach.
+>>> There seem to be two obvious syntaxes, one like \write:
+
+>>>    \system{foo}  or  \immediate\system{foo}
+
+>>> and one like \read:
+
+>>>    \system{foo} to \baz  or  \immediate\system{foo} to \baz
+
+>>> The latter one would produce the exit code into \baz.  Should this be
+>>> done with catcode 12 characters, or should it be done like \read, with
+>>> the current catcodes?
+
+and raised many interesting points.  I agree wholeheartedly that any new
+command introduced into e-TeX should behave in a manner as analogous as
+possible to any existing TeX command with similar (or related) syntax
+and semantics.  In the case of \system, I would respectfully suggest
+that the closest analogy is probably \special, rather than \read or \write:
+\special is driver-specific where \system is OS-specific, and both need to
+expand their parameters (though the timing of expansion remains to be
+discussed).
+
+But when one comes to consider \special, it reveals an anomoly in TeX:
+consider the timing of the expansion of the following:
+
+	\special {\buffer}
+	\read \stream to \buffer
+	\write \stream {\buffer}
+	\immediate \write \stream {\buffer}
+
+Note the following: (1) only \write is affected by the presence of a leading
+\immediate; all of the others are _implicitly_ \immediate, and are not
+affected by the presence or absence thereof; (2) the default timing of
+\write is such that it is essentially *\deferred; thus in a variant of TeX
+one might more meaningfully express the above list as:
+
+	\special {\buffer}
+	\read \stream to \buffer
+	\deferred \write \stream {\buffer}
+	\write \stream {\buffer}
+
+thereby emphasising that \deferred is the anomoly rather than \immediate.
+Once this is accepted, it becomes obvious that some of the above could also
+be \deferred, as in
+
+	\read \stream to \buffer
+
+	\special {\buffer}
+	\deferred \special {\buffer}
+
+	\write \stream {\buffer}
+	\deferred \write \stream {\buffer}
+
+and therefore, of course
+
+	\system {\buffer}
+	\deferred \system {\buffer}
+
+Thus I would suggest that in e-TeX, whilst in `emulation' mode (i.e. 100%
+backwards compatibility), one would still write:
+
+	\special {\buffer}
+	\read \stream to \buffer
+	\write \stream {\buffer}
+	\immediate \write \stream {\buffer}
+
+in `e-mode' (extended mode) one would write
+
+	\special {\buffer}
+	\deferred \special {\buffer}
+	\write \stream {\buffer}
+	\deferred \write \stream {\buffer}
+	\system {\buffer}
+	\deferred \system {\buffer}
+
+leaving only
+
+	\read \stream to \buffer
+
+as lacking a \deferred variant (and if anyone can suggest useful and appropriate
+semantics for \deferred \read \stream to \buffer, I would be delighted to add it
+to the list.  We should also examine other classes of construct to see if they,
+too, could benefit from the addition of a \deferred variant (\deferred \mark ?))
+
+I have deliberately refrained from addressing the question of getting a return
+status (and results?) from \special; it is a very important issue, and one
+that I suspect justifies considerable introspection rather than plunging head-
+long into suggestions.  We must consider what happens if a \system command
+completes asynchronously; what happens if two or more asynchronous \system
+commands are fired off; whether to permit asynchronicity at all; how to provide
+system-independent _and_ system-dependent return statuses (e.g. Un*x returns
+0 for success while VMS returns an odd integer for success and an even integer
+for failure (zero is considered even for these purposes)).  Further thoughts
+on these and related matters would be most welcome.
+
+					Philip Taylor, RHBNC
+
+========================================================================
+Date:         Fri, 2 Apr 93 10:52:36 EST
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Michael Barr <barr@TRIPLES.MATH.MCGILL.CA>
+Subject:      system primitive
+
+
+Although Phillip Taylor's argument sounds well reasoned and convincing,
+one aspect bothers me.  If a site administrator disables the use of
+part or all of a system primitive (and site administrators will
+disable anything they can think of; some have banned the use of
+tex because it is not a commercial program), then what happens to
+a macro package that uses one of them.  For example, as has been mentioned,
+it would be very nice if latex saved at least one generation of aux files.
+Thus each writer of a macro package that uses \system will be obliged to
+put in explicit code to test if certain primitives are allowed and
+take reasonable action if not.  Thus things get more and more complicated
+and it becomes even harder for an ordinary user to do these things.
+Of course, that is what has happened to programming in general.
+
+Michael Barr
+
+========================================================================
+Date:         Fri, 2 Apr 93 17:06:32 GMT
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: CHAA006@VAX.RHBNC.AC.UK
+Subject:      RE: system primitive
+
+
+Michael Barr asks:
+
+>>> Although Phillip Taylor's argument sounds well reasoned and convincing,
+>>> one aspect bothers me.  If a site administrator disables the use of
+>>> part or all of a system primitive (and site administrators will
+>>> disable anything they can think of; some have banned the use of
+>>> tex because it is not a commercial program), then what happens to
+>>> a macro package that uses one of them.  For example, as has been mentioned,
+>>> it would be very nice if latex saved at least one generation of aux files.
+
+There are two ways for an administrator to bar the use of e-TeX extensions:
+
+   1) Not install it at all;
+   2) Install it such that the default behaviour is
+              that suggested by $ E-TeX &&NoExtensions.
+
+There is little we can do about (1) apart from try to convince such people
+that (a) it is 100% compatible, and (b) new and more powerful macro packages
+will increasingly come to depend in its availability for much of their
+enhanced functionality.
+
+But in the case of (2), I suggested in an earlier message that it should
+be essential that the user can always override the adminstrator; thus (in
+VMS-like terms), if the administrator has created a symbol as in:
+
+	$ E-TeX == "$TeX_Images:E-TeX.Exe &&NoExtensions"
+
+then the user should be able to override that by explicitly specifying
+
+	$ E-TeX &&MyPreferredExtensions ...
+
+The opposite, too, should obtain: the timid user must be able to turn off
+extensions which the adminstrator has provided by default:
+
+
+(S)	$ E-TeX == "$TeX_Images:E-TeX.Exe &&SiteDefaultExtensions"
+(U)	$ E-TeX &&NoExtensions ...
+
+[Michael continued]
+
+>>> Thus each writer of a macro package that uses \system will be obliged to
+>>> put in explicit code to test if certain primitives are allowed and
+>>> take reasonable action if not.  Thus things get more and more complicated
+>>> and it becomes even harder for an ordinary user to do these things.
+>>> Of course, that is what has happened to programming in general.
+
+But here, I think, such behaviour is eminently desirable; I whole-heartedly
+hope that we _can_ encourage (by example) macro package writers to write
+robust code which exploits the proposed environmental-enquiry facilities of
+e-TeX to ensure that their code is well-behaved regardless of environment
+(including TeX V\pi environments).
+
+					Philip Taylor, RHBNC
+
+========================================================================
+Date:         Tue, 6 Apr 93 21:34:10 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: "J%org Knappen" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      nts-l faq (first edition)
+
+
+I have tried to extract the essence out of the discussions happening here
+into some kind of `faq'. Here it is. Enjoy.
+
+J"org Knappen.
+8<-------------------------------------------------------------------------
+
+    Frequently Asked Questions of NTS-L
+
+First edition
+Date: 30-Mar-1993
+Currently maintained by: knappen@vkpmzd.kph.uni-mainz.de (J%org Knappen)
+
+Remark about the format:
+
+This faq is divided into several sections and subsections. Each section
+contains a subsection general with some idaes which have not yet been
+discussed. I added a date to some subsections to allow you to retrieve
+fuller discussions from the archives. The transactions of this group are
+archived on
+
+	ftp.th-darmstadt.de    [130.83.55.75] *)
+	directory pub/tex/documentation/nts-l
+
+Each file in this directory is named yymm, where (guess :-) yy is the
+year and mm is the month when the mail arrived. (I.e., all postings
+of one month are bundled in one file.)
+*) Avoid using the number above ... it is subject to changes.
+
+-1. Contents
+
+0. About NTS
+1. Proposed features of a New Typesetting system
+1.1. Improvement of Quality
+1.2. Internationality
+1.3. New Look and Feel
+2. Proposed additions to TeX (concrete new primitives)
+2.1. \lastmark etc.
+2.2. \system
+3. Metaremarks
+3.1. TeX is not perfect
+3.2. In which language shall NTS be written
+4. Deviations
+4.1. Automated Kerning
+
+0. About NTS (Mar 93, see also Jul 92)
+
+  At DANTE '93, held at the Technical University Chemnitz last week, Joachim
+  Lammarsch, President of Dante, announced that the NTS project which had been
+  started under the aegis of DANTE, was to be re-formed under a new
+  co-ordinator, Philip Taylor. The old core group, announced at the previous
+  annual DANTE meeting, was to be dissolved, and a new core group established.
+  Membership of the new core group will not be restricted to DANTE members,
+  but will instead be offered to various well-known names (and some
+  lesser-known!) in the international TeX community.
+
+  see also:
+  F. Mittelbach: E-TeX Guidelines for future TeX, TUGboat v11n3 (1990)
+  P. Taylor: The future of TeX, EuroTeX'92 Prag (Proceedings)
+
+1. Proposed features of a New Typesetting system
+
+1.1. Improvement of Quality
+
+1.1.0 General:
+  Optimised page breaking, avoiding ``rivers'', letterspacing (see also 4.1),
+  Hyphenation (Haupt- und Nebentrennstellen), grid typesetting
+
+1.1.1 Skyline approach to line breaking (Mar 93)
+
+You can break paragraphs as usual with the current model, where all
+lines are simple rectangular boxes.  If there's no necessity to insert
+\lineskip, then you don't have to look at the skyline.  Only if two
+lines are too near (e.g. distance<\lineskiplimit), you have to look
+into the two rectangular boxes and to check if the boxes inside
+overlap at one or more places.
+For the worst case (i.e., you have to look at the skyline for all
+pairs of lines) processing the skyline model consumes a lot of process
+time, but this shouldn't hinder us to test this idea and look at the
+results.
+
+Btw, the skyline model seems to be easy to implement in the current
+TeX, because we need only some changes when the finally broken lines
+of the paragraph are put on the vertical list.  There are more changes
+needed in the code, if the line break should be changed for the cases
+where it is possible to avoid an overlap with other break points, but
+IMHO it's nonetheless a relatively small change.
+
+1.2. Internationality
+
+1.2.0 General:
+  Typesetting in arbitrary directions, unicode support (16bits), ISO10646
+  support (32bits), ligatures pointing to other fonts, vertical kerning,
+  better accent handling (\topaccent and \botaccent)
+
+1.2.1 Supporting TeX--XeT primitives for right to left typesetting
+  TeX--XeT is an existing extension to TeX supporting right-to-left
+  typesetting an producing a usual dvi-file. TeX--XeT is written by
+  P. Breitenlohner and freely available. It is different from TeX-XeT
+  (one hyphen only)
+
+1.3. New Look and Feel
+
+1.3.0 General
+  Windows support, wysiwyg-like features
+
+1.3.1 Interaction with the operating system and other programmes
+  see 2.2. \system
+
+2. Proposed additions to TeX (concrete new primitives)
+
+2.0. General (Jun 92, Jul 92)
+  A rather long list of proposed primitives (more or less worked out) was
+  posted by Karl Berry on 10-Jun-1992. It contains suggestions like:
+  \elseif (selfexplaining), \format{foo} (allow the author to select a format),
+  \host{name} \host{os} \host{type} \getenv to extract host information
+  \TeXversion, \usertime, \everyeof, and others
+
+2.1. \lastmark etc. (Jun 92, Jul 92)
+  Currently you cannot remove a \write or \mark or
+  \insert or rule from any list at all. If we allow them to removed, how
+  will the commands appear to the user? If we have \lastmark like
+  \lastbox, then perhaps we need a mark data type so that we can say something
+  like \setmark0=\lastmark. It will probably be difficult
+  in the case of \insert's to think of a good command syntax.
+
+  Perhaps \lastpenalty, \lastkern, \lastskip should
+  remove the penalty, kern, skip, ... so that they are consistent with
+  \lastbox. Then \unpenalty, \unkern, and \unskip would be unnecessary.
+  (Of course most macro packages would probably want to reimplement them,
+  as macros: \def\unpenalty{\count@\lastpenalty},
+  \def\unkern{\dimen@\lastkern}, \def\unskip{\skip@\lastskip}.)
+
+2.2. \system (Mar 93)
+
+2.2.0 General
+  Oops, this got rather longish, but this topic has caused plenty of traffic.
+  I decided to quote directly the positions of both sides. The subpoints are
+  1. Pro 2. Contra 3. Syntax
+
+2.2.1 Pro
+  First comes the proposal as formulated by Phil Taylor:
+
+  There has been much discussion on how a \system primitive might interact with
+  different operating systems, each with different functionality and a different
+  syntax.  My idea was to extend the concept of a `TeX implementation', which at
+  the moment implies the creation and application of a change-file to the master
+  TeX source, to include an implementation-specific macro library.  Thus each
+  implementor, as well as creating and applying a change file, would also be
+  responsible for mapping a well-defined set of macros, through the \system
+  primitive, to the syntax and functionality of the operating system for which
+  he or she has assumed responsibility.  To cite a specific example:
+
+  Assume that in e-Lib (a hypothetical macro library to accompany e-TeX),
+  a macro \sys$delete_file {<parameters>} is partially defined; then each
+  implementor would be responsible for mapping \sys$delete_file {<parameters}>
+  to his or her own implementation of \system.  e-Lib would define the effect
+  and the result(s), \system would provide the interface, and the implementor
+  would be responsible for providing the mapping.
+
+  The question has been asked: ``Why via \system and macros?  Why not via
+  explicit primitives to carry out the various functions that are envisaged?''
+
+  To which I would suggest that the answer is ``Because `the various functions
+  which are envisaged' is both enormous (requiring many new primitives), and
+  yet not large enough (because no matter what functionality we posit, someone
+  will come up with an idea that has not been considered).''  By implementing
+  just one \system primitive, and an extensible e-Lib macro library, one can
+  create a robust and well-tested e-TeX whilst allowing new system interactions
+  to be added at the simplest points: through the implementation-independent and
+  implementation-specific components of e-Lib.
+
+2.2.2 Contra
+  And here's from the ``Minority Report'' (Tim Murphy and J"org Knappen)
+
+  May I recall the immortal words of Ken Thompson,
+  "A program should do one thing, and do it well." (TM)
+
+  I don't like the hackers to decide, making eTeX yet another programme from
+  which I can send e-mail and read news :-) Maybe people will tell me eTeX is
+  a fine operating system, but TeX version $\pi$ is the better typesetter :-)
+
+  But there is another side of \system, I want to call it the monstrosity
+  side. Many people are thinking now, that TeX is a monster and diffficult to
+  tame. \system will add to this monstrosity. It will create a new paradise
+  for hackers creating system hacks. And it will make people turn away from
+  eTeX and use other products, even if they are far less secure. (JK)
+
+2.2.3 Syntax
+  If a \system command is required, should it not have a similar syntax
+  and semantics to the a similar TeX command.  I can't think of anything
+  else in TeX (prepares to be shown wrong) that expands in the mouth and
+  has side-effects.  Should it not be like \read, \write etc. that is it
+  generates a whatsit that is obeyed at shipout, unless preceeded by an
+  \immediate, in which case it is done immediately by the stomach.
+  There seem to be two obvious syntaxes, one like \write:
+     \system{foo}  or  \immediate\system{foo}
+  and one like \read:
+     \system{foo} to \baz  or  \immediate\system{foo} to \baz
+  The latter one would produce the exit code into \baz.  Should this be
+  done with catcode 12 characters, or should it be done like \read, with
+  the current catcodes?
+
+
+3. Metaremarks
+
+3.0. General
+  Remarks about group efforts vs. one person creating software (Mar 93),
+  ALGOL 68 as a warning example
+
+3.1. TeX is not perfect (Jun 92, Jul 92)
+  The discussion has taken place in June and July 1992. Several details were
+  worked out, where TeX could be improved. Another point of criticism was
+  the programming language of TeX in general, several discutants prefer a
+  procedural language over a macro language.
+
+3.2. In which language shall NTS be written (Mar 93)
+  In 1992, there was much discussion, in which language an NTS should be
+  implemented (candidates were LISP, C, and WEB). This has settled in March
+  1993 (to PASCAL-WEB), because of the acceptance of the
+  idea that rather than wait for an ``all-singing, all dancing'' NTS, the
+  group should develop, in a stepwise manner, small but significant
+  enhancements to TeX. This implies that the enhancements are implemented as
+  change files in WEB.
+
+4. Deviations
+
+4.0. General
+  (empty)
+
+4.1. Automated Kerning (Oct 92)
+  Kindersley's "optical kerning": for the purposes of
+  kerning, each character is replaced by a circle centred on the centre of
+  gravity of that character; the radius of the circle is determined by the
+  fourth moment of the character (that is, the fourth root of the sum over
+  all black pixels of the fourth power of their distance from the centre). On
+  the UKTUG trip to Kindersley's studio, I tried to extract the reason why
+  the fourth, as opposed to third or fifth or whatever, moment is used; the
+  reason is apparently that it "looks right".
+
+  We can construct elaborate schemes for kerning (Kindersley's fourth
+  moments, FontStudio's (convex?) envelopes, Calamus' eight widths, etc), but
+  the proof of the typographical pudding is in the eating of the resulting
+  words, so to speak.
+
+The End.
+

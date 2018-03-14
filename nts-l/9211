@@ -1,0 +1,31 @@
+========================================================================
+Date:         Wed, 4 Nov 92 08:44:59 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@vm.urz.Uni-Heidelberg.de>
+From: Holger Poggel <gz115@HRZ.UNI-SIEGEN.DBP.DE>
+Subject:      Break-Algorithmn
+
+
+I'm new in NTS, but it seems to me, that the discussion ist to "atomistic" (or
+I'm member of the wrong discussion??).
+During a professional layout-project I think I've met some traps of TeX.
+My suggestions:
+A noninteractive system must be almost perfect in breaking lines and pages,
+especially in multicolumn-output, because it ist troublesome to change ugly
+pieces of text by hand. I have noted a long list of wishes, in which most
+items affects pagebreaks and vertical spacing (and hyphenation, but perfect
+hypenation in the german language will stay an impossible thing).
+For pagebreaking: isn't it possible, like TeX paragraph-breaking,
+to hold a buffer of text and delay the final break until a hard pagebreak
+is reached, for example at a the begin of a chapter?
+In my opinion, the most important matter is a transparent (!) (not penalty
+here and demerit there and obsession somewhere) high-level typesetting
+language, where I can say exactly what I want and which priority my wishes
+shall own. There are many impossible wishes, of course, but a clearly set
+of rules and requests can be observed, I'm sure.
+
+holger poggel
+university of siegen
+inst. for surface-engineering
+                                       instead of a silly and nebulous sentence
+
+

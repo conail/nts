@@ -1,0 +1,73 @@
+========================================================================
+Date:         Mon, 30 Aug 93 16:28:00 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: "J%org Knappen" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      Wanted new primitive: \currentinteractionmode
+
+Wanted new primitve: \currentinteractionmode
+
+In `Around the bent #8' (by MJD), \batchmode was used to suppress some
+very annoying and misleading error messages and switched off afterwards by
+\errorstopmode to show a wanted error message. However, this solution assumes,
+that the whole file is executed in errorstopmode, since there is no
+possibility to return to the original mode. However, this deficiency of TeX
+could be easily cured by a new primitive,
+\currentinteractionmode,
+which returns the current interaction mode. A construction like:
+\let\savedmode\currentinteractionmode
+\batchmode
+.....
+\savedmode
+would become possible than.
+
+Yours, J"org Knappen.
+
+P.S. In the same thread MJD watched the non-presence of an \afterfi
+primitive working analogously to \aftergroup; but I'm not clear about the
+implications of an \afterfi.
+
+========================================================================
+Date:         Mon, 30 Aug 93 17:23:35 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: Wanted new primitive: \currentinteractionmode
+In-Reply-To:  "J%org Knappen"'s message of Mon,
+              30 Aug 93 16:28:00 +0200
+              <9308301446.AA23896@ifi.informatik.uni-stuttgart.de>
+
+There are other useful primitives missing in TeX...
+
+Sometimes I have wished that there's a possibility to inquire the
+current mode of the TeX's mouth/gullet/stomach operation.
+
+E.g. I have wanted a conditional or primitive to signal, when TeX is
+in "expand only" mode (\edef, \mark, \write, ...), when TeX is
+scanning numbers (here I'm thinking---and hating---german.sty's active
+doublequote, which can also be used as a marker for hexadecimal
+numbers), when TeX is peeking for some special tokens (first column in
+an \halign), etc...
+
+
+
+My ideas about Joerg's \currentinteractionmode:
+
+Implement \currentinteractionmode as a normal integer register and
+assign numerical values to the different modes.  Then it is possible
+to group the mode (no need to save the current mode) and the current
+primitives can be implemented as global assignments to this register.
+(Very simple to implement, only small changes in tex.web needed.)
+
+
+> P.S. In the same thread MJD watched the non-presence of an \afterfi
+> primitive working analogously to \aftergroup; but I'm not clear about the
+> implications of an \afterfi.
+
+I think that he compares \if...\fi with a group {...} and he want's to
+use something like \if ...\afterfi\foo ...\fi which inserts the cs
+\foo after the "closing" \fi token.  (IMHO the \afterfi should be
+expandable, because \if...\fi is expandable.)  Perhaps an \afterfi can
+simplify some obscure mouth-only macros with nested conditionals???
+
+
+-Bernd Raichle
+

@@ -1,0 +1,1967 @@
+========================================================================
+Date:         Wed, 5 Jan 1994 11:08:40 LCL
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: TeX and Pascal
+
+From:          Randy Bush <psgrain!psgrain!not-for-mail@UUNET.UU.NET>
+(Posted to the Modula-2 discussion list:
+
+%>TeX was written in SAIL and then translated to Pascal for the book, with
+%>large amounts of groaning.  "You really mean one has to do *that* to get
+%>this simple construct?"
+%>--
+%>randy@psg.com   ...!uunet!m2xenix!randy
+%>
+
+Is this true?
+
+Mike Piff
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff, School of Mathematics and Statistics, University of %%
+%% Sheffield, UK.                    e-mail: M.Piff@sheffield.ac.uk %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 5 Jan 1994 11:23:21 +0000
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Robin Fairbairns <Robin.Fairbairns@CL.CAM.AC.UK>
+Subject:      Re: TeX and Pascal
+In-Reply-To:  Your message of "Wed,
+              05 Jan 94 11:08:40 -1100." <"swan.cl.cam.:268
+
+Mike Piff quotes Randy Bush saying:
+|> %>TeX was written in SAIL and then translated to Pascal for the book, with
+|> %>large amounts of groaning.  "You really mean one has to do *that* to get
+|> %>this simple construct?"
+
+TeX-in-SAIL and TeX-in-WEB are different objects (TeX-79 and TeX-82).
+There _was_ a book about TeX- and Metafont-79, so the assertion that the
+translation was done "for the book" is a little dodgy.
+
+r
+--
+Robin (Campaign for Real Radio 3) Fairbairns       rf@cl.cam.ac.uk
+U of Cambridge Computer Lab, Pembroke St, Cambridge  CB2 3QG, UK
+
+========================================================================
+Date:         Wed, 5 Jan 1994 12:31:24 LCL
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Re: TeX and Pascal
+
+%>To:            Mike Piff <M.Piff@sheffield.ac.uk>
+%>Cc:            Multiple recipients of list NTS-L <NTS-L@DHDURZ1.EARN>
+%>Subject:       Re: TeX and Pascal
+%>Date:          Wed, 05 Jan 94 11:23:21 +0000
+%>From:          Robin.Fairbairns@computer-lab.cambridge.ac.uk
+
+%>Mike Piff quotes Randy Bush saying:
+%>|> %>TeX was written in SAIL and then translated to Pascal for the book, with
+%>|> %>large amounts of groaning.  "You really mean one has to do *that* to get
+%>|> %>this simple construct?"
+%>
+%>TeX-in-SAIL and TeX-in-WEB are different objects (TeX-79 and TeX-82).
+%>There _was_ a book about TeX- and Metafont-79, so the assertion that the
+%>translation was done "for the book" is a little dodgy.
+%>
+%>r
+%>--
+%>Robin (Campaign for Real Radio 3) Fairbairns       rf@cl.cam.ac.uk
+%>U of Cambridge Computer Lab, Pembroke St, Cambridge  CB2 3QG, UK
+%>
+Thanks! I have forwarded your correction to the Modula-2 list.
+Mike
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff, School of Mathematics and Statistics, University of %%
+%% Sheffield, UK.                    e-mail: M.Piff@sheffield.ac.uk %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Wed, 5 Jan 1994 13:47:43 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Jan Michael Rynning <jmr@NADA.KTH.SE>
+Subject:      Re: TeX and Pascal
+In-Reply-To:  Mike Piff's message of Wed, 5 Jan 1994 11:08:40 LCL
+
+Randy Bush <psgrain!psgrain!not-for-mail@UUNET.UU.NET> wrote:
+> (Posted to the Modula-2 discussion list:
+>
+> TeX was written in SAIL and then translated to Pascal for the book, with
+> large amounts of groaning.  "You really mean one has to do *that* to get
+> this simple construct?"
+> --
+> randy@psg.com   ...!uunet!m2xenix!randy
+>
+
+Mike Piff <M.Piff@SHEFFIELD.AC.UK> wrote:
+> Is this true?
+
+No.  TeX in WEB (Pascal) is a complete rewrite and partly a redesign of
+the old TeX written in SAIL.  The old TeX lacked a lot of things, i.e.
+the ability to read and write extra files, so it couldn't have been used
+for implementing LaTeX.  I think Knuth's main reasons for rewriting TeX
+in Pascal was to make it portable, add news features, remove or change
+things which he thought he could do better, and clean up the code.  TeX
+files written for the old TeX-79, written in SAIL, can't be used with
+the new TeX-82, written in WEB, unless you make some changes to them.
+So, the user interface is not backwards compatible.  The format of DVI
+and font files is also completely different.
+
+Jan Michael Rynning                     Email: jmr@nada.kth.se
+Department of Numerical Analysis
+  and Computing Science                 Voice: +46-8-7906288
+Royal Institute of Technology           Fax: +46-8-7900930
+S-100 44 Stockholm
+Sweden                                  Normal host: jmr.nada.kth.se
+
+========================================================================
+Date:         Wed, 5 Jan 1994 20:16:00 +0200
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Joerg Knappen Uni-Mainz <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      \left ... \middle ... \right
+
+This is a small addendum to TeX and hopefully easy to implement:
+
+Generalize the syntax of \left<delimiter>  <formula> \right<delimiter>
+to allow one or more optional \middle delimiters,
+\left<delimiter> <formula> \middle<delimiter> <formula> \right<delimiter>.
+
+The middle delimiter grows to the same height as the left and right ones.
+Constructions of this kind are used throughout quantum mechanics (Dirac
+notation), e.g.
+$$
+\left\langle A  \middle| \hat{O} \middle| B \right\rangle
+$$
+
+It is possible to write clumsy macros using \vphantom's to get the output
+right, but I think an extension of TeX at this point would do better.
+
+Yours, J"org Knappen.
+
+========================================================================
+Date:         Sun, 9 Jan 1994 21:32:00 MEZ
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Werner Lemberg <A7621GAC@AWIUNI11.EDVZ.UNIVIE.AC.AT>
+Subject:      Unicode and TeX
+
+In Unicode, most of the (European) characters are composed, for example
+the TeX construct \'a{}:
+
+        LATIN SMALL LETTER A + NON-SPACING ACUTE (U+0061 + U+0301)  ,
+
+but it's possible to express the same with
+
+        LATIN SMALL LETTER A ACUTE (U+00E1)   .
+
+
+Now the question:
+
+should TeX have for composed characters with an own Unicode number an own
+character representation (like the Cork standard for most of them) or should
+all composed characters be built from the character components using a virtual
+font construction?
+
+I prefer the second way, because TeX's virtual fonts are powerful enough to
+handle this; these mappings should be hardwired in TeX (and the user can
+overwrite them if necessary) and save a lot of hard disk space; additionally,
+creating a new font is much more easier because of less character positions.
+
+Any comments or ideas ?
+
+Werner
+
+========================================================================
+Date:         Sun, 9 Jan 1994 21:53:19 MEZ
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Werner Lemberg <A7621GAC@AWIUNI11.EDVZ.UNIVIE.AC.AT>
+Subject:      What will be in the first release of NTS ?
+
+Are there any decisions already made what to implement first ?
+
+I would prefer more dynamic memory allocation (and more registers) and
+16bit characters.
+
+Werner
+
+========================================================================
+Date:         Mon, 10 Jan 1994 08:57:22 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: \left ... \middle ... \right
+In-Reply-To:  Joerg Knappen Uni-Mainz's message of Wed,
+              5 Jan 1994 20:16:00 +0200
+              <9401070927.AA27853@ifi.informatik.uni-stuttgart.de>
+
+> This is a small addendum to TeX and hopefully easy to implement:
+
+I think, that it is not easy to implement, because...
+
+Proposed commands:
+  \left \middle \right
+
+
+To make Joerg's proposal complete (ref. TeXbook, Chap. 17):
+
+  * add a new class ``Middle'' to the eight existing classes 0..7 for
+    \mathcode (e.g. existing classes: ``Opening'', ``Closing'', ...)
+
+    Which class number to usefor ``Middle''??  ``8''?
+    This will change the syntax for \mathcode, \mathchar,
+    \mathchardef, \delimiter, ...!!!
+    And mathcode class ``8'' is already used to mark an "active
+    character" in math mode.
+
+  * add appropriate spacings to the spacing table in this chapter
+    (this will be simple to implement!)
+
+  * other changes...
+
+Comments?
+
+Bernd Raichle
+
+========================================================================
+Date:         Mon, 10 Jan 1994 08:42:10 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: What will be in the first release of NTS ?
+In-Reply-To:  Werner Lemberg's message of Sun,
+              9 Jan 1994 21:53:19 MEZ
+              <9401092057.AA22560@ifi.informatik.uni-stuttgart.de>
+
+> Are there any decisions already made what to implement first ?
+
+No, because currently NTS is only an idea.
+
+
+Perhaps you thought about E-TeX, the extended TeX based on TeX.web?
+
+The same answer: no decision was made about what will be finally
+included in the first release of E-TeX (except that it will be based
+upon a fully TeX-compatible TeX--XeT).
+
+
+> I would prefer more dynamic memory allocation (and more registers) and
+> 16bit characters.
+
+IMHO this will be a topic for NTS, not for E-TeX, because it will need
+lot of changes in TeX's language/internal structures/Metafont/Fonts/
+Drivers/...
+
+Bernd Raichle
+member of the NTS core group
+
+========================================================================
+Date:         Mon, 10 Jan 1994 18:30:00 +0200
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Joerg Knappen Uni-Mainz <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      Re: \left ... \middle ... \right
+
+Oops, this was shocking, since I do not want to grasp that far. The only
+thing I want to have is that the automatic measuring mechanism implemented
+by \left ... \right is extended to include a \middle part. But Bernd is
+right, this middle part needs to belong to a math class. Depending on the
+meaning, there are two possibilies: \mathrel or \mathord. The plain TeX
+macros \bigm assigns \mathrel to the (of course exactly specified) growing
+delimiter, for some purposes one might prefer the tighter spaced version
+of \mathord.
+
+Proposal: By default, the \middle element is \mathrel, you can make it
+\mathord by embracing it {\middle |}.
+
+-- J"org Knappen.
+
+P.S. If we want to open the math classes for new candidates, there will be
+some. Ever thought of a right-to-left aequivalent to \radical ?
+
+========================================================================
+Date:         Wed, 19 Jan 1994 17:05:43 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Mariusz Olko <mariusz@THETA1.IFPAN.EDU.PL>
+Subject:      eTeX: Proposal for the dynamic codepage loading
+
+TeX provides a mechanism to map between the character set used in
+input files and its own internal character set.  This internal
+character set is what is used when accessing fonts.  Many
+implemenation allow to load a codepage during format generation.  It
+is than stored in the format file.  It is however impossible to
+process a document which has parts in different encodings (without
+special trics) or to have format generated as coding independent.
+
+Proposition for e-TeX:
+Provide a mechanism to load code page during run time.  I propose new
+command \codepage{name} which would load previously prepared codepage
+into TeX's |xchr| and |xord| arrays.
+
+Questions:
+
+Should |xchr| and |xord| arrays be dumped in format file by default ?
+Should codepage file format be system independent/portable?
+(in my opinion not)
+Syntax for the command
+
+
+
+Mariusz Olko
+
+========================================================================
+Date:         Wed, 19 Jan 1994 16:44:15 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Mariusz Olko <mariusz@THETA1.IFPAN.EDU.PL>
+Subject:      eTeX: Proposal for hyphenation patterns on demand
+
+TeX from version 3 offers a number of features to ease production in
+multilingual environments.  One of the features added is the
+possibility to switch between a set of hyphenation patterns.  The
+problem however is that those patterns must be precompiled in the
+format.  This makes it difficult to prepare a generic format that
+could be used with any language.  It makes it also difficult to
+distribute nonenglish/multilanguage documents, as you require the site
+to provide adequate format with apropriate patterns precompiled.
+
+Proposal for e-TeX:
+
+Provide a mechanism in e-TeX to dump hyphenation patterns alone and
+read them when needed.  The file should be textual so that it can
+contain additional information for the language/pattern set
+(lefthyphenmin, righthyphenmin etc.), could be easily processed
+by TeX written tools and could be portable as the style files are.
+
+
+I propose two new commands:
+
+\dumphtable{filename}  avaiable only in iniTeX. Dumps current contents
+of the hyphenation tables to the file.
+
+\loadhtable{filename}  appends hyphenation patterns from the file to
+hyphenation tables.  Requires that current language has no hyphenation
+patterns defined.  If the file contains patterns for more than one
+language, patterns should be stored in subsequent language slots.
+There should be a posibilty to test for the existence of the patterns
+file, so either the file should read from the same area as input files
+are we should have \interaction command as proposed by Bernd ready.
+This command would allow to build flexible macros loading patterns on
+demand.
+
+
+Implementation:
+When dumping one should write the contents of trie and trie_ops tables
+in some standard way as ASCII file of numbers.  When read the data
+from the table should be appended to the tables and linked together.
+
+
+Questions:
+Detailed behaviour in case of multiple sets of patterns dumped.
+Behaviour in case of tables overflow.
+Names for the commands.
+
+
+
+Waiting for comments
+
+Mariusz Olko
+
+========================================================================
+Date:         Thu, 20 Jan 1994 11:37:36 GMT
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Peter Breitenlohner <PEB@DMUMPIWH.BITNET>
+Organization: Max-Planck-Institut fuer Physik, Muenchen
+Subject:      what to implement in e-TeX
+
+About three month ago (on Oct 28, 1993 to be precise) I sent out a mail on
+this list asking for suggestions what to implement in e-TeX.  There was
+a lot of discussion on this and I apologize for my delayed reaction.
+
+Before going in any details some clarification: I was asking for suggestions
+for e-TeX (a short-term project), not for the long-term goal NTS and it was
+my understanding (not necessarily shared by all members of the NTS group)
+that this means extensions of "TeX: The program".  This excludes changes
+not only in, e.g., METAFONT and DVI drivers but also in the DVI, TFM, and
+PK file format.  Moreover the extensions should be implementable within the
+present WEB source of TeX with reasonable effort (remember e-TeX is intended
+to bridge the gap between TeX and some future NTS).  Obviously what reasonable
+means will depend on the "worthwileness" of an extension.
+
+I also did not ask for extensions of plain.tex (or latex.tex, ...), all this
+does not require e-TeX.
+
+Let me give some examples (strictly my personal opinions):
+1. Query the current status of user interaction in order to change and
+   later restore it.  This is already included in a pre-pre-version and
+   can be used, e.g., in the form:
+        \edef\x\{\the\interaction}\batchmode ....... \interaction=\x\relax
+2. Color (colour):  Certainly important for a future NTS.  For the moment
+   there are a) many open questions (what is it precisely we want to have),
+   b) can not be done without changing drivers, fonts, DVI format, ...
+   => beyond the scope ot e-TeX.
+3. Unlimited of all sorts (chars per font, fonts, math families, ...)
+   May require very extensive changes and might therefore destroy the
+   robustness of TeX => not for e-TeX.
+4. Unlimited number of fontdimens: already present in todays TeX, subject
+   to storeage and file size limitations.
+
+There were quite some suggestions that are serious candidates that need to
+be evaluated.  Let me mention here just a few of them:
+-  do the kerning after ligatures have been built such that a kern preceding
+   a ligature depends on the final ligature character and not the first
+   character it was built from
+-  a \textcode analogous to \mathcode (probably including pseudo-active
+   characters)
+-  a possibility to detect whether TeX is currently expanding an \edef/\xdef
+   or a \write or ...
+-  a possibility to convert a token list and/or input characters (or rather
+   ASCII codes) not yet converted to tokens into a list ASCII codes that
+   can be tokenized later on (typically with different \catcode tables)
+-  a \system command ???  Do we really want a command that allows a malicious
+   TeX input file to cause that all files of a user are erased?  If we need
+   some restrictions as safeguards then which ones?
+
+... to be continued
+
+peter breitenlohner
+
+========================================================================
+Date:         Thu, 20 Jan 1994 17:04:26 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Joerg Knappen Uni-Mainz <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      FAQ, third edition
+
+    Frequently Asked Questions of NTS-L
+
+Third edition
+Date: 20-JAN-1994
+Currently maintained by: knappen@vkpmzd.kph.uni-mainz.de (J%org Knappen)
+
+Remark about the format:
+
+This faq is divided into several sections and subsections. Each section
+contains a subsection general with some ideas which have not yet been
+discussed. I added a date to some subsections to allow you to retrieve
+fuller discussions from the archives. The transactions of this group are
+archived on
+
+        ftp.th-darmstadt.de    [130.83.55.75] *)
+        directory pub/tex/documentation/nts-l
+
+Each file in this directory is named yymm, where (guess :-) yy is the
+year and mm is the month when the mail arrived. (I.e., all postings
+of one month are bundled in one file.)
+*) Avoid using the number above ... it is subject to changes.
+
+-1. Contents
+
+0. About NTS
+1. Proposed features of a New Typesetting system
+1.1. Improvement of Quality
+1.2. Internationality
+1.3. New Look and Feel
+1.4. Changing the ligaturing algorithm
+2. Proposed additions to TeX (concrete new primitives)
+2.1. \lastmark etc.
+2.2. \system
+2.3. \skylineskiplimit, \skylinehorizontallimit
+2.4. \directioncode
+2.5. \textcode
+2.6. \afterfi
+2.7. \interactionmode
+2.8. \mathspacing
+2.9. \inputescapechar
+2.10. \middle
+2.11. \outputunit
+3. Metaremarks
+3.1. TeX is not perfect
+3.2. In which language shall NTS be written
+3.3. The TeX language
+3.4. The TeX engine
+4. Deviations
+4.1. Automated Kerning
+4.2. About Lout
+5. Proposed changes to METAFONT
+5.1. Writing to auxiliary files
+6. Proposed changes to the tfm file format
+6.1. Vertical kerning
+6.2. Cross-font ligatures
+7. Proposed changes to the dvi file format
+
+0. About NTS (Mar 93, see also Jul 92)
+
+  At DANTE '93, held at the Technical University Chemnitz last week, Joachim
+  Lammarsch, President of Dante, announced that the NTS project which had been
+  started under the aegis of DANTE, was to be re-formed under a new
+  co-ordinator, Philip Taylor. The old core group, announced at the previous
+  annual DANTE meeting, was to be dissolved, and a new core group established.
+  Membership of the new core group will not be restricted to DANTE members,
+  but will instead be offered to various well-known names (and some
+  lesser-known!) in the international TeX community.
+
+  see also:
+  F. Mittelbach: E-TeX Guidelines for future TeX, TUGboat v11n3 (1990)
+  P. Taylor: The future of TeX, EuroTeX'92 Prag (Proceedings); reprinted
+  in TUGboat v13n4, 433 (1992)
+
+1. Proposed features of a New Typesetting system
+
+1.1. Improvement of Quality
+
+1.1.0 General:
+  Optimised page breaking, avoiding ``rivers'', letterspacing (see also 4.1),
+  Hyphenation (Haupt- und Nebentrennstellen), grid typesetting
+
+1.1.1 Skyline approach to line breaking (Mar 93)
+
+You can break paragraphs as usual with the current model, where all
+lines are simple rectangular boxes.  If there's no necessity to insert
+\lineskip, then you don't have to look at the skyline.  Only if two
+lines are too near (e.g. distance<\lineskiplimit), you have to look
+into the two rectangular boxes and to check if the boxes inside
+overlap at one or more places.
+For the worst case (i.e., you have to look at the skyline for all
+pairs of lines) processing the skyline model consumes a lot of process
+time, but this shouldn't hinder us to test this idea and look at the
+results.
+
+Btw, the skyline model seems to be easy to implement in the current
+TeX, because we need only some changes when the finally broken lines
+of the paragraph are put on the vertical list.  There are more changes
+needed in the code, if the line break should be changed for the cases
+where it is possible to avoid an overlap with other break points, but
+IMHO it's nonetheless a relatively small change.
+
+Additionally you have to introduce some new parameters.  I think of
+something like:
+        \skylineskiplimit    (b)
+                minimum vertical distance between two boxes
+        \skylinehorizontallimit   (a)
+                minimum horizontal distance
+
+
+line 1:       ------------
+        |     |
+        |     |             ----------
+        ------- <== (a) ==> |        |
+           ^                |        |
+          (b)               |        -------
+           v                |
+       ----------------------
+line 2:
+
+and other parameters, but the necessary parameter set, realization,
+etc. for "skylines" are subject of discussion.
+
+
+1.2. Internationality
+
+1.2.0 General:
+  Typesetting in arbitrary directions, unicode support (16bits), ISO10646
+  support (32bits), ligatures pointing to other fonts, vertical kerning,
+  better accent handling (\topaccent and \botaccent)
+
+1.2.1 Supporting TeX--XeT primitives for right to left typesetting
+  TeX--XeT is an existing extension to TeX supporting right-to-left
+  typesetting an producing a usual dvi-file. TeX--XeT is written by
+  P. Breitenlohner and freely available. It is different from TeX-XeT
+  (one hyphen only).
+  Allthough TeX will be frozen at version $\pi$, this is not true for TeX--XeT.
+
+1.3. New Look and Feel
+
+1.3.0 General
+  Windows support, wysiwyg-like features
+
+1.3.1 Interaction with the operating system and other programmes
+  see 2.2. \system
+
+1.4. Changing the ligaturing algorithm
+  Replace the (IMHO over-)optimized ligature builder/kerning routines in
+  TeX by routines which separate between the building of ligatures and
+  the insertion of kerns between the characters/ligatures.
+
+  This can be realized in a simple way by using two passes: in the
+  first pass the ligatures are built and in the second pass the
+  resulting ligatures and remaining single characters are used to
+  determine the necessary kerns.
+
+  To ensure compatibility between e-TeX and TeX, it will be possible to
+  switch between the new and the current behaviour.
+
+  Additionally a flag in the TFM file of each font can be used to
+  specify which behaviour is to be used for the font.  This ensures that
+  "old" fonts with some tricky ligature/kerning programs depending on
+  the old behaviour can still be used with e-TeX.  (I don't know if this
+  font dependent switching is really necessary.  Comments, please!!)
+
+  Example:
+
+  A font contains the following ligatures and kerns:
+
+        o "             => ligature (o")  (= \"{o})
+        V o             => kern(-smallkern)
+        V lig(o")       => nothing
+
+  Input:        V o "
+  Output of current TeX:        V kern(-smallkern) ligature(o")
+  Output with change:           V                  ligature(o")
+
+  Status:
+
+  Bernd Raichle has written a simple, but running reimplementation of TeX's
+  ligature/kerning routine (in CommonLisp), which still waits to be
+  rewritten as a TeX.web change file.
+  The ligature builder/kerning routine is realized in one pass; kerns
+  are introduced in a delayed manner, i.e., after we are sure that
+  there's no possibility for a ligature.
+  Additionally there's a switch between the current TeX and the new
+  behaviour.  (The TRIP test fails with the new behaviour.)
+
+PS: IMHO the ligature/kerning routines should be further changed to
+  remove the `shelf{}ful' anomaly (see TeXbook, exercise 5.1), i.e.,
+  reinserting ligatures when words are hyphenated.
+  The change should allow ligatures for inputs like `f{}f' or
+  `f\relax f', which will simplify the macros in `german.sty',
+  Babel and changed macros for \", \', ... which are used to select
+  characters from DC fonts or other fonts with national characters.
+
+2. Proposed additions to TeX (concrete new primitives)
+
+2.0. General (Jun 92, Jul 92, Aug 93)
+  A rather long list of proposed primitives (more or less worked out) was
+  posted by Karl Berry on 10-Jun-1992. It contains suggestions like:
+  \elseif (selfexplaining), \format{foo} (allow the author to select a format),
+  \host{name} \host{os} \host{type} \getenv to extract host information
+  \TeXversion, \usertime, \everyeof, and others.
+
+  It is currently not possible to get some information about the current
+  mode of TeX and make conditionals dependent on it and/or restore it after
+  some action (see 2.7. \interactionmode)
+
+  More of this kind are a conditional or primitive to signal, when TeX is
+  in "expand only" mode (\edef, \mark, \write, ...), when TeX is
+  scanning numbers (here I'm thinking---and hating---german.sty's active
+  doublequote, which can also be used as a marker for hexadecimal
+  numbers), when TeX is peeking for some special tokens (first column in
+  an \halign), etc...
+
+2.1. \lastmark etc. (Jun 92, Jul 92)
+  Currently you cannot remove a \write or \mark or
+  \insert or rule from any list at all. If we allow them to removed, how
+  will the commands appear to the user? If we have \lastmark like
+  \lastbox, then perhaps we need a mark data type so that we can say something
+  like \setmark0=\lastmark. It will probably be difficult
+  in the case of \insert's to think of a good command syntax.
+
+  Perhaps \lastpenalty, \lastkern, \lastskip should
+  remove the penalty, kern, skip, ... so that they are consistent with
+  \lastbox. Then \unpenalty, \unkern, and \unskip would be unnecessary.
+  (Of course most macro packages would probably want to reimplement them,
+  as macros: \def\unpenalty{\count@\lastpenalty},
+  \def\unkern{\dimen@\lastkern}, \def\unskip{\skip@\lastskip}.)
+
+2.2. \system (Mar 93)
+
+2.2.0 General
+  Oops, this got rather longish, but this topic has caused plenty of traffic.
+  I decided to quote directly the positions of both sides. The subpoints are
+  1. Pro 2. Contra 3. Syntax
+
+2.2.1 Pro
+  First comes the proposal as formulated by Phil Taylor:
+
+  There has been much discussion on how a \system primitive might interact
+  with different operating systems, each with different functionality and a
+  different syntax.  My idea was to extend the concept of a `TeX
+  implementation', which at the moment implies the creation and application
+  of a change-file to the master TeX source, to include an implementation-
+  specific macro library.  Thus each implementor, as well as creating and
+  applying a change file, would also be responsible for mapping a well-defined
+  set of macros, through the \system primitive, to the syntax and
+  functionality of the operating system for which he or she has assumed
+  responsibility.  To cite a specific example:
+
+  Assume that in e-Lib (a hypothetical macro library to accompany e-TeX),
+  a macro \sys$delete_file {<parameters>} is partially defined; then each
+  implementor would be responsible for mapping \sys$delete_file {<parameters}>
+  to his or her own implementation of \system.  e-Lib would define the effect
+  and the result(s), \system would provide the interface, and the implementor
+  would be responsible for providing the mapping.
+
+  The question has been asked: ``Why via \system and macros?  Why not via
+  explicit primitives to carry out the various functions that are envisaged?''
+
+  To which I would suggest that the answer is ``Because `the various functions
+  which are envisaged' is both enormous (requiring many new primitives), and
+  yet not large enough (because no matter what functionality we posit, someone
+  will come up with an idea that has not been considered).''  By implementing
+  just one \system primitive, and an extensible e-Lib macro library, one can
+  create a robust and well-tested e-TeX whilst allowing new system interactions
+  to be added at the simplest points: through the implementation-independent
+  and implementation-specific components of e-Lib.
+
+2.2.2 Contra
+  And here's from the ``Minority Report'' (Tim Murphy and J"org Knappen)
+
+  May I recall the immortal words of Ken Thompson,
+  "A program should do one thing, and do it well." (TM)
+
+  I don't like the hackers to decide, making eTeX yet another programme from
+  which I can send e-mail and read news :-) Maybe people will tell me eTeX is
+  a fine operating system, but TeX version $\pi$ is the better typesetter :-)
+
+  But there is another side of \system, I want to call it the monstrosity
+  side. Many people are thinking now, that TeX is a monster and difficult to
+  tame. \system will add to this monstrosity. It will create a new paradise
+  for hackers creating system hacks. And it will make people turn away from
+  eTeX and use other products, even if they are far less secure. (JK)
+
+2.2.3 Syntax
+  If a \system command is required, should it not have a similar syntax
+  and semantics to the a similar TeX command.  I can't think of anything
+  else in TeX (prepares to be shown wrong) that expands in the mouth and
+  has side-effects.  Should it not be like \read, \write etc. that is it
+  generates a whatsit that is obeyed at shipout, unless preceded by an
+  \immediate, in which case it is done immediately by the stomach.
+  There seem to be two obvious syntaxes, one like \write:
+     \system{foo}  or  \immediate\system{foo}
+  and one like \read:
+     \system{foo} to \baz  or  \immediate\system{foo} to \baz
+  The latter one would produce the exit code into \baz.  Should this be
+  done with catcode 12 characters, or should it be done like \read, with
+  the current catcodes?
+
+2.3. \skylineskiplimit, \skylinehorizontallimit
+  see section 1.1.1
+
+2.4. \directioncode (May 1993)
+ A \directioncode (with syntax analogous to \uccode, \lccode, sfcode) to be
+ assigned to each input character. The basic ones are
+  0 -- transparent (space, full stop...)
+  1 -- left-to-right (latin letters, digits...)
+  2 -- right-to-left (hebrew letters, arab letters...),
+ a truly international NTS will also have codes for vertical typesetting
+ and some special cases.
+
+ The question is how to use this idea consistently. One could extend the
+ notion of TeX's modes. Horizontal mode is in fact left-to-right mode, a
+ right-to-left mode is missing. To be complete, this mode will be equipped
+ with boxen and all the stuff TeX's left-to-right (aka horizontal) mode has.
+
+ At the beginning of a paragraph NTS decides which mode to choose by the
+ \directioncode of the first input character. Sometimes the first character
+ will have the wrong code, in this case the insertion of an explicit
+ control sequence (like \lrbox{}) is necessary. If a character with another
+ directioncode occurs, NTS starts a \rlbox and finishes it as soon as a
+ character with the original \directioncode appears or at the end of the
+ paragraph.
+
+  For the building of right-to-left tables a \rlalign is needed.
+
+2.5. \textcode (Sep 93, Nov 93)
+ Some of the character coding discussions in the Technical Working
+ Group on Multiple Language Coordination and some experiences I've made
+ with `german.sty' (specially the problems with an active doublequote
+ and hex integer constants!) lead to this _incomplete_ proposal/idea
+ for the following addition:
+   Introduce something like
+        \textcode       (and \textchar & \textchardef)
+ which are the text (hmode) equivalent of TeX's \mathcode (and
+ \mathchar/\mathchardef) primitives.
+
+ With an equivalent and appropriate implemented \textcode primitive
+ (with the choice to define a character as "pseudo-active"), it would
+ be possible to
+        * relate characters to different fonts
+          (using a generalized `fam' of \mathcode)
+
+        * suppress expansion of active characters (it will only be
+          expanded, if it is read to form the hlist)
+          (using an equivalent \mathcode="8000 value)
+          [This point allows the use of e.g. a pseudo-active "
+          which expands to non-expandable tokens and it removes
+          the special construct \relax\ifmmode... for active
+          characters, too.]
+
+2.6. \afterfi (August 1993)
+ In the answer to an exercise of the ``Around the Bend'' series, Michael Downes
+ realised the non-existence of an \afterfi primitive (Note: He did not
+ demand it nor really miss it). Perhaps an \afterfi can
+ simplify some obscure mouth-only macros with nested conditionals???
+ (IMHO the \afterfi should be expandable, because \if...\fi is expandable.)
+
+2.7. \interactionmode   (Nov 93, was: \currentinteractionmode)
+  Add a new count register \interactionmode, which reflects the user
+  interaction level with the following values:
+        <= 0    batch_mode
+         = 1    nonstop_mode
+         = 2    scroll_mode
+        >= 3    error_stop_mode
+
+  The commands \batchmode...\errorstopmode, the "options" 'Q', 'R', 'S'
+  in the interactive error routine and all other TeX internal
+  interaction level changes (e.g. after an interruption) access this new
+  register.  The level changes in the interactive error routine and the
+  old commands should always work, even if the symbol \interactionmode is
+  redefined (this means that the user can redefine \interactionmode, but the
+  commands \batchmode...\errorstopmode still work).
+
+  Examples:
+
+   \ifnum\interactionmode<1 \AskUser \else \UseDefault \fi
+
+  {\interactionmode=0            % switch to \batchmode
+   \global\font\test=xyz10   % try to load font
+  }%                         % restore former interaction level
+  % ... now test if font has been loaded
+  %      without error (i.e. != nullfont)
+
+  Status:
+
+  Bernd Raichle has made and implemented the necessary changes in his local
+  TeX version.  They have to be tested and checked for forgotten things.
+
+2.8. \mathspacing (Nov 93)
+  Add a new count register array \mathspacing with 64 entries (we really
+  need only 64-8=56 entries, because some of them are never used, but to
+  simplify things 64 are used) with the following syntax:
+
+   \mathspacing <num1>=<num2>           %  0 <= <num1> <= 63
+
+  The spacing specified in number <num2> is inserted between the two
+  math atom types specified in number <num1>.  The two numbers are coded
+  as
+
+  <num1> = <left_atom_type> * 8 + <right_atom_type>
+  <num2> = ( (<display_spacing> * 256 + <text_spacing>) * 256
+                 + <script_spacing> ) * 256 + <scriptscript_spacing>
+
+  This means that <num1> is easily expressed in octal and <num2> in
+  hexadecimal notation.
+
+  <..._atom_type> is one of the following seven types:
+
+  0 ordinary            1 large operator
+  2 binary operation    3 relation
+  4 opening             5 closing
+  6 punctuation         7 delimited subformula
+
+  <..._spacing> can be specified separately for each of the four math
+  styles (display, text, script and scriptscript) with the following
+  values:
+
+        0       no space
+        1       thin space      (specified by \thinmuskip)
+        2       medium space    ( -- " -- \medmuskip)
+        3       thick space     ( -- " -- \thickmuskip)
+
+        4-255   reserved for other things
+                (e.g. other spacings and/or additional penalties,
+                like \relpenalty, \binoppenalty, ...)
+
+  For more information see TeXbook, pp. 170f & Appendix G and TeX--The
+  Program, \S 764ff.
+
+  Examples:  (using TeX's standard spacing)
+
+  Between an `ordinary' (= 0) and a `relation' (= 3) atom a thick
+  space (= 3) is inserted, but not in script or scriptscript style.
+
+        \mathspacing '03 = "0033
+
+  Between a large operator (= 1) and an ordinary (= 0) atom a thin
+  space (= 1) is inserted:
+
+        \mathspacing '10 = "1111
+
+  Status:
+
+  Necessary changes for the sketched proposal are very simple to
+  implement.
+  The syntax of \mathspacing is awful, but this is true for \mathcode,
+  \delimitercode, etc.etc., too.
+
+2.9. \inputescapechar (Nov 93, alternative names were proposed during
+  discussion)
+  Use two new internal count registers \inputescapechar and
+  \outputescapechar to specify the "escape" character to be used for
+  unprintable characters.
+  If \inputescapechar is not in [0..255], TeX's behaviour is used,
+  i.e., two equal characters with category 7 are used as a prefix for a
+  ^^x notated character, otherwise two characters with code
+  \inputescapechar are used for this prefix.
+  If \outputescapechar is not in [0..255], the character `^' is used
+  when an unprintable character has to be written.
+
+  The default values of these two registers are
+    \inputescapechar  = -1
+    \outputescapechar = `^
+  to be compatible with TeX's standard behaviour.
+
+  Problems:
+
+  What's the behaviour of e-TeX when the \outputescapechar is
+  unprintable for this TeX implementation (remember that it is only
+  necessary that a subset of ASCII is printable; more in TeXbook, end of
+  Appendix C), e.g.,
+     \outputescapechar=`^^M
+  Do we really want to make this possible?  How to prevent such
+  situations (e.g. by restricting the values of \outputescapechar to a
+  subset of ASCII, which is printable for all TeX implementations)?
+
+  Relation between \newlinechar and \outputescapechar?
+  IMO \outputescapechar (and all other characters in the ^^x notation
+  for an unprintable character) should never result in a written
+  newline, which is TeX's behaviour for versions >= 3.141.
+
+  Status:
+
+  The necessary changes are simple (for TeX version >= 3.141).  I have
+  made changes for \outputescapechar in my local TeX version to allow
+  the specification of all printable characters in a "TeX code page"
+  definition (the \outputescapechar register changes are the only thing
+  needed to complete the change).
+  The problems mentioned above have to be discussed before e-TeX can
+  contain this extension.
+
+2.10. \middle (Jan 94)
+  Generalize the syntax of \left<delimiter>  <formula> \right<delimiter>
+  to allow one or more optional \middle delimiters,
+  \left<delimiter> <formula> \middle<delimiter> <formula> \right<delimiter>.
+
+  The middle delimiter grows to the same height as the left and right ones.
+  Constructions of this kind are used throughout quantum mechanics (Dirac
+  notation), e.g.
+  $$
+  \left\langle A  \middle| \hat{O} \middle| B \right\rangle
+  $$
+  By default, the \middle element is \mathrel, you can make it
+  \mathord by embracing it {\middle |}.
+
+
+2.11. \outputunit (Dec 93)
+  \outputunit       unit to be used when e-TeX shows some dimen or glue
+                    value
+  Usage: \outputunit=<unit of measure>       (s. TeXbook p. 270)
+  Rationale:
+
+  Currently TeX forces the user to think in points when it outputs any
+  dimen or glue value (e.g. when issueing an overfull hbox warning).
+  But a program should adapt to the conventions of the user instead the
+  other way round. The addition of \outputunit whould make TeX much
+  more user-friendly, since only a few people are thinking in points.
+
+3. Metaremarks
+
+3.0. General
+  Remarks about group efforts vs. one person creating software (Mar 93),
+  ALGOL 68 as a warning example
+
+3.1. TeX is not perfect (Jun 92, Jul 92)
+  The discussion has taken place in June and July 1992. Several details were
+  worked out, where TeX could be improved. Another point of criticism was
+  the programming language of TeX in general, several participants prefer a
+  procedural language over a macro language.
+
+3.2. In which language shall NTS be written (Mar 93)
+  In 1992, there was much discussion, in which language an NTS should be
+  implemented (candidates were LISP, C, and WEB). This has settled in March
+  1993 (to PASCAL-WEB), because of the acceptance of the
+  idea that rather than wait for an ``all-singing, all dancing'' NTS, the
+  group should develop, in a stepwise manner, small but significant
+  enhancements to TeX. This implies that the enhancements are implemented as
+  change files in WEB.
+
+3.3. The TeX language (Oct/Nov 93)
+  The TeX language is a simple language in the sense, that it contains only
+  few concepts. It belongs to the Lisp family. In particular, it's a
+  list-based macro language with late binding. Actually, that's all one
+  needs to say to characterize it.
+  Its data constructs are simpler than in Common Lisp: `token list' is the
+  only first order type. Glue, boxes, numbers, etc., are engine
+  concepts; instances of them are described by token lists.
+  Its lexical analzsis is simpler than CL: One cannot program
+  it. One can only configure it.
+  Its control constructs are simpler than in CL: Only macros, no
+  functions. And the macros are only simple ones, one can't compute
+  in them.
+
+3.4. The TeX engine (Oct/Nov 93)
+  The TeX engine lies below the TeX language. Glue, boxes, numbers, etc.
+  belong to the TeX engine. The registers of the engine can be changed
+  by TeX's primitives. However, those seem to be quite unregular and
+  baroque.
+
+4. Deviations
+
+4.0. General
+  (empty)
+
+4.1. Automated Kerning (Oct 92)
+  Kindersley's "optical kerning": for the purposes of
+  kerning, each character is replaced by a circle centred on the centre of
+  gravity of that character; the radius of the circle is determined by the
+  fourth moment of the character (that is, the fourth root of the sum over
+  all black pixels of the fourth power of their distance from the centre). On
+  the UKTUG trip to Kindersley's studio, I tried to extract the reason why
+  the fourth, as opposed to third or fifth or whatever, moment is used; the
+  reason is apparently that it "looks right".
+
+  We can construct elaborate schemes for kerning (Kindersley's fourth
+  moments, FontStudio's (convex?) envelopes, Calamus' eight widths, etc), but
+  the proof of the typographical pudding is in the eating of the resulting
+  words, so to speak.
+
+4.2 About Lout (June 1993)
+ In June 1993, the new system Basser Lout caused several questions and
+ suggestions on this list. The following is taken from a short review
+ of Lout by Bernd Raichle:
+
+ `Lout' is a (yet another) document formatting system, released under
+ the terms of the GNU General Public License and available on some ftp
+ servers.
+
+ IMHO it's more like a `troff' (with a better input language and some
+ newer concepts) than a `TeX'.
+
+ A few citations from the documentation of lout:
+
+   Lout is a high-level language for document formatting, designed and
+   implemented by the author.  The implementation, known as Basser
+   Lout, is a fully operational production version written in C for the
+   Unix operating system, which translates Lout source code into
+   PostScript, a device-independent graphics rendering language
+   accepted by many high-resolution output devices, including most
+   laser printers.
+ [...]
+   When expert users can implement such applications quickly,
+   non-experts benefit.  Although Lout itself provides only a small
+   kernel of carefully chosen primitives,
+
+ Lout has 23 primitive operators... missing, for example, the simplest
+ arithmetical operators (there is only the operator "@Next" which
+ increases a number by one).
+
+   packages written in Lout and distributed with Basser Lout provide an
+   unprecedented array of advanced features in a form accessible to
+   non-expert users.  The features include rotation and scaling, fonts,
+
+ These features are mostly based on the output language... Postscript
+ (if you are looking inside a Lout package, you find large portions of
+ embedded Postscript code).
+
+   paragraph and page breaking,
+
+ TeX does a better job for these two items, because Lout is missing
+ most of TeX's paragraph/page breaking parameters.  (Note: Lout uses
+ TeX's hyphenation algorithm and the hyphenation patterns.)
+
+   displays and lists, floating figures and tables, footnotes, chapters
+   and sections (automatically numbered), running page headers and
+   footers, odd-even page layouts, automatically generated tables of
+   contents, sorted indexes and reference lists, bibliographic and
+   other databases (including databases of formats for printing
+   references), equations, tables, diagrams, formatting of Pascal
+   programs, and automatically maintained cross references.
+
+ TeX's math setting abilities are better.  Lout uses a package named
+ `eq' derived from the `eqn' preprocessor used with `troff'.  And there
+ are other packages named `tab' (for tabulars) and `fig' (drawing
+ figures).
+
+ [...]
+   Lout is organized around four key concepts -- objects, definitions,
+   galleys, and cross references -- [...]
+
+ The concept of `galleys' and the "expansion" of recursive defintions
+ are IMHO the only new concept in Lout:
+
+ `galleys' are a way to describe a page, dividing it in certain regions
+ which can be filled from different sources (e.g. a footnote galley is
+ filled with footnote text, etc.).
+
+ Recursive definitions are very simple, e.g.
+        def @Leaders { ..   @Leaders }
+ defines the command (Lout calls it `object') to "expand" to a `..' and
+ if there is place for another "expansion" it is called again.
+
+ For example
+        \hbox to 4in{Chapter 7 \dotfill 53}
+ is in Lout
+        4i @Wide { Chapter 7  @Leaders  53 }
+
+ With this recursive definitions, a whole document is defined as a
+ @PageList consisting of a @Page and a @PageList with an incremented
+ @PageNum.  A @Page is defined as a set of `galleys' (header, text
+ body, footnotes, footer), which are also defined as a list of
+ text/footnotes/... and so on.
+
+ Perhaps others can add more impressions, mine are based on the
+ documentation coming with the Lout package and some tests done in
+ 1-2 hours.
+
+5. Proposed changes to METAFONT
+
+5.O. General
+  Most of the General points in the discussion of TeX also apply to METAFONT.
+
+5.1. Writing to auxiliary files
+  METAFONT should be able to write to auxiliary files. Desparately needed
+  for packages which allow to draw figures in METAFONT and label them in TeX
+  (BoF session at EuroTeX '92, Prague).
+
+
+6. Proposed changes to the tfm file format
+
+6.1. Vertical kerning (Jun 92)
+   This may sound exotic to you, but the AFM format can do
+   it. And I desperately need it for non-Latin alphabets (everytime I need
+   a character in a ligature raised or lowered, I have to reserve a position
+   in the font for it).
+
+6.2. Cross-font ligatures (Jun 92)
+   Ligatures pointing to other fonts!! Yes, imagine for example that your
+   256 chars are full, you could still access characters by ligatures...but
+   they have to be in the same font.
+
+7. Proposed changes to the dvi file format
+
+7.0. General
+  A longer discussion about colour inclusion into the dvi-file occured in
+  Oct/Nov 93. The outcome was, that high-quality colour handling is a difficult
+  and device dependent task, better left to the printer driver. Colour can be
+  handled by the \special command which is sent directly to the driver.
+
+The End.
+
+========================================================================
+Date:         Thu, 20 Jan 1994 17:35:04 +0000
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: FAQ, third edition
+In-Reply-To:  <01H7WVOD2KQA006RUS@mailgate.ucd.ie> from "Joerg Knappen
+              Uni-Mainz" at Jan 20, 94 05:04:26 pm
+
+>
+>     Frequently Asked Questions of NTS-L
+
+Couldn't this be made more readable?
+(I'm referring to the bizarre hyphenation with '='s,
+not the content.)
+
+It doesn't give a very good impression
+for a list devoted to good typesetting!
+
+========================================================================
+Date:         Thu, 20 Jan 1994 18:51:31 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+Subject:      Re: FAQ, third edition
+In-Reply-To:  <199401201741.AA26905@rs3.hrz.th-darmstadt.de> from "Timothy
+              Murphy" at Jan 20, 94 05:35:04 pm
+
+You wrote:
+>
+> >     Frequently Asked Questions of NTS-L
+>
+> Couldn't this be made more readable?
+> (I'm referring to the bizarre hyphenation with '='s,
+> not the content.)
+
+This seems to be a transmission problem; the copy in the archive does
+not have any hyphenations and `=' characters are only (and correctly)
+used in TeX examples and in formulas.
+
+> It doesn't give a very good impression
+> for a list devoted to good typesetting!
+
+A *BIG* `thank you' to Joerg; it's a a lot of work to scan old
+articles and compressing them in a FAQ. IMO it gives a very good
+impression for this list since most *mailing* lists don't have any
+FAQ at all. At least, I was happy to see such a summary.
+
+        Joachim
+
+--
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Joachim Schrod                  Email: schrod@iti.informatik.th-darmstadt.de
+Computer Science Department
+Technical University of Darmstadt, Germany
+
+========================================================================
+Date:         Thu, 20 Jan 1994 13:59:22 -0500
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Michael Downes <MJD@MATH.AMS.ORG>
+Subject:      macro debugging extension
+
+Here is a suggested extension to make TeX debugging less difficult.
+
+Michael Downes
+mjd@math.ams.org
+
+========================================================================
+
+---Better tracing of assignments:
+
+(1) Change assignments like \def, \let, \chardef to report the name of
+the token being assigned in the \tracingcommands output.  And also
+incorporate the \global prefix in these assignment reports instead of
+reporting only the \global prefix and not the name of the assignment
+command!
+
+Consider the following three assignments:
+
+  \def\xxx{...}
+  \let~=\xxx
+  \global\chardef\&=`\&
+
+In TeX 3.x they produce the following output for \tracingcommands > 0:
+
+  {\def}
+  {\let}
+  {\global}
+
+Better would be:
+
+  {\def: \xxx}
+  {\let: ~}
+  {\global\chardef: \&}
+
+(2) Change register and parameter assignments to show the resulting
+value after the assignment. Consider the following assignments:
+
+  \count0=1
+  \dimen@=3pt
+  \parskip=5pt plus2pt
+  \multiply\doublehyphendemerits by 2
+  \fontdimen5\tenrm=4pt
+
+In TeX 3.x they produce the following for \tracingcommands > 0:
+
+  {\count}
+  {\dimen0}
+  {\parskip}
+  {\multiply}
+  {\fontdimen}
+
+What I would like to see:
+
+  {\count0: 1}
+  {\dimen0: 3.0pt}
+  {\parskip: 5.0pt plus 2.0pt}
+  {\multiply\doublehyphendemerits: 20000}
+  {\fontdimen5\tenrm: 4.0pt}
+
+For greater control, the extra information could be added only when
+\tracingcommands is greater than 2, with fallback to current TeX
+behavior if \tracingcommands = 2 or less.
+
+========================================================================
+Date:         Wed, 26 Jan 1994 14:54:50 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  Mariusz Olko's message of Wed,
+              19 Jan 1994 16:44:15 +0100
+              <9401191634.AA13326@ifi.informatik.uni-stuttgart.de>
+
+Mariusz Olko <mariusz@THETA1.IFPAN.EDU.PL> said on Wed, 19 Jan 1994 16:44:15
+ +0100:
+[..]
+MO> Provide a mechanism in e-TeX to dump hyphenation patterns alone and
+MO> read them when needed.  The file should be textual so that it can
+MO> contain additional information for the language/pattern set
+MO> (lefthyphenmin, righthyphenmin etc.), could be easily processed
+MO> by TeX written tools and could be portable as the style files are.
+
+If the files are textual, why not use the pattern files `*hyphen.tex'?
+(Btw, \lefthyphenmin and \righthyphenmin are only two "normal" counter
+register with a special meaning for the hyphenation process.  TeX
+doesn't associate the values in these register with a specific set of
+patterns.  This has to be done by the user, when switching patterns by
+assigning another value to \language.)
+
+
+MO> I propose two new commands:
+MO> \dumphtable{filename}  avaiable only in iniTeX. Dumps current contents
+MO> of the hyphenation tables to the file.
+MO> \loadhtable{filename}  appends hyphenation patterns from the file to
+MO> hyphenation tables.  [..]
+
+Proposal modification:
+
+Don't add these two new control sequences, but make \patterns to be
+usable in virtex, not only in initex.
+
+
+Bernd Raichle
+
+========================================================================
+Date:         Wed, 26 Jan 1994 14:48:14 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: eTeX: Proposal for the dynamic codepage loading
+In-Reply-To:  Mariusz Olko's message of Wed,
+              19 Jan 1994 17:05:43 +0100
+              <9401191623.AA11836@ifi.informatik.uni-stuttgart.de>
+
+Mariusz Olko <mariusz@THETA1.IFPAN.EDU.PL> said on Wed, 19 Jan 1994 17:05:43
+ +0100:
+
+MO> TeX provides a mechanism to map between the character set used in
+                 ^^^ hard-coded, implementation dependent!
+MO> input files and its own internal character set.  This internal
+MO> character set is what is used when accessing fonts.
+
+No, not when accessing fonts!  It is only used when reading from and
+writing to text files.  (This means: _not_ for glyph positions in
+tfm/gf/pk/... files; _not_ for any code in the dvi file _including_
+the "text" of a special!)
+
+This mapping mechanism was invented by DEK to make TeX portable
+between machines with different character encodings, like ASCII, ISO
+Latin-1/2/.., EBCDIC, ...  because the mapping ensures that the
+character `A' has always the code 65 on the macro level.
+
+(For more, read the first few dangerous bend paragraphs of chapter 8
+and the beginning of appendix C in the TeXbook.)
+
+
+MO> Many
+MO> implemenation allow to load a codepage during format generation.  It
+MO> is than stored in the format file.  It is however impossible to
+MO> process a document which has parts in different encodings (without
+MO> special trics) or to have format generated as coding independent.
+
+I have made some changes to allow the use of different "codepages" for
+each `virtex' run (and with a few additional changes it will be
+possible to switch between a set of codepages within one run).  But...
+
+
+MO> Proposition for e-TeX:
+MO> Provide a mechanism to load code page during run time.  I propose new
+MO> command \codepage{name} which would load previously prepared codepage
+            ^^^^^^^^^
+MO> into TeX's |xchr| and |xord| arrays.
+
+This is IMHO not a good idea, because you declare the coding used for
+a text _in_ the text itself.  Think about the differences to allow
+this self-referentiality if you have two files, one using ASCII, the
+other EBCDIC and one if \input'ting the other.  Normally you don't
+know anything about the coding of other files, do you??
+  What's really necessary to make this work is: use a OS/file system
+which can attach additional information _about_ a file to each file.
+One part of this information is the coding scheme, which can be used
+in a TeX implementation to activate the correct codepage.
+
+
+An IMHO better proposal is:
+
+Make the coupling between TeX's code of a character token and the
+glyph position in a font more flexible.  For example, allow that `A'
+is mapped to glyph no. 1 in an evironment or for a font.
+(For more: see previous NTS-L postings about \textcode,
+\directioncode, unicode discussions, MLTeX, etc.)
+
+
+Regards,
+Bernd Raichle
+
+========================================================================
+Date:         Wed, 26 Jan 1994 15:10:00 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      [e-TeX proposal] Re: macro debugging extension
+In-Reply-To:  Michael Downes's message of Thu,
+              20 Jan 1994 13:59:22 -0500
+              <9401201902.AA26860@ifi.informatik.uni-stuttgart.de>
+
+Michael Downes <MJD@MATH.AMS.ORG> said on Thu, 20 Jan 1994 13:59:22 -0500:
+MD> Here is a suggested extension to make TeX debugging less difficult.
+[..]
+MD> ---Better tracing of assignments:
+[... description deleted ...]
+
+I strongly vote for this one.
+The current output for \tracingcommands > 0 is optimized for (TeX
+execution) speed and (TeX.web/executable code) place, but its use is
+very restricted.
+
+
+MD> For greater control, the extra information could be added only when
+MD> \tracingcommands is greater than 2, with fallback to current TeX
+MD> behavior if \tracingcommands = 2 or less.
+
+Reminds me of an proposal for a TeX extension (using the same values
+for \tracingcommands to switch the extension on) I have sent to
+Barbara Beeton and was sent DEK.  His reaction was ....... :-)
+(see TeX implementors message no. 38, available on all CTAN hosts).
+
+
+Bernd Raichle
+
+========================================================================
+Date:         Wed, 26 Jan 1994 17:36:28 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      eTeX/NTS: --> "typesetting system" !?!
+
+When reading in the archives of NTS-L, it's obvious that everybody
+proposes changes/extensions/additions to TeX--the program, but we
+shouldn't forget that TeX is not _one_ program, but it is a lot of
+programs/tools forming a complete system.
+
+What about ...?
+
+  -- Metafont
+     This is simple: if e-TeX will be extended/NTS will exist and can
+     handle more than 256 character fonts or extended tfm information
+     (e.g. "visual kerning"), we have to change MF, too.
+
+  -- TeXware, MFware
+     dto.
+
+  -- makeindex / other indexing programs
+     I know about Joachim Schrod's "international" extensions to
+     makeindex, but it was never officially released....
+
+  -- BibTeX
+     ??? (What about version 1.0? any informations?)
+
+  -- ....
+
+
+
+Bernd Raichle
+
+========================================================================
+Date:         Thu, 27 Jan 1994 13:06:43 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Mariusz Olko <mariusz@THETA1.IFPAN.EDU.PL>
+Subject:      Re: eTeX: Proposal for the dynamic codepage loading
+In-Reply-To:  <9401261411.AA02231@sigma.ifpan.edu.pl>
+
+Bernd Raichle writes:
+
+ > MO> TeX provides a mechanism to map between the character set used in
+ >                  ^^^ hard-coded, implementation dependent!
+ > MO> input files and its own internal character set.  This internal
+ > MO> character set is what is used when accessing fonts.
+ >
+ > No, not when accessing fonts!  It is only used when reading from and
+ > writing to text files.  (This means: _not_ for glyph positions in
+ > tfm/gf/pk/... files; _not_ for any code in the dvi file _including_
+ > the "text" of a special!)
+
+To be more precise I meant non math mode.  Then `b' catcode 11 is
+equivalent to \char`b.  "The TeXbook" chapter 8 the first dangerous
+bend says: "Device-independent output files use TeX's internal
+character code."
+
+ > This mapping mechanism was invented by DEK to make TeX portable
+ > between machines with different character encodings, like ASCII, ISO
+ > Latin-1/2/.., EBCDIC, ...  because the mapping ensures that the
+ > character `A' has always the code 65 on the macro level.
+
+That is exactly what I want to use the code page for.
+
+ > (For more, read the first few dangerous bend paragraphs of chapter 8
+ > and the beginning of appendix C in the TeXbook.)
+
+Second paragraph of Appendix C says: "Furthermore the internal code of
+TeX also survives in its dvi output files ..."
+
+ > I have made some changes to allow the use of different "codepages" for
+ > each `virtex' run (and with a few additional changes it will be
+ > possible to switch between a set of codepages within one run).  But...
+ >
+ > MO> Proposition for e-TeX:
+ > MO> Provide a mechanism to load code page during run time.  I propose new
+ > MO> command \codepage{name} which would load previously prepared codepage
+ >             ^^^^^^^^^
+ > MO> into TeX's |xchr| and |xord| arrays.
+ >
+ > This is IMHO not a good idea, because you declare the coding used for
+ > a text _in_ the text itself.  Think about the differences to allow
+ > this self-referentiality if you have two files, one using ASCII, the
+ > other EBCDIC and one if \input'ting the other.  Normally you don't
+ > know anything about the coding of other files, do you??
+
+I don't know anything if I just want to process blindly any file that
+comes to me from somewhere.  But what I was aiming at was much, much
+more prosaic.
+
+I agree that the example with EBCDIC and ASCII shows some REAL
+comlicated issue, but ...  If you have EBCDIC file on your say UNIX
+station you can hardly even view it there.  Then one should either
+convert file or just run eTex with apropriate codepage specified on
+the command line (as your implementation allows).
+
+In my opinion there is also another (non english language based) side
+of codepage problem.  There are many ASCII based code pages which have
+lower part of the table common.  As an example, in Poland people use
+on their PCs Latin1, Latin2 (CP852), Mazowia (CP620) or Windows EC
+(CP1250).  In all those codings "english" text is not changed.  The
+same situation is on IBM mainframes when you have big subset common
+among different codepages, and on UNIX workstation when you play with
+localised version.
+
+In such a case specifying \codepage{Latin2} or \codepage{852} or
+\codepage{Windows} at the beginning of my document would make it
+possible to process documents from different sites without reencoding
+(even blindly without looking at it before).
+
+Another example can be typesetting Polish - German text on the PC.
+MSDOS allows for dual code page setup, and in such a case you can
+switch between codepages while you type when you start other language.
+I can imagine user typing something like
+
+        \beginlanguage{polish}
+                To jest po polsku
+        \endlanguage{polish}
+
+and have \beginlanguage{polish} switching Latin2, and
+\endlanguage{polish} switch Latin1 back.
+
+ >   What's really necessary to make this work is: use a OS/file system
+ > which can attach additional information _about_ a file to each file.
+ > One part of this information is the coding scheme, which can be used
+ > in a TeX implementation to activate the correct codepage.
+
+I am affraid we won't be able to write new OS as a side effect of the
+eTeX project.
+
+ > Make the coupling between TeX's code of a character token and the
+ > glyph position in a font more flexible.  For example, allow that `A'
+ > is mapped to glyph no. 1 in an evironment or for a font.
+ > (For more: see previous NTS-L postings about \textcode,
+ > \directioncode, unicode discussions, MLTeX, etc.)
+
+This is something different.  I WOULD LIKE to have macro name
+\[\.z]['o][\l]ty (yellow, I hope you guess what this "notation" means)
+mean the same in both parts of my composite document prepared in
+Latin2 and WindowsEC encodings (cf. your disscussion on the purpose
+of encoding table as introduced by DEK at the beginning of the letter).
+
+regards
+                                               Mariusz Olko
+
+========================================================================
+Date:         Thu, 27 Jan 1994 13:53:39 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Mariusz Olko <mariusz@THETA1.IFPAN.EDU.PL>
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  <9401261406.AA02218@sigma.ifpan.edu.pl>
+
+Bernd Raichle writes:
+
+ > MO> Provide a mechanism in e-TeX to dump hyphenation patterns alone and
+ > MO> read them when needed.  The file should be textual so that it can
+ > MO> contain additional information for the language/pattern set
+ > MO> (lefthyphenmin, righthyphenmin etc.), could be easily processed
+ > MO> by TeX written tools and could be portable as the style files are.
+ >
+ > If the files are textual, why not use the pattern files `*hyphen.tex'?
+ > (Btw, \lefthyphenmin and \righthyphenmin are only two "normal" counter
+ > register with a special meaning for the hyphenation process.  TeX
+ > doesn't associate the values in these register with a specific set of
+ > patterns.  This has to be done by the user, when switching patterns by
+ > assigning another value to \language.)
+
+I thought about textual files to ease portability and to allow those
+files to become some Language Definition Files.  In this case you
+could store there all information for the language (not only left and
+righthyphenmin, see vt15d02.tex LaTeX3 Project document).  For
+example: the htables can start after the line consisting of only four
+plus signs and everything before them is skipped by eTeX when loading
+tables.  Then one can add some information before the tables. Eg.:
+
+        \begin{TAGS}
+        \TAG{language}{polish}
+        \TAG{authors}{WHOEVER IS HE}
+        \TAG{shortname}{PL}
+        \TAG{lefthyphenmin}{1}
+        \TAG{righthyphenmin}{2}
+        \TAG{uchyph}{1}
+        \TAG{direction}{LR}
+        \end{TAGS}
+        ****
+        01 02 03
+        03 05 06
+        ... whatever it will be
+
+Then one can provide kind of language-loading macro which would load
+hyphenation tables and process tags.
+
+ > MO> I propose two new commands:
+ > MO> \dumphtable{filename}  avaiable only in iniTeX. Dumps current contents
+ > MO> of the hyphenation tables to the file.
+ > MO> \loadhtable{filename}  appends hyphenation patterns from the file to
+ > MO> hyphenation tables.  [..]
+ >
+ > Proposal modification:
+ >
+ > Don't add these two new control sequences, but make \patterns to be
+ > usable in virtex, not only in initex.
+
+The patterns are preprocessed by iniTeX before they are stored in
+tables.  For this iniTeX has a number of arrays which are absent in
+production versions of TeX.  We would need to keep them in production
+eTeX if we wanted to load patterns.  This would cut off
+implementations of eTeX for small computers because of memory
+constraints.  The changes in TeX code needed to implement this
+proposition can be much deeper (stability problem).  Dumping and
+loading tables seems to be quite straightforward.
+
+... but I agree that this aproach has a number of advantages.
+
+
+regards
+                                           Mariusz
+
+========================================================================
+Date:         Thu, 27 Jan 1994 14:11:48 GMT
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Tim Bradshaw <tfb@COGSCI.ED.AC.UK>
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+
+>  >
+>  > Don't add these two new control sequences, but make \patterns to be
+>  > usable in virtex, not only in initex.
+> The patterns are preprocessed by iniTeX before they are stored in
+> tables.  For this iniTeX has a number of arrays which are absent in
+> production versions of TeX.  We would need to keep them in production
+> eTeX if we wanted to load patterns.  This would cut off
+> implementations of eTeX for small computers because of memory
+> constraints.  The changes in TeX code needed to implement this
+> proposition can be much deeper (stability problem).  Dumping and
+> loading tables seems to be quite straightforward.
+
+Of course, you could convincingly argue that no-one will be using small
+computers by the time eTeX is anything like available, since they have
+to support infinitely more bloated software like certain window systems
+and text editors...
+
+More interestingly: just how big is the overhead of using initex rather
+than virtex? How will it compare with the overhead from using, say
+LaTeX3 rather than 2.09, which presumably people will be encouraged to
+do.
+
+And what is the stability problem?
+
+--tim
+
+========================================================================
+Date:         Thu, 27 Jan 1994 15:44:30 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Jiri Zlatuska <zlatuska@MUNI.CZ>
+Organization: Masaryk University, Brno, Czech Republic
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  <199401271418.AA28907@aragorn.ics.muni.cz> from "Tim Bradshaw" at
+              Jan 27, 94 02:11:48 pm
+
+> More interestingly: just how big is the overhead of using initex rather
+> than virtex? How will it compare with the overhead from using, say
+> LaTeX3 rather than 2.09, which presumably people will be encouraged to
+> do.
+
+i have some data from my local customization of latex2e:
+the format i use has 4 sets of hyphenation patterns: standard american
+english, british english, and two times czech (for two different input & font
+encodins: i can freely switch between them within a document; the source of
+the patterns is re-read twice each time with different definition of \', \v,
+etc. -- each time i switch font encoding, \language is switched in sync with
+that).
+
+for initex i needed the trie size of 30 000, for running preloaded .fmt file
+just 21 000 is enough. (all of that within emtex). all of those are minimal
+requirements: i arrived at those by taking small starting size and
+incrementing by 1000 till it went through.
+
+when switching from latex 2.09 to latex2e this was the only fix i needed to
+do, all the rest of the tables could be left in the same dimensions as i
+already needed for 2.09. [well, nearly all of them: i would need more fonts in
+order to have one type family & size preloaded, and still to be able to switch
+to another type family -- latex2e is not too economic as far as all of the
+metric information read in is concerned).
+
+
+--jiri zlatuska
+
+========================================================================
+Date:         Thu, 27 Jan 1994 18:29:30 GMT
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Peter Breitenlohner <PEB@DMUMPIWH.BITNET>
+Organization: Max-Planck-Institut fuer Physik, Muenchen
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  Message of Thu,
+              27 Jan 1994 14:11:48 GMT from <tfb@COGSCI.ED.AC.UK>
+
+About loading patterns by virtex or using initex for production:
+This is more difficult. Initex can load patterns (cumulative with TeX3)
+only if
+   1. no .fmt is loaded
+   2. no paragraph has been typeset
+When the first paragraph is typeset or a \dump occurs the patterns are brought
+to their final compacted form.  And when initex reads a .fmt file it gets the
+compacted patterns from that file. Once this has happened even initex can
+not load additional patterns, insted one gets a "Too late" error message.
+
+In practice that means one would not only have to use initex but in
+addition to generate the format (latex or whatever) from scratch.
+The overhead is considerable but not necessarily prohibitive.
+
+About: small computer users will probably not use eTeX. That may be so
+for a future NTS but eTeX should certainly be available for everyone
+using TeX today. If that where not so we should better forget the whole
+eTeX project.
+
+Peter Breitenlohner
+
+========================================================================
+Date:         Thu, 27 Jan 1994 18:35:57 GMT
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Tim Bradshaw <tfb@COGSCI.ED.AC.UK>
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  Peter Breitenlohner's message of Thu, 27 Jan 1994 18:29:30 GMT
+
+> About: small computer users will probably not use eTeX. That may be so
+> for a future NTS but eTeX should certainly be available for everyone
+> using TeX today. If that where not so we should better forget the whole
+> eTeX project.
+>
+
+That's not quite what I meant.  What I meant was that quite soon there
+*will be no* small computers by (e)TeX's standards.  Lets say eTeX
+arrives at the end of 1995: I really wonder how many 640k DOS machines
+will still be in use by then.  Actually, I am sure the answer is `lots',
+but you see my point.  Also I still wonder how much the increase need be
+cf that from each new release of LaTeX or whatever.
+
+--tim
+
+========================================================================
+Date:         Fri, 28 Jan 1994 00:07:30 -0500
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Laurent Siebenmann <laurent@MATH.TORONTO.EDU>
+Subject:      patterns
+
+patterns
+
+     Peter Breitenlohner stated (Thu Jan 27)
+
+ > Initex can load patterns (cumulative with TeX3)
+ > only if
+ >    1. no .fmt is loaded
+ >    2. no paragraph has been typeset
+
+     I want to thank Peter for thus confirming an
+assertion (part 1.) that I recently made in TUGboat (Oct93).
+Unfortunately it is FALSE (!!)  I had better
+grab this opportunity to undo my mischief while you are all
+listening.
+
+     Peter's qualitative explanation is roughly correct:
+
+ > When the first paragraph is typeset or a \dump occurs
+ > the patterns are brought to their final compacted
+ > form.  And when initex reads a .fmt file it gets the
+ > compacted patterns from that file. Once this has
+ > happened even initex can not load additional
+ > patterns, instead one gets a "Too late" error message.
+
+What gives? Look closely and you see a loophole big enough for
+a pregnant donkey.  When a format is compiled with no
+patterns, then no patterns are compacted and no obstruction is
+created to the assimilation of further patterns!
+
+      This loophole has recently been of great service to me
+when playing with patterns, and I am sure some of you will want
+to use it until e-TeX does better. I compile my favorite format
+with no patterns at all and then dump it, say to my.fmt.  Then
+
+initex &my.fmt  mypatterns.tex \dump <return>
+
+produces a format "mypatterns.fmt" in a big hurry and I use it
+under  virtex  to test patterns introduced in mypatterns.tex.
+
+     Whether this loophole is of much use to non-gourous
+inder TeX 3 is moot.
+
+      Correct me if the following is still inaccurate :
+
+ (*) Initex (version 3.xx) can load patterns
+  if and only if no patterns have been compacted on that
+  run, and no compacted patterns exist in the format
+  (if any) that initex loads.
+
+     Bernd Raichle commented (TeX-Euro list 1993) that
+TeX only compacts pending patterns loaded by
+\patterns when it REALLY needs the hyphenation trie.
+Thus (sorry Peter), NEITHER 1. NOR 2. is a necessary
+condition for loading patterns.
+
+      Laurent S
+
+========================================================================
+Date:         Fri, 28 Jan 1994 10:14:10 GMT
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Peter Breitenlohner <PEB@DMUMPIWH.BITNET>
+Organization: Max-Planck-Institut fuer Physik, Muenchen
+Subject:      Re: patterns
+In-Reply-To:  Message of Fri,
+              28 Jan 1994 00:07:30 -0500 from <laurent@MATH.TORONTO.EDU>
+
+On Fri, 28 Jan 1994 00:07:30 -0500 Laurent Siebenmann said:
+>What gives? Look closely and you see a loophole big enough for
+>a pregnant donkey.  When a format is compiled with no
+>patterns, then no patterns are compacted and no obstruction is
+>created to the assimilation of further patterns!
+>
+I am very sorry but that is just NOT true, at least not for an unmodified
+TeX. This fact can be verified by either looking at the code where
+INITEX undumps hyphenation data or by a short test (please do that
+with a TeX version that has not been modified at this point!).
+Needless to say that I did perform this experiment.
+Peter Breitenlohner
+
+========================================================================
+Date:         Fri, 28 Jan 1994 11:52:35 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  Peter Breitenlohner's message of Thu,
+              27 Jan 1994 18:29:30 GMT
+              <9401271822.AA12922@ifi.informatik.uni-stuttgart.de>
+
+Peter Breitenlohner <PEB@DMUMPIWH.BITNET> said on Thu, 27 Jan 1994 18:29:30 GMT:
+[... trie compaction in initex ...]
+PB> In practice that means one would not only have to use initex but in
+PB> addition to generate the format (latex or whatever) from scratch.
+PB> The overhead is considerable but not necessarily prohibitive.
+
+When I wrote my reply to the proposal I thought about the possibility
+  -- to remove the trie compaction in IniTeX,
+  -- change the code behind \pattern to build an already usable trie and
+  -- include the same code in VirTeX.
+
+This means that the trie data structures and routines have to be
+changed and we can't compress the trie by identifying common subtries,
+because a subtries will be propably changed...
+
+With these changes it will be possible to load a set of patterns when
+creating the format and dynamically load additional patterns, if they
+are needed.
+
+Disadvantages: needs more trie memory (ca. 20-25% for the current
+VirTeX arrays and perhaps some additional tables), because we can't
+compress the trie.  But this amount of additional trie memory is also
+needed with the current TeX version, if you want to typeset documents
+for different languages and you include the necessary patterns in
+_one_ format file.
+
+
+
+PB> About: small computer users will probably not use eTeX. That may be so
+PB> for a future NTS but eTeX should certainly be available for everyone
+PB> using TeX today. If that where not so we should better forget the whole
+PB> eTeX project.
+
+Define small computers: 640KB? 1MB? 2MB? with/without virtual memory
+mechanisms.  Are these really in use to TeX a document?
+
+The problem of memory needs and restrictions is not new.  When you
+look in `errorlog.tex' containing the appendix of DEK's paper "The
+Errors of TeX", you will find lot of references to changes of the
+necessary TeX main memory sizes, e.g.
+
+* 26 Mar 1978
+# And I increased low-memory size again to 5500, then 6500.
+* 22 Oct 1982
+P540. Increase the amount of lower (variable-size) memory from 12000
+  to 13000, since the \TeX\ program listing now needs about 11500.
+
+and if you are using and testing LaTeX with NFSS or LaTeX 2e, you will
+need more string pool space and hash table entries for multiletter
+control sequences.
+
+Does this mean that because some users can not use LaTeX 2e on some
+older machine with a lot of restrictions, that the LaTeX 3 group won't
+release LaTeX 2e (or LaTeX 3)??
+
+IMHO if only a very, very small group of TeX users can not switch to
+e-TeX because of very restricted hardware/software limitations, we
+should tell them to get a better machine/a better OS (and ignore
+them)...
+
+
+Bernd Raichle
+
+========================================================================
+Date:         Fri, 28 Jan 1994 14:59:06 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: "Jaap v.d. Zanden" <jaap@DUTW9.TUDELFT.NL>
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  from "Bernd Raichle" at Jan 28, 94 11:52 am
+
+In reply to a remark by Bern Raichle:
+>
+>..........
+>
+> Disadvantages: needs more trie memory (ca. 20-25% for the current
+> VirTeX arrays and perhaps some additional tables), because we can't
+> compress the trie.  But this amount of additional trie memory is also
+> needed with the current TeX version, if you want to typeset documents
+> for different languages and you include the necessary patterns in
+> _one_ format file.
+>
+> PB> About: small computer users will probably not use eTeX. That may be so
+> PB> for a future NTS but eTeX should certainly be available for everyone
+> PB> using TeX today. If that where not so we should better forget the whole
+> PB> eTeX project.
+>
+> Define small computers: 640KB? 1MB? 2MB? with/without virtual memory
+> mechanisms.  Are these really in use to TeX a document?
+>
+> The problem of memory needs and restrictions is not new.  When you
+> look in `errorlog.tex' containing the appendix of DEK's paper "The
+> Errors of TeX", you will find lot of references to changes of the
+> necessary TeX main memory sizes, e.g.
+>
+> * 26 Mar 1978
+> # And I increased low-memory size again to 5500, then 6500.
+> * 22 Oct 1982
+> P540. Increase the amount of lower (variable-size) memory from 12000
+>   to 13000, since the \TeX\ program listing now needs about 11500.
+>
+> and if you are using and testing LaTeX with NFSS or LaTeX 2e, you will
+> need more string pool space and hash table entries for multiletter
+> control sequences.
+>
+> Does this mean that because some users can not use LaTeX 2e on some
+> older machine with a lot of restrictions, that the LaTeX 3 group won't
+> release LaTeX 2e (or LaTeX 3)??
+>
+> IMHO if only a very, very small group of TeX users can not switch to
+> e-TeX because of very restricted hardware/software limitations, we
+> should tell them to get a better machine/a better OS (and ignore
+> them)...
+>
+
+IMHO; means `humble'; however this is not a humble opinion.
+There are many (potential) TeX/LaTeX users with cheap machines, that
+have restricted memory capacity (MS-DOS). Better machines are for the
+rich only? Please do not ignore the enormous amount of PC's.
+>
+> Bernd Raichle
+>
+
+
+--
+Greetings ,  Jaap van der Zanden  ( e-mail  jaap@dutw9.tudelft.nl )
+
+Delft University of Technology,
+Faculty for Mechanical Engineering and Marine Technology,
+Vakgroep Stromingsleer,
+Rotterdamseweg  145,  2628 AL  Delft,  The Netherlands
+
+telephone  +31 - 15 782996     telefax +31 - 15 782947
+

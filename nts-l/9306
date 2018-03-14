@@ -1,0 +1,795 @@
+========================================================================
+Date:         Wed, 2 Jun 93 12:03:55 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: P.TAYLOR@RHBNC.AC.UK
+Subject:      RE: On TeX--XeT
+
+Dear J%org ---
+
+Thank you very much for your most helpful suggestions concerning L-R/R-L
+typesetting, TeX--XeT, and the NTS project.  At the moment I am fully
+tied up with organising the forthcoming TUG '93 conference, and cannot
+reply to your proposal in detail (or, indeed, to any others); but you
+raise many interesting points, and I hope that others will continue to
+debate them with you.
+
+					Philip Taylor,
+					NTS project.
+
+========================================================================
+Date:         Wed, 9 Jun 93 15:53:11 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Nils Rennebarth <nils@EXP-MATH.UNI-ESSEN.DE>
+Subject:      Back issues?
+
+
+Is some FTP-server archiving the discussion on this list? Please Could
+someone tell me its location so that I can get into the discussion?
+
+Nils!
+
+========================================================================
+Date:         Wed, 9 Jun 93 15:30:57 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: P.Taylor@RHBNC.AC.UK
+Subject:      RE: Back issues?
+
+>>> Is some FTP-server archiving the discussion on this list? Please Could
+>>> someone tell me its location so that I can get into the discussion?
+
+By courtesy of Joachim Schrod, @Ftp.Th-Darmstadt.De in
+/pub/tex/documentation/nts-l/*
+
+Come on in, the water's fine!
+
+					Philip Taylor,
+					NTS project.
+
+========================================================================
+Date:         Sun, 13 Jun 93 21:27:08 -0400
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: laurent@MATH.TORONTO.EDU
+Subject:      token classes for NTS
+
+
+
+***** token classes for NTS
+
+     An old character activation problem
+was recently mentioned by Daniel Taupin. It occurs when
+the programmer wishes to make his macro, say
+\gadget#1:#2>, with parameter demlimiters :  and  >,
+insensitive to change of category code of  : and  >
+between 12 and 13 by some *other* macro package.   I
+recall that activation of <>;:?! is highly desirable for
+getting good French typography from ordinary typing.
+
+     Because it suggests a feature for NTS, I give my
+reply below --- originally posted to <gut@dmi.ens.fr> at
+listserv@dmi.ens.fr. After recalling a standard approach I
+mention a posible feature for NTS/e-tex as follows:
+
+     "We are hiting quite arbitrary limits of TeX. Indeed
+an extended TeX could readily provide a definitive
+solution by introducing the concept of "token classes" for
+macro parameter delimiters.  In the example at hand the
+classes would be "character token of ascii code `\> and
+variable category" and similarly for  :  in place of  >.
+The category variability would be 12 or 13 by default but
+controlable by the programmer."
+
+     Here is one possible syntax:
+
+    \def\gadget#1#:#2#>{...}
+
+Larry Siebenmann
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+
+The French posting <to gut@dmi.ens.fr>
+
+activons-nous!
+
+     Craindre des caract`eres actifs est absurde, car on
+se nierait ainsi la pleine puissance du concept de macro
+qui est la fondation m^eme du langage TeX. Les texperts
+doivent remplacer leur peur par une combinaison de
+savoir, diligence, et prudence!
+
+    Yannis Delmas-Rigoutsos a r'ecemment remis
+l'activation en cause:
+
+ YDR> Je me contenterais de poser un petit proble`me dont
+ YDR> j'attends qu'on me propose une solution e'le'gante
+
+Mais il me semble que Yannis ne donne que des *solutions*
+en vrac `a des probl`emes non-sp'ecifi'es d'activation!
+Heureusement, Daniel Taupin offre ensuite deux probl`emes
+typiques et concr^ets qui surgissent quand  :  et  >
+changent de cat'egorie entre 12 (=other la valeur le plus
+usit'ee) et 13 (=active, la valeur qui accorde le statut de
+macro).
+
+ DT> \def\truc#1:#2>{....} se plante quand on a mis french
+ DT>  comme option de style.
+
+ DT> \write\xxx{ choses : machins }  insere des [...] dans
+ DT> le fichier de sortie.
+
+Le deuxi`eme probl`eme est joliment r'esolu par le macro
+"inexpanded write" qui fut trouv'ee juste `a temps pour
+LaTeX 3.
+
+Pour le probl`eme de \truc, il y a une solution tr`es
+robuste. Il y plusieurs versions d'un tel macro \trucother
+\trucfrench, etc.  --- chacune cuisin'ee par la m^me
+recette mais dans les conditions de cat'egorie
+appropri'ees. Ensuite le changement vers french doit
+s'electionner la bonne version, soit par \let
+\truc=\trucfrench. L'avantage est que #1 peut ^etre
+{...>...:...}.
+
+     Mais le d'efaut est que l'option french doit d'avance
+connaitre \truc. C'est raisonable pour un \truc de LaTeX
+ou amstex (de tels \truc's sont rares), mais parfaitement
+d'eraisonable pour un \truc de xy-pic.
+
+     Kristoffer Rose, l'auteur de xy-pic sera donc
+contraint `a utiliser d'autres id'ees pour ses \truc's `a
+lui, dont certaines que Yannis a mentionne'es.  Par exemple
+\truc peut avoir l'expansion \trucA\trucB o`u \trucA donne
+cat'egorie 12 (other) `a  : et  >  et m'emorise les
+cat'egories ant'erieures ('eventuellemnt par simple
+groupement). Ensuite \trucB a le syntaxe "apparante" de
+\truc mais les  :  et  > sont de cat 12 (other); les
+cat'egories d'origine de  :  et >  seront restaur'es `a la
+sortie. D'efaut--  : et  > seront de cat'egorie other dans
+les arguments #1 et #2.
+
+     Il y a bien d'autres d'astuces; je suis s^ur que
+j'en ignore certaines!
+
+     On fr^ole ici des limites arbitraires de TeX. En
+effet, un TeX 'etendu pourrait facilement r'esoudre
+d'efinitivement le probl`me \truc (sans laisser de
+d'efaut r'esiduel), en introduisant des "token classes"
+comme param`etres de macros. Les classes en question ici
+sont: "character token of ascii code `\:" et "character
+token of ascii code `\>". La variabilit'e de cat'egorie
+permise serait limit'ee par le programmeur, normalement `a
+12  et 13.
+
+     Les utilisateurs fran_cais de TeX se doivent de
+constituer un lobby vigoureux aupr`es des programmeurs
+pour assurer que les logiciels TeX supportent bien les
+changements de cat'egorie qui sont utiles en France.
+Commen_cons par l'AmS et continuons avec les individus de
+bonne volont'e comme Kristoffer Rose!
+
+     Laurent S
+
+
+
+========================================================================
+Date:         Sun, 13 Jun 93 21:33:58 EDT
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: via the vacation program <jsmith@MCS.DREXEL.EDU>
+Subject:      away from my mail
+
+I will not be reading my mail for a while.
+Your mail regarding "     token classes for NTS" will be read when I return.
+
+========================================================================
+Date:         Mon, 14 Jun 93 10:04:33 MEZ
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Michael Burschik <UPP201@DBNRHRZ1.BITNET>
+Subject:      TeX, NTS and Lout
+
+
+Mightn't NTS learn a thing or two from Basser Lout? Its language is far
+easier to grasp and using PostScript as output format seems a good idea
+(now that Ghostscript is available), as a PostScript file is easy to read
+and to modify.
+
+Cheers,
+        Mike.
+
+========================================================================
+Date:         Mon, 14 Jun 93 12:36:07 BST
+Reply-To: RHBNC Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: P.Taylor@RHBNC.AC.UK
+Subject:      RE: TeX, NTS and Lout
+
+>> Mightn't NTS learn a thing or two from Basser Lout? Its language is far
+>> easier to grasp and using PostScript as output format seems a good idea
+>> (now that Ghostscript is available), as a PostScript file is easy to read
+>> and to modify.
+
+I think the time has come for me to confess my ignorance: what is/are
+`Basser Lout', please?
+
+					Philip Taylor,
+					NTS Project.
+
+========================================================================
+Date:         Mon, 14 Jun 93 14:44:35 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Anselm Lingnau <lingnau@MATH.UNI-FRANKFURT.DE>
+Subject:      Re: TeX, NTS and Lout
+
+
+> [...] and using PostScript as output format seems a good idea
+> (now that Ghostscript is available), as a PostScript file is easy to read
+> and to modify.
+
+Please, let's not have another DVI-vs.-PostScript debate. The topic has been
+beaten to death several times already, even during my not-so-long presence on
+the net. The last time I remember was on comp.text.tex a couple of weeks ago.
+
+Anselm
+--
+Anselm Lingnau .................................. lingnau@math.uni-frankfurt.de
+Schwanheimer Strasse 66, 6000 Frankfurt 71 [60528 Frankfurt]      +49 69-673060
+There are two ways of spreading light, to be the candle, or the mirror that
+reflects it.						      --- Edith Wharton
+
+========================================================================
+Date:         Mon, 14 Jun 93 17:17:28 +0100
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Anselm Lingnau <lingnau@MATH.UNI-FRANKFURT.DE>
+Subject:      Re: Light
+In-Reply-To:  (Your message of Mon,
+              14 Jun 93 15:53:46 A.)
+              <9306141508.AA54795@gauss.math.uni-frankfurt.de>
+
+
+Mike Piff writes:
+
+> Anselm Lingnau says
+>
+>> There are two ways of spreading light: to be the candle, or the
+>> mirror that reflects it.
+>
+> I think there may be other ways too, such as the prism and diffraction
+> grating that disperse and dilute it.
+
+And, undoubtedly, a trip to the friendly neighbourhood dairy shop's icebox
+will introduce you to even more ways of Spreading Light, Low-Fat,
+Completely-Synthetically-Nauseating, you name it :-)
+
+Returning you to your Regularly Scheduled Tinkering With Overfull Hboxes (tm),
+Anselm
+--
+Anselm Lingnau .................................. lingnau@math.uni-frankfurt.de
+Schwanheimer Strasse 66, 6000 Frankfurt 71 [60528 Frankfurt]      +49 69-673060
+It is not enough to have knowledge, one must also apply it. It is not enough to
+have wishes, one must also accomplish.           --- Johann Wolfgang von Goethe
+
+========================================================================
+Date:         Mon, 14 Jun 93 15:53:46 BST
+Reply-To: Mike Piff <M.Piff@sheffield.ac.uk>
+From: Mike Piff <M.Piff@SHEFFIELD.AC.UK>
+Subject:      Light
+
+Anselm Lingnau says
+
+>> There are two ways of spreading light: to be the candle, or the
+>> mirror that reflects it.
+
+I think there may be other ways too, such as the prism and diffraction
+grating that disperse and dilute it.
+
+Draw what morals you may.
+
+Mike
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dr M J Piff                      %%  e-mail:
+%% Department of Pure Mathematics   %%
+%% University of Sheffield          %%  M.Piff@sheffield.ac.uk
+%% Hicks Building                   %%  PM1MJP@derwent.shef.ac.uk
+%% Hounsfield Road                  %%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SHEFFIELD S3 7RH                 %%  Telephone: (0742) 824431
+%% England                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+========================================================================
+Date:         Mon, 14 Jun 93 17:45:20 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: TeX, NTS and Lout
+In-Reply-To:  P.Taylor@RHBNC.AC.UK's message of Mon,
+              14 Jun 93 12:36:07 BST
+              <9306141143.AA08542@ifi.informatik.uni-stuttgart.de>
+
+Philip Taylor writes on a posting of Michael Burschik:
+
+   >> Mightn't NTS learn a thing or two from Basser Lout? Its language is far
+   >> easier to grasp and using PostScript as output format seems a good idea
+   >> (now that Ghostscript is available), as a PostScript file is easy to read
+   >> and to modify.
+
+   I think the time has come for me to confess my ignorance: what is/are
+   `Basser Lout', please?
+
+`Lout' is a (yet another) document formatting system, released under
+the terms of the GNU General Public License and available on some ftp
+servers.
+
+IMHO it's more like a `troff' (with a better input language and some
+newer concepts) than a `TeX'.
+
+A few citations from the documentation of lout:
+
+  Lout is a high-level language for document formatting, designed and
+  implemented by the author.  The implementation, known as Basser
+  Lout, is a fully operational production version written in C for the
+  Unix operating system, which translates Lout source code into
+  PostScript, a device-independent graphics rendering language
+  accepted by many high-resolution output devices, including most
+  laser printers.
+[...]
+  When expert users can implement such applications quickly,
+  non-experts benefit.  Although Lout itself provides only a small
+  kernel of carefully chosen primitives,
+
+Lout has 23 primitive operators... missing, for example, the simplest
+arithmetical operators (there is only the operator "@Next" which
+increases a number by one).
+
+  packages written in Lout and distributed with Basser Lout provide an
+  unprecedented array of advanced features in a form accessible to
+  non-expert users.  The features include rotation and scaling, fonts,
+
+These features are mostly based on the output language... Postscript
+(if you are looking inside a Lout package, you find large portions of
+embedded Postscript code).
+
+  paragraph and page breaking,
+
+TeX does a better job for these two items, because Lout is missing
+most of TeX's paragraph/page breaking parameters.  (Note: Lout uses
+TeX's hyphenation algorithm and the hyphenation patterns.)
+
+  displays and lists, floating figures and tables, footnotes, chapters
+  and sections (automatically numbered), running page headers and
+  footers, odd-even page layouts, automatically generated tables of
+  contents, sorted indexes and reference lists, bibliographic and
+  other databases (including databases of formats for printing
+  references), equations, tables, diagrams, formatting of Pascal
+  programs, and automatically maintained cross references.
+
+TeX's math setting abilities are better.  Lout uses a package named
+`eq' derived from the `eqn' preprocessor used with `troff'.  And there
+are other packages named `tab' (for tabulars) and `fig' (drawing
+figures).
+
+[...]
+  Lout is organized around four key concepts -- objects, definitions,
+  galleys, and cross references -- [...]
+
+The concept of `galleys' and the "expansion" of recursive defintions
+are IMHO the only new concept in Lout:
+
+`galleys' are a way to describe a page, dividing it in certain regions
+which can be filled from different sources (e.g. a footnote galley is
+filled with footnote text, etc.).
+
+Recursive definitions are very simple, e.g.
+	def @Leaders { ..   @Leaders }
+defines the command (Lout calls it `object') to "expand" to a `..' and
+if there is place for another "expansion" it is called again.
+
+For example
+	\hbox to 4in{Chapter 7 \dotfill 53}
+is in Lout
+	4i @Wide { Chapter 7  @Leaders  53 }
+
+With this recursive definitions, a whole document is defined as a
+@PageList consisting of a @Page and a @PageList with an incremented
+@PageNum.  A @Page is defined as a set of `galleys' (header, text
+body, footnotes, footer), which are also defined as a list of
+text/footnotes/... and so on.
+
+
+
+Perhaps others can add more impressions, mine are based on the
+documentation coming with the Lout package and some tests done in
+1-2 hours.
+
+-Bernd Raichle
+
+PS: There was a disscussion about Lout in comp.text.tex some weeks
+    ago, but I lost the archived postings.
+
+========================================================================
+Date:         Tue, 15 Jun 93 09:45:04 +0200
+Reply-To: Kai Grossjohann <grossjoh@ls6.informatik.uni-dortmund.de>
+Comments:     Hyperbole mail buttons accepted, v3.06.
+From: Kai Grossjohann <grossjoh@PETTY.INFORMATIK.UNI-DORTMUND.DE>
+Subject:      away from my mail
+In-Reply-To:  <m0o5JdK-0002mbC@zx1.hrz.uni-dortmund.de>
+
+>>>>> On Sun, 13 Jun 93 21:33:58 EDT,
+>>>>> via the vacation program <jsmith@MCS.DREXEL.EDU> said:
+
+  jsmith> I will not be reading my mail for a while.
+  jsmith> Your mail regarding "     token classes for NTS" will be read when I r
+ eturn.
+
+Please configure your `vacation' program such that this kind of response will
+not be sent to the whole NTS-L Distribution list.
+
+        Thank you,
+        \kai{}
+
+--
+  Kai Grossjohann          Voice (office)  +49 231 755 4869
+  Baroper Str 331 App 510        (private) +49 231 75 30 15
+  W-4600 Dortmund 50
+  Germany, Europe          Email: grossjoh@ls6.informatik.uni-dortmund.de
+--
+  Life is hard and then you die.
+
+========================================================================
+Date:         Tue, 22 Jun 93 14:14:00 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Jonathan Fine <J.Fine@PMMS.CAM.AC.UK>
+
+%%  This article is in the format for TUGboat Proceedings.
+%%  I am asking the proceedings editors to publish it in the
+%%  1993 Proceedings, even though it does not correspond to
+%%  a talk scheduled to be presented.
+
+\input tugproc.sty
+\preprint % Comment this line out for final version following meeting
+
+\LoadSansFonts \tenpoint
+\font\bigtt cmtt12 scaled \magstep 1  % this is a hack
+\def\wysiwyg{{\SMC WSYIWYG}}
+
+\title * Editing {\bigtt .dvi} files, or \wysiwyg\ \TeX *
+
+\author * Jonathan Fine *
+\address *      203 Coldhams Lane\\
+                Cambridge\\
+                CB1 3HY *
+
+\netaddress * J.Fine@pmms.cam.ac.uk *
+
+\abstract
+This note will sketch the specification of a \TeX\ format, which will
+allow the resulting |.dvi| file to be edited via a suitable previewer
+and a |.dvi| file editor.  This close linking of editing and
+typesetting appears to be within the present capabilities of \TeX.
+\endabstract
+
+\article
+\let\bigtt\tt
+\head * Value Added Typesetting *
+Typesetting can be thought of as a process which adds value to the
+document being processed.  This may not be true for works typeset from the
+author's original manuscript and corrected proofs, for such physical
+documents reveal change of mind, history of composition and other
+details which are lost in the printed version of the document.  But
+here we consider the typesetting of, say, a suitably tagged ASCII
+file.
+
+Throughout this document we will use the language and conventions of
+\TeX, but most of the issues involved are of a more general nature,
+and apply to any computer typesetting system.
+
+Suppose throughout that |myfile.tex| is typeset to produce
+|myfile.dvi|.  If the latter file is the former, together with some
+added value, then is should be possible to recover the former from
+the latter.  Oddly enough, a recent posting to an electronic
+discussion list asked precisely this question.  An author had in
+error deleted the original |.tex| file, and wish to recover its
+content, as best as was possible, from the |.dvi| file.  This then is
+the definition of {\it value added typesetting}\Dash{}from the typeset
+file it must be possible to extract the source file.
+
+\head Specials \endhead
+\TeX\ has a process by which the ``special instructions that can be
+transmitted to printing devices'' (\TB, page^226), and that is the
+|\special| mechanism.  Each |\special| that makes it to the |.dvi|
+file will produce in it a string of characters, attached to some
+specific location on the page.  These characters are not usually
+intended to be printed on the page, rather their purpose is to
+control the printing process in some way.
+
+This mechanism can be used to embed some text into the |.dvi| file,
+but one should (\TB, page^228) ``be careful not to make the list [of
+characters, i.e.^the text] too long, or you might overflow \TeX's
+string memory.'' The author does not know if this will be a danger,
+for the constructions about to be described.  Using em\TeX he has
+created a |.dvi| file with 500,000 different specials, name the
+numbers from 1 to 500,000.
+
+One solution to the added value problem is to place the entire text
+of the input file |myfile.tex| as special in the document.  Although
+this satifies the formal requirement, it is a little coarse.  To edit
+the file |myfile.dvi| consists of editing the copy of |myfile.tex|
+which is embedded as a special in |myfile.dvi|.  It would not be
+difficult to adapt a text editing program, so that is operated on
+this embedded special, rather than a self-contained file. \TeX\ can
+then be run, without an error arising one hopes, to refresh
+|myfile.dvi|.
+
+Although coarse, this illustrates the essence of the method, by which
+|.dvi| files may be edited via the previewer.  What is required is
+that the process be refined.
+
+\head Smaller Specials \endhead
+
+The text of a document, say as an ASCII file, is naturally broken
+down into paragraphs, words, characters, and spaces.  It seems
+natural to break a document down into words.  They are the smallest
+units of meaning.  This is reflected in the very name of the tool
+used by authors to prepare documents, the word processor.
+Programmers are more accustomed to using that tool, the file editor.
+
+For the moment, we shall assume that the document is very plain, with
+no changes of font or other control sequences.  Suppose that we have
+a \TeX\ format that will, besides typesetting the document, place
+before each word in the document a |\special|, whose content is the
+following word, as represented in the source file.  Because of
+ligatures and hyphenation, this may not be the same as the characters
+which follow the |\special| in the |.dvi| file.
+
+Suppose that |myfile.dvi| is created from |myfile.tex| by using this
+format.  It will not be difficult, by extracting the text of the
+specials, to recreate |myfile.tex| from |myfile.dvi|.  This is not
+strictly correct.  Assuming the usual category codes, additional
+spaces between words, additional lines between paragraphs, and the
+location of line breaks within paragraphs, will all be lost when
+passing from |myfile.tex| to |myfile.dvi|.  This is probably no great
+loss.  It may even be an advantage to have a source file whose line
+breaks agree with those of the |.dvi| file.
+
+\head A Special Format \endhead
+It is not difficult to create a format that will read the input file
+word by word, and place the words as it reads them into |\special|s.
+The code below, which is intended to be read in an environment where
+white space is ignored, and |^| is a space character, shows the basic
+features of such an environment.
+
+The macro |\sentinel| is used simply to indicate the end of a
+paragraph, or the end of the file.
+||
+\def \sentinel { \noexpand \sentinel }
+||
+The idea now is to define |\dopar| so that
+||
+\dopar
+The first paragraph is not very
+long at all.
+
+The second paragraph is even
+shorter.
+
+\sentinel
+||
+will result in appropiate typesetting and specials.
+
+Here is a simple (too simple) implementation.  The macro |\dopar|
+will read text paragraph by paragraph, until the |\sentinel| follows
+a blank line or explicit |\par|.
+||
+\def\dopar #1 \par #2
+{
+  \doword #1 ^\sentinel \par
+  \if #2 \sentinel
+    \let \next \relax
+  \else
+    \let \next \dopar
+  \fi
+  \next
+}
+||
+
+The macro |\doword| similarly goes through the paragraph word by word
+until |\sentinel| is reached.
+||
+\def \doword #1^#2
+{
+  \special { #1 }  #1^
+  \ifx #2 \sentinel
+    \let \next \gobble
+  \else
+    \let \next \doword
+  \fi
+  \next #2
+}
+||
+
+This sample code is not intended to be the basis for a practical
+implementation of a format will create value-added |.dvi| files.
+Rather, its purpose is to show that such a format is possible, and to
+draw attention to some of the difficulties which may be encountered
+when creating such an objecct.
+
+\head Editing via a Previewer \endhead
+Suppose now that |myfile.dvi| has been created by a format file as
+above.  The viewer notices a misspelt wrod. Within a special in the
+|.dvi| file, it is easy to change the letters |wrod| into |word|.  It
+will be harder to add or delete letters within the special, because
+there would not be room for the addition at the correct point in the
+|.dvi| file, or a hole would be left in it.  But this is the sort of
+problem which editing programs are accustomed to dealing with.
+
+Now that the copy of |myfile.tex| which is within |myfile.dvi| has
+been changed, one would like the rest of |myfile.dvi| to be brought
+up to date.  For simplicity, we shall assume that |myfile.dvi| is
+simply one page, a galley that is long enough to accomodate all that
+is placed on it.  Changing |wrod| to |word| will change the paragraph
+in which it is placed.  The change will in general be more
+complicated than replacing |wrod| by |word|.  Even this simple change
+may change the line breaks in the paragraph.  Hyphenation may change,
+as may ligatures and kerning.  Correcting a simple letter
+transposition error will require resetting the whole paragraph.
+
+In most \TeX\ formats, the size and content of one paragraph does not
+influence the setting of the others.  All then that needs to be reset
+is the paragraph in which the change occurred.  If the document were
+set into pages rather than just a galley, then page breaks would also
+need to be reconsidered.
+
+This discussion has focussed on changing the letters in a single word
+in a paragraph.  Adding or deleting whole words will go the same way,
+as will addition or deletion of paragraphs, provided the format does
+not do something like numbering paragraphs.  In any case, \TeX\ will
+be required to process some text when a change is made to the |.tex|
+file embedded in the |.dvi| file, to bring the |.dvi| file up to
+date.
+
+\head Calling \TeX\ from the Previewer \endhead
+
+When the user has finished making changes to the paragraph, or
+earlier if wished, the previewer must call upon \TeX\ to reprocess
+the changed paragraph.  As before, we assume that the difficulty
+faced by all editing programs, of deleting or adding material in the
+middle of a file, has been solved.
+
+\TeX\ as a text file into a |.dvi| file.  Ordinarily, this |.dvi|
+file is not accessible until \TeX\ has come to an |\end|.  By writing
+a suitable device or virtual file, which will depend on the operating
+system, it should be possible to use the |.dvi| output of \TeX\
+before the |\end|.  Thus, a command such as
+||
+  \shipout\vbox{\input tempfile}
+||
+will cause \TeX\ to produce a page which contains the revised and
+reset paragraph, which the editing functions attached to the
+previewer can now paste into place, replacing the old version.
+Incidentally, if the output of \TeX\ is a virtual |.dvi| file, then
+there should be no reason why the input |tempfile.tex| should not
+also be a virtual device.
+
+The foregoing discussion is intended to demonstrate that by combining
+\TeX\ as it is, together with a suitable format, a suitable
+previewer, editors for text and |.dvi| files, and a bit of operating
+system virtual file magic, it is possible to produce a \wysiwyg\
+variant of \TeX.  Users of this composite program will be able to
+edit their documents via the previewer.  The format as described is a
+limited to a single page, a single font, and no mathematics, but it
+does have multiple paragraphs.
+
+\head Breaking Pages \endhead
+
+Suppose now that the document is broken into pages, and a paragraph
+is added.  All subsequent pages, and perhaps the previous page, will
+have to be reconsidered.  Assume \TeX\ is being used a normal manner,
+so that parameters such as |\linepenalty| and |\brokenpenalty| do not
+change from page to page.  Were \TeX\ to reprocess the whole of the
+changed |myfile.tex|, all paragraphs from the previous version will
+be broken exactly as before, and so there is no need for them to be
+reset.
+
+The previewer and editor combination can ask \TeX\ to break the new
+document by passing it a suitably coded sequence of boxes, penalties,
+skips and kerns to break, for this is all the page breaking mechanism
+(\TB, Chapter^15) operates on.  Alternatively, some other program
+could be asked to do the breaking.  This is the approach taken by
+{\ssf Type \& Set} (Asher, 1992).
+
+\head Control Words \endhead
+The aspect which presents the most difficulties is now to be
+discussed, and briefly at that.  Most documents contain control
+words, such as |\TeX| and |\section| and |\eqalign|.  These are part
+of the source |myfile.tex| and so they must go into |myfile.dvi| as
+specials.  When it comes to the editing process, even though the
+addition or deletion of a control word such as |\TeX| is fairly
+innocuous, to add or remove an |\equalign| can have a drastic effect.
+
+The braces |{}|, and the mathematics shift character |$|, will also
+have a drastic effect when added or removed from |myfile.tex|.  The
+same is true when the delimiter required by some macro is omitted.
+For this approach is to have all the typesetting power and
+programmability which \TeX\ provides, access to local change of font
+etc., parameter delimiters, and mathematics shift must be provided.
+This has to be done in a manner which is consistent with the editing
+requirements imposed by the embedded |\special| approach.
+
+Unbalanced braces, missing or extra mathematics shift characters, and
+missing delimiters all provide difficulties for users of \TeX.  A
+format which detected such input errors early, before they gave rise
+to an error message from the stomach of \TeX, could make \TeX\ easier
+for many users.  A format which allows the user to edit the copy of
+|myfile.tex| embedded within |myfile.dvi| would similarly have to
+detect input errors before they reach \TeX's stomach.
+
+\head Performance \endhead
+
+It is quite possible that such a format, which reproduces the input
+text as specials, and detects all errors before \TeX\ does, will run
+at perhaps a tenth of the speed of a regular format.  However, the
+usual approach requires the document to be typeset as a whole, and so
+an unchanged paragraph may be typeset a dozen times or more during
+the revisions.  A format which sets whole documents slower, but which
+is able to reset the document paragraph by paragraph may very well
+consume fewer machine cycles over the life of a document.
+
+Moreover, the paragraphs can be set or reset as completed, rather
+than file by file.  If the computer is sufficiently rapid, and many
+are today, this machine work can be done as required.  This will
+result in the user being locked out for a short period at the end of
+each paragraph, while processing takes place, just as an editing
+program may deny access to the user while a file is being written.
+
+\head Conclusions \endhead
+
+More can be done with \TeX\ as it is, than is commonly realised. Some
+of its limitations exist in the imagination of the critics rather
+than in the program itself.  I hope that all those who say that \TeX\
+cannot do such-and-such think carefully as to why it is that \TeX\
+cannot do what they wish.
+
+For a portable \wysiwyg\ variant of \TeX\ to be produced, the various
+additional components, which are previewer, |.dvi| file editor, text
+file editor, and operating system magic, must also be portable or
+ported.  An editor for |.dvi| files is probably the most
+important new program.  For this to work most effectectively, it may
+be necessary to extend the |.dvi| file specifications.
+
+Also required is a format file, which satisfies requirements far more
+exacting than met at present.  This also would be a major piece of
+work.
+
+\head * Bibliography *
+
+\entry{Asher, Graham.  ``Inside Type \& Set'',
+   \TUB, {\bf 13} (1), pages 13--22, 1992.}
+
+\entry{Lavagnino, John.  ``Simultaneous electronic and paper
+                        publication'',
+   \TUB, {\bf 12} (3), pages 401--405, 1991.}
+
+\entry{Mittelbach, Frank. ``E-\TeX:Guidelines for future \TeX'',
+   \TUB, {\bf 11} (3), pages 337--345, 1990.}
+
+\entry{Taylor, Philip. ``The future of \TeX'',
+   \TUB, {\bf 13} (4), pages 433--442, 1992.}
+
+\endarticle
+
+========================================================================
+Date:         Mon, 28 Jun 93 13:34:00 BST
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Jonathan Fine <J.Fine@PMMS.CAM.AC.UK>
+Subject:      Editing .dvi files, a correction
+
+I apologize for failing to list
+    L. Siebenmann ``The Lion and the Mouse''
+    Eurotex 92, pages 43--52
+in the references for the contribution
+    Editing .dvi files, or WYSIWYG TeX
+to the NTS-L discussion list.
+
+sincerely
+Jonathan Fine
+

@@ -1,0 +1,128 @@
+========================================================================
+Date:         Wed, 1 Sep 93 15:39:42 CET
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Michael Downes <MJD@MATH.AMS.ORG>
+Subject:      Re: Wanted new primitive: \currentinteractionmode
+In-Reply-To:  <01H2CS4MIAK6M4M0YD@MATH.AMS.ORG>
+
+Previously from J"org Knappen and Bernd Raichle:
+
+> > P.S. In the same thread MJD watched the non-presence of an \afterfi
+> > primitive working analogously to \aftergroup; but I'm not clear about the
+> > implications of an \afterfi.
+>
+> I think that he compares \if...\fi with a group {...} and he want's to
+> use something like \if ...\afterfi\foo ...\fi which inserts the cs
+> \foo after the "closing" \fi token.  (IMHO the \afterfi should be
+> expandable, because \if...\fi is expandable.)  Perhaps an \afterfi can
+> simplify some obscure mouth-only macros with nested conditionals???
+
+The intent of my original remark was only to note that `\afterfi
+doesn't exist', in contrast to \aftergroup, rather than to say that it
+should exist. I didn't think very far about the possible desirability
+or feasibility of such a primitive. To at least some extent, the
+desired effects of an \afterfi command can be achieved by defining a
+macro that uses TeX's argument scanning mechanisms, e.g.
+
+  \long\def\afterfi#1#2\fi{#2\fi#1}
+
+But there are many possible variations and complications (what if
+there is an intervening \else? what if #2 is very large? ...).
+
+Michael Downes                              mjd@math.ams.org (Internet)
+
+========================================================================
+Date:         Wed, 8 Sep 93 16:46:59 +0200
+Reply-To: "NTS-L Distribution list" <NTS-L@DHDURZ1.BITNET>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Some ideas about... \textcode as an equivalent of TeX's \mathcode
+
+Some of the character coding discussions in the Technical Working
+Group on Multiple Language Coordination and some experiences I've made
+with `german.sty' (specially the problems with an active doublequote
+and hex integer constants!) lead to this _incomplete_ proposal/idea
+for the following addition:
+
+Introduce something like
+
+	\textcode	(and \textchar & \textchardef)
+
+which are the text (hmode) equivalent of TeX's \mathcode (and
+\mathchar/\mathchardef) primitives.
+
+
+[ The \mathcode<char> holds the `class', `family' and `character code'
+  of the character <char> in math mode, if the character has catcode 11
+  or 12.  A special value of "8000 makes this character
+  "pseudo-active" in math mode only.
+  With `mathcode' it is possible to separate the typed in character
+  code (e.g. "41 for an `A') with the font code associated with this
+  character.  Example: \mathcode`\A="7042 $A$ produces a `B' in
+  the output.
+]
+
+
+With an equivalent and appropriate implemented \textcode primitive
+(with the choice to define a character as "pseudo-active"), it would
+be possible to
+
+	* relate characters to different fonts
+	  (using a generalized `fam' of \mathcode)
+
+	* suppress expansion of active characters (it will only be
+	  expanded, if it is read to form the hlist)
+          (using an equivalent \mathcode="8000 value)
+	  [This point allows the use of e.g. an pseudo-active "
+	  which expands to non-expandable tokens and it removes
+	  the special construct \relax\ifmmode... for active
+	  characters, too.]
+
+	* additional properties
+	  (the text `class'.
+	  First I thought about something like a flag for the
+          hyphenation algorithm to mark this character as a letter of
+          a "trial word", but ... see below.
+	  Now I think that it is perhaps possible to realize font
+	  independent ligatures, e.g. "``", "''", "--", or supress
+	  font dependent ligature building with an additional property.)
+
+
+Yet unclear:
+
+[ In the following read "text character code" as TeX internal code of
+  an input character (see TeXbook, Chapter 8 & App. C) and "font
+  character code" as the code of a glyph in a font (for examples see
+  TeXbook, App. F).
+]
+
+TeX's hyphenation algorithm has to be changed in a lot of places,
+because it mixes
+
+  * the text character code and the font character code
+    (a "trial word" is converted back to the former coding using the
+    information in the hlist, which is based on the font coding)
+
+  * uppercase/lowercase information
+    (\uppercase/\lowercase and the arrays \lccode/\uccode are working
+    on character tokens in text coding, but the hyphenation algorithm
+    uses \lccode to extract the "trial word" (lccode > 0) and to
+    convert it to a lowercase character)
+
+
+It will be necessary to decide, which representation of a word is
+needed for hyphenation (which information about characters/letters is
+needed, where and when to store this information) and how to map
+between the text input form, this representation and the dvi output
+form (=font/char pairs).
+
+...seems to open a can of worms...
+
+
+Just an idea...
+
+  -bernd
+_______________________________________________________________________
+Bernd Raichle, DANTE Koordinator `german.sty'  | "Le langage est source
+privat: Stettener Str. 73, D-73732 Esslingen   |  de malentendus"
+email: raichle@informatik.uni-stuttgart.de     |  (A. de Saint-Exupery)
+
