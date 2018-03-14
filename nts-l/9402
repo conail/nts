@@ -1,0 +1,385 @@
+========================================================================
+Date:         Sat, 29 Jan 1994 02:12:06 -0500
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Laurent Siebenmann <laurent@MATH.TORONTO.EDU>
+Subject:      extended features of Textures
+
+extended features of Textures
+
+
+ > Initex can load patterns (cumulative with TeX3)
+ > only if
+ >    1. no .fmt is loaded
+ >    2. no paragraph has been typeset
+
+Consulting five TeX implementations as to whether
+restrictions 1. and 2. hold as stated, I find:
+
+   Textures | OzTeX | Direct-TeX | mlTeX | C-TeX
+1.   no       yes       yes         yes      yes
+2.   no       no        no          no       no
+
+I conclude that Bernd's correction to 2 is sustained
+for standard TeX; and that my "correction" to 1.
+is not --- as Peter Breitenlohner predicted.
+I am very happy to be wrong here rather than in TUGboat.
+
+   I was accurately describing *extended TeX* behavior
+of Textures --- a subject certainly of interest here.
+
+    I am surprised.  Hitherto I had not found any qualitative
+deviation of Textures behavior from that of an enormous initex
+with which one communicates mostly via Macintosh interface
+tools.
+
+    Has anyone else noticed further "extended" TeX features
+of Textures? The obvious answer is that Textures has merged
+initex into virtex.  But has it not just dropped
+virtex?
+
+    Extended TeXs aught to provide a complete catalog of their
+deviations from the performance of standard TeX. (That
+includes e-TeX.) Particularly so where ".tex" file
+acceptabilityis involved.  Has Textures not done so?
+
+    Laurent S
+
+ *** "[Do not] put too much confidence in experimental results until
+ *** they have been confirmed by theory."
+ ***                      ---Arthur Stanley Eddington
+
+========================================================================
+Date:         Sat, 29 Jan 1994 02:15:15 -0500
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Laurent Siebenmann <laurent@MATH.TORONTO.EDU>
+Subject:      e- for economy
+
+e- for economy
+
+ > IMHO if only a very, very small group of TeX users can not
+ > switch to e-TeX because of very restricted hardware/software
+ > limitations, we should tell them to get a better machine/a
+ > better OS (and ignore them)...
+
+If you want e-TeX users to be numerous, tell them that they
+will be able to use as many modules of e-TeX as their
+power and capacity and os permit.  And that, in TeX
+compatibility mode, power and RAM requirements will be
+comparable to that of TeX.
+
+     Laurent S
+
+========================================================================
+Date:         Sat, 29 Jan 1994 02:14:51 -0500
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Laurent Siebenmann <laurent@MATH.TORONTO.EDU>
+Subject:      Lessons from the past
+
+Lessons from the past
+
+
+1)  Textures has already erased the distinction between initex and
+virtex. I hope e-TeX will do as much.
+
+2)  Textures has already allowed pattern assimilation by
+any format of TeX that does not contain a compacted hyphenation trie.
+I hope e-TeX will do as much.  This allows one to quickly
+(inter)nationalize precompiled formats.
+
+3)  (ini)TeX 2 allowed one to erase the existing trie at any
+time and input new patterns. I hope e-teX will do as much.
+Even if it cannot be done on a language-by-language basis.
+No new command is needed;  TeX could simply report that it
+has been obliged to erase patterns.  Textures does not
+currently have this feature.
+
+    With (3), e-TeX could never be completely stopped
+when a heavily multilingual job comes along --- say a
+tourist brochure in seven languages.  At worst it would be
+slowed.
+
+    I see no reason why (1) and (2) would require one to
+
+ > -- to remove the trie compaction in IniTeX,
+ > -- change the code behind \pattern to build an already usable
+trie
+
+So this proposal not what Bernd is suggesting.  Are (1)(2)(3)
+inadequate in practice?
+
+
+         Laurent S
+
+========================================================================
+Date:         Mon, 31 Jan 1994 11:08:53 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Mariusz Olko <mariusz@THETA1.IFPAN.EDU.PL>
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  <9401281933.AA03784@sigma.ifpan.edu.pl>
+
+Tim Bradshaw writes:
+
+ > More interestingly: just how big is the overhead of using initex rather
+ > than virtex? How will it compare with the overhead from using, say
+ > LaTeX3 rather than 2.09, which presumably people will be encouraged to
+ > do.
+
+For preprocessing patterns TeX needs a number of arrays size of which
+can be astimated as
+( 3*sizeof(int) + sizeof(char) +sizeof(boolean) ) * trie_size + 256*sizeof(int)
+
+This gives about 120k for trie size of 30000.
+
+
+Mariusz
+
+========================================================================
+Date:         Mon, 31 Jan 1994 11:51:18 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Mariusz Olko <mariusz@THETA1.IFPAN.EDU.PL>
+Subject:      Re: eTeX: Proposal for hyphenation patterns on demand
+In-Reply-To:  <9401282017.AA03813@sigma.ifpan.edu.pl>
+
+Bernd Raichle writes:
+
+ > When I wrote my reply to the proposal I thought about the possibility
+ >   -- to remove the trie compaction in IniTeX,
+ >   -- change the code behind \pattern to build an already usable trie and
+ >   -- include the same code in VirTeX.
+ >
+ > This means that the trie data structures and routines have to be
+ > changed and we can't compress the trie by identifying common subtries,
+ > because a subtries will be propably changed...
+
+We don't have to give up with compaction.  We can end up with partial
+compaction ie.  when dumping format eTeX can compact whatever it has
+ready and then each set can be compacted before use.  In current TeX a
+flag is checked whether the table has already been compacted befor
+typesetting is started.  It can be arranged that there is a separate
+flag for each language.  It can be checked separately before
+hyphenating word in current language and if this part of table is not
+ready it can be compacted.
+
+I have made test to see what is the overlap between the subtries of
+Polish and English patterns.  Here are the results.
+English patterns   6075 trie size as reported by iniTeX
+Polish patterns    5505
+      ------------------
+       total      11580
+
+When loading two sets together i get trie size 11344.  That means the
+gain from compacting patterns together is 236 at the level of 2% !!!.
+(Can anybody check this for other sets of paterns ?)
+
+At the same time Ziri Zlatuska's experiments show that compacted
+patterns are nearly 30% smaller than non compacted.
+
+
+regards
+                Mariusz
+
+========================================================================
+Date:         Tue, 1 Feb 1994 13:40:24 +0100
+Reply-To: Chris Rowley <C.A.Rowley@open.ac.uk>
+From: "Johannes L. Braams" <J.L.Braams@RESEARCH.PTT.NL>
+Subject:      LaTeX2e conference announcement
+
+               *******************************
+               *   LaTeX2e: The Conference   *
+               *******************************
+                        ************
+         Announcing the New Standard version of LaTeX
+         ********************************************
+
+You've read the hype, you've ordered the book---
+                  --- haven't you? ---
+          ---now here's the chance to discover the real thing!
+
+For authors, publishers, support persons, ..., everyone---
+         ---two days to discover what LaTeX2e can do for you
+
+All the New Features of LaTeX2e---
+            The New Standard Version of LaTeX
+                          ---Incorporating SliTeX and AMSLaTeX
+                        ************
+
+  ***  how to install it
+
+  ***  how to integrate your local styles
+
+  ***  how to use scalable fonts
+
+  ***  how to integrate graphics
+
+  ***  how to process existing documents
+
+  ***  how to use the new features
+
+  ***  how to write extension packages
+
+  Presentations by members of the LaTeX3 project team
+  Featuring Frank Mittelbach, Johannes Braams, David Carlisle,
+  Chris Rowley, Alan Jeffrey, Michel Goosens (at least)
+
+***************************************************************
+Booking Form
+
+I wish to attend the UKTUG's LaTeX2e conference on March 21st--22nd:
+
+Name:
+Organisation:
+Address:
+
+
+Telephone:
+Email:
+Please specify any special dietary requirements:
+Specify any changes to standard 1-night accommodation[2]:
+Indicate whether you require a copy of `The \LaTeX\ Companion'[3]:
+
+   Payment enclosed[1,4,9]
+or purchase order number[5]
+  Signed:
+    Date:
+
+Notes
+[1] Payment for the conference, all meals (including a conference dinner),
+     refreshments and accommodation for the night of Monday, March 21st,
+     will be \pounds89 for members of  UKTUG (or other \TeX\ user groups)
+     and \pounds120 for non-members.
+[2] Additional nights' accommodation (bed and breakfast) can
+     be included at a cost of \pounds20 per night.
+     Indicate which additional nights you require
+     (if any).  If you do not require accommodation for the night
+     of Monday,  March 21st, deduct \pounds20 and note this.
+[3] `The \LaTeX\ Companion', by  Goossens, Mittelbach  and Samarin,
+     has recently been published by Addison Wesley. It is the main source of
+     documentation about \LaTeX2e.  We hope to have this book
+     available to delegates at a discount from its normal price of
+     \pounds26.95. Please indicate whether you wish to take advantage of
+     this offer, which is available only to those attending
+     the conference.
+[4] Sterling cheques should be made payable to `Warwick University'.
+[5] A Purchase Order, with an order number, is an acceptable alternative
+     method of payment, but will attract a \pounds15 surcharge on the
+     amount due.
+[6] If your cost is outside the range \pounds69--175, recalculate.
+[7] Return the completed form to arrive by Tuesday March 1st, 1994.
+     We cannot guarantee enrollment after that date. If you are unable to
+     return the form by then, but are definitely coming, contact
+     the local organiser by email, telephone, fax or mail to secure a place.
+     For contact details, see below.
+[8] If your requirements are not met by the options offered,
+     contact the local organizer.
+[9] Note that VAT is not chargeable.
+[10] A proper LaTeX-able version of the booking form is available from
+     the local organizer.
+
+Meeting duration
+Conference  registration  will commence at 1000 on  Monday 21st;
+coffee  will be available from 1030; the sessions will start at 1115.
+The sessions will end at 1700 on Tuesday 22nd.
+
+Travel to Warwick University
+There is an Inter-City rail service to Coventry, but from some
+locations it may be easier to travel to Birmingham initially.
+
+Journey                     depart  arrive
+Euston to Coventry           0810    0920
+                             0840    0950
+                             0910    1025
+Manchester to Coventry       0718    0929
+                             0818    1027
+Bristol (TM) to B'ham        0714    0854  Trains from Birmingham to Coventry
+                             0830    0954  are frequent and fast (journey time
+Newcastle to B'ham           0640    0951  of 20--30 minutes, departing
+York to B'ham                0742    0951  every 10 or 15 minutes).
+
+There will be a shuttle bus service running between 1000 and 1030 for delegates
+arriving at Coventry Railway Station. The shuttle bus will also be available
+on the 22nd to take delegates back to the station.
+
+A taxi from the station to the University costs about \pounds4.
+Alternatively, buses (notably the X10, X12, 12 and 12A) run from
+just outside the station to the University, taking about 15 minutes.
+It is a de-regulated service and as such impossible to guess the
+fare from day to day. It is usually about 50p. The 12 and 12A services
+are `correct fare only', but no-one (except the driver) knows what
+the correct fare is.
+
+The University is easily accessible by car, and
+may be reached from the M1, M40, M42, M45, M6 and M69.
+There is ample parking for private vehicles on campus.
+
+Birmingham airport is about 12 minutes from Coventry by
+rail and is connected by a frequent and fast service.
+
+Payment Address
+Please return the completed booking form, together
+with your payment, to arrive before Tuesday March 1st, 1994, to:
+
+Malcolm Clark (lxii)
+Computing Services         Tel: 0203 523365
+University of Warwick      Fax: 0203 523267
+Coventry CV4 7AL         Email: m.clark@uk.ac.warwick (Janet)
+UK                              m.clark@warwick.ac.uk (Internet)
+
+                                                       Enrol by March 1st, 1994
+
+========================================================================
+Date:         Wed, 2 Feb 1994 13:46:51 +0100
+Reply-To: NTS-L Distribution list <NTS-L@DHDURZ1.BITNET>
+From: Peter Deussen <dem@CS.TU-BERLIN.DE>
+
+unsubscibe
+
+========================================================================
+Date:         Fri, 4 Feb 1994 12:44:49 EST
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "MARSOLAIS,SYLVAIN,MR" <BBFO@MUSICB.MCGILL.CA>
+
+LIST GLOBAL
+
+========================================================================
+Date:         Thu, 17 Feb 1994 11:53:04 -0500
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Michael Downes <MJD@MATH.AMS.ORG>
+Subject:      Another debugging proposal
+
+Proposed debugging extension:
+
+---Improve the reporting of conditionals when \tracingmacros > 1 to make
+it easier to locate the source of an error such as "File ended when \ifx
+on line 1371 was incomplete". Since TeX already maintains the
+information about the begin-conditional command and the line number, I
+hope that it would not be too hard to write this into the log file at
+the appropriate point, together with the current conditional nesting
+level:
+
+  {\ifx: 2 l.300}
+  {false}
+  {\fi: \ifx 2 l.300}
+
+where "2" indicates the nesting level inside the conditional.
+
+Motivation: There is currently no easy way to properly match up all the
+\if's and \fi's in a tracing log, for reasons that are a little
+complicated to explain. Anyone who has tried to debug this sort of error
+in a complicated macro package will know what I'm talking about, I
+think. The proposed extension would help in this way: If you want to
+find the \ifx that matches a given \fi, you would merely have to search
+backward for the pattern
+
+  {\ifx: 2
+
+The nesting level number guarantees that the first occurrence in the
+reverse direction will be the proper match, provided that tracing was
+turned on throughout the intervening material. The line number will help
+track down a match when there is a large amount of intervening material
+so that tracing through all of it would be inconvenient (for example, by
+producing a log file that uses up all 7 megs of your remaining disk
+space :-).
+
+Michael Downes
+mjd@math.ams.org
+

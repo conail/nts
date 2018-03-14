@@ -1,0 +1,32 @@
+========================================================================
+Date:         Fri, 13 Jan 1995 11:03:08 -0500
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Michael Downes <MJD@MATH.AMS.ORG>
+Subject:      \eqno, \leqno should not be math mode
+
+A suggestion for e-TeX:
+
+The contents of \eqno, \leqno should be typeset in text mode, not math
+mode. In particular, they should not call \everymath. Equation numbers
+are inherently textual in nature, like all the other structural
+numbering in a document, even though we sometimes embellish them with
+bits of math or want to use centered math * instead of raised text *.
+
+Michael Downes
+mjd@math.ams.org
+
+========================================================================
+Date:         Fri, 13 Jan 1995 16:25:15 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Philip Taylor <CHAA006@VMS.RHBNC.AC.UK>
+Subject:      Re: \eqno, \leqno should not be math mode
+
+>> The contents of \eqno, \leqno should be typeset in text mode, not math
+>> mode. In particular, they should not call \everymath. Equation numbers
+>> are inherently textual in nature, like all the other structural
+>> numbering in a document, even though we sometimes embellish them with
+>> bits of math or want to use centered math * instead of raised text *.
+
+Many thanks for your suggestion, Michael: I will ensure that it
+is discussed.  ** Phil.
+

@@ -11,6 +11,10 @@ Got with:
 
 Also, nts-l, from https://ctan.org/pkg/nts-l = https://ctan.org/tex-archive/info/digests/nts-l
 
+Manually generated `files.list`, and did
+
+    for f in $(cat files.list); do echo $f; wget $f; done
+
 ----------
 
 And 

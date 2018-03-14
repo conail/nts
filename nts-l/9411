@@ -1,0 +1,1897 @@
+========================================================================
+Date:         Tue, 8 Nov 1994 20:35:13 BST
+Reply-To: Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: Philip TAYLOR <CHAA006@VAX.RHBNC.AC.UK>
+Subject:      e-TeX: some specific proposals!
+
+Dear Colleagues -- The NTS group have been very quiet of late, and there has
+been little discussion of NTS and/or e-TeX on this list.  But although we
+have been quiet, we have not been idle, and we now have a definite list of
+proposals which we are considering for incorporation in e-TeX.  Please read
+the ideas below, and make any comments which you feel appropriate.
+
+                                Philip Taylor,
+                                Technical Director, NTS project.
+--------
+
+Minutes of the NTS meeting held at Lindau on October 11/12th 1994
+=================================================================
+
+Present: Philip Taylor, Jiri Zlatuska, Bernd Raichle, Friedhelm Sowa,
+         Peter Breitenlohner, Joachim Lammarsch.
+
+It was AGREED that no progress had apparently been made on the `canonical
+TeX kit' project, and that no progress was likely to be made unless and until
+an active proponent of the project emerged within, or was recruited to, the
+group; accordingly the project was officially placed on ice.
+
+It was AGREED that in the absence of adequate funding for the NTS project
+proper, no serious work could be carried out; several possible sources of
+funding remained to be explored, and the group were hopeful that this project
+would see the light of day before too long.  [ACTION: JZ, JL]
+
+It was AGREED that the e-TeX project was both feasible and very worthwhile, and
+that all efforts should initially be concentrated on achiving progress in this
+area.  With the benefit of hindsight it was AGREED that the original proposal
+to issue new releases at six-monthly intervals had been over-optimistic, and
+that a more realistic timescale would involve new releases once per year.  It
+was also AGREED that the first release should be accomplished as soon as
+possible, consistent with the need to ensure that the code released was both
+bug-free and unlikely to require more than a minimum of re-thinking in the
+light of experience.
+
+The group attempted to identify as many ideas as possible which either has
+already been proposed for incorporation in e-TeX, or which were natural
+consequences of (or alternatives to) ideas already proposed.  The remainder
+of this document lists the various ideas mooted, and discusses their intention
+and implementation.
+
+--------
+
+\horigin, \vorigin (dimen registers, default = 1 in).
+These two registers, requested by Phil, will serve to make explicit for the
+first time the canonical (1", 1") origin decreed by DEK in the definition of
+the DVI format, and on which all formats are currently predicated.  Phil
+explained that his college, amongst others, had eschewed this convention right
+from the outset, and has instead adopted the more logical (0", 0") origin,
+requiring all drivers to be configured in a non-standard manner.  Providing
+the origin registers within e-TeX would allow all drivers to be reconfigured
+to the standard, whilst existing practices could be maintained simply by local
+initialisation of the registers to (0", 0").  As e-TeX might eventually require
+the adoption of a new version of the DVI format (to encompass, for example,
+colour), that might also be the appropriate time at which to propose universal
+adoption of a (0", 0") origin.
+
+\<enhancement>state (internal integer registers, one for each enhancement).
+A unified mechanism is proposed for all enhancements [1] whereby an internal
+integer register is associated with each, the name of the register being derived
+from the concatentation of the name of the enhancement and the word `state';
+such registers are read/write, and if their value is zero or negative the
+associated enhancement is disabled [2].  If a positive non-zero value is
+assigned to anu such register, then the associated enhancement shall be
+enabled, and if the register is interrogated then a positive non-zero value
+shall indicate that the associated enhancement is enabled.  It is possible
+that in a future release differing values assigned to or returned by such
+registers may indicate the revision-level of enhancements, and therefore it
+is initially recommended that only the values zero or one be used.
+
+\TeXXeTstate, \MLTeXstate (internal integer registers).
+These are the only two enhancements currently under consideration, although
+Bernd Raichle also has a proposal for an alternative ligaturing mechanism
+which would probably of necessity form an enhancement if adopted.  MLTeX
+is not proposed for incorporation in the first release, but may be incorporated
+in the second.  The group acknowledges the generosity of Michael Ferguson in
+allowing the incorporation of his work on MLTeX.
+
+\interactionmode (internal integer register).
+Allows read/write access to the present \scrollmode, \nonstopmode, etc.,
+family of primitives; the values will be a monotic sequence of period one,
+and descriptive names will be associated through the e-plain (and e-LaTeX?)
+formats. [3]
+
+<additional \tracing... detail>
+Peter has implemented augmented semantics for some of the \tracing commands
+whereby increasingly positive values given increasingly detailed output.
+
+\protected (new prefix for macro definitions).
+Analogous to \long, \outer, etc., causes the associated macro to be
+non-expanding in contexts where such behaviour is likely to be undesirable
+(in particular in \writes and \edefs); an explicit \expandafter \empty
+may be used to force expansion in these circumstances.
+
+\bind (new prefix for macro definitions).
+Proposed by Phil, this was intended to allow macros to be bound to the
+current _meaning_ of embedded control sequences rather than to their names,
+in a manner analogous to PostScript's `bind def'.  However the group were
+unconvinced of the merits of this proposal, and it was classified as
+`more work needed' (MWN).
+
+\evaluate {<arithmetic expression>}.
+Intended for use on the r-h-s of \count, \dimen and \skip assignments,
+it would allow the use of infix arithmetic operators such as +, -, * and /;
+the type of the result would, in general, be the type of the simplest operand
+forming a part of the expression, and the normal semantics of TeX would allow
+this to be further coerced where necessary.  Parenthesised sub-expressions
+would be allowed.  [4]
+
+\contents <box #>.
+Proposed by Jiri, this is intended to allow the TeX programmer access to the
+sort of information normally only available via the log file as a result of
+a \show; in principle it would generate the simplest list of TeX tokens which
+would generate the box specified, assuming that each token generated still
+had its canonical meaning.  MWN.
+
+<anchors>: Proposed by Jiri, an ``anchor point'' would be in some senses
+be analogous to a mark, but rather than recording textual information it
+would instead record the co-ordinates of itself, relative to the reference
+point of the smallest surrounding box.  Additional new primitives would
+be required to return the co-ordinates of a specified anchor point. MWN.
+
+\scantokens {<balanced text>}.
+Allows an existing token-list to be re-input under a different catcode regime
+from that under which it was created; as it uses all of TeX's present \input
+mechanism, even %%ff notation will be interpreted as if \input.  Causes an
+`empty filename' to be input, resulting in `( )' appearing in the log file
+if \tracingscantokens (q.v.) is strictly greater than zero.  If the token list
+represents more than one line of input, and if an error occurs, then
+\inputlinenumber will reflect the logical input line from the token list rather
+than the current input line number from the current file.
+
+\unexpanded {<balanced text>}.
+An alternative to \protected, for use when a whole brace-delimited token
+list (`balanced text') is to be protected from expansion.  Intended to be
+use in \writes and \edefs.
+
+\every<whatever>.
+The group discussed many possibilities of implementing additional \every
+primitives in e-TeX; most were classified as MWN, but one (\everyeof) is
+being considered for e-TeX version 1.
+
+\futuredef <cs> <tok> <tok>.
+Analogous to \futurelet, but the <cs> will be expandable, and expand to the
+next token encountered (or to the next balanced text if the next token is
+of catcode 1).  MWN.
+
+\futurechardef <cs> <tok> <char-or-tok>.
+A combination of \futurelet and \chardef, will allow the next character to
+be inspected and its character code returned iff it has not yet been tokenised.
+If tokenisation has already taken place, will return -1.  Intended to allow
+the catcode of the next character to be changed based on its value.
+
+\ifdefined <cs>.
+Allows direct testing of whether or not a given <cs> is defined.
+
+\ifcsname ... \endcsname.
+Ditto, but for a sequence of <tokens-expanding-to-characters>; this also
+avoids wasting of hash table space.
+
+\unless <boolean-if>.
+Inverts the sense of the following boolean-if; particularly useful in
+conjunction with \ifeof in \loop ... \ifeof ... \repeat constructs,
+but also of use with (say) \ifdefined and \ifcsname.
+
+\TeX<whatever>state.
+More work needed!  A mechanism whereby a TeX document can ask TeX some
+questions about the current state of its digestive tract.  For example it
+would be nice to know if TeX was currently involved in an assignment, and
+if so which part of the assignment was currently being elaborated.
+
+\marks <integer>
+Allows, for the first time, a whole family of marks rather than just the one
+provided by TeX; will also require analogous \topmarks <integer>, etc.  The
+group propose to provide 16 such marks, but are interested to know if the
+(La)TeX community consider this sufficient.   A related \markdef primitive
+may be provided to simplify mark allocation, in a manner analogous to the
+existing \...def primitives.
+
+\deferred \special (or perhaps \deferredspecial).
+At the moment, only \writes are deferred; there are cases when it would
+be desirable for other things, too, to be expanded only during \shipout,
+and \specials are one of these.
+
+\textcode <integer>.
+Could provide a text-mode analogy to TeX's \mathcode.  MWN.
+
+\middle <delimiter>.
+Analogous to \left and \right, allows delimiters to be classed as \middle,
+and their spacing thereby adjusted.
+
+\filename.
+Would allow access to the name of the file currently being \input.
+Lots of discussion on just how much or how little should be returned.
+MWN.
+
+\OSname.
+Very contentious.  Would provide the name of the operating system, and
+thereby allow documents to behave differently on different systems.
+Deprecated on that basis, and will not be provided unless/until a \system
+primitive is also provided.
+
+\system {<balanced text>}.
+Definitely not proposed for e-TeX version 1.  Would allow operating system
+calls to be made, and their status and result(s) returned in some way.
+A lot MWN.
+
+\tracingscantokens (internal integer register).
+See \scantokens.
+
+<smarter discretionaries, e.g. \discretionarylefthyphenmin>.
+Hyphenation after an implicit hyphen is sometimes highly desirable, and
+the group are investigating mechanisms whereby this could be both provided
+and parameterised.  MWN.
+
+\everyhyphen (token list register).
+Would allow TeX's present hard-wired behaviour of placing an empty
+discretionary after every explicit hyphen to be modified.  However, there
+are potentially problems of recursion, and perhaps even a need to remove
+the hyphen.  MWN.
+
+\clubpenalties, \widowpenalties.
+A start at improving TeX's penalty system by making it more flexible.  These
+two penalty `arrays' would allow a different penalty to be associated with
+one-line widows, two-line-widows, etc.  [5]
+
+\ifenhanced.
+A boolean-if which would return -true- iff any enhancement is enabled.
+Would allow a e-TeX document to check if it is being processed in `extended'
+more or `enhanced' mode.  Phil argues for this one but the group are
+unconvinced: the advice of the TeX community is to be sought.
+
+\lastnodetype.
+Would allow, for the first time, the unambiguous identification of the type
+of the last node of one of TeX's internal lists, removing (for example) the
+ambiguity when \lastpenalty returns 0 (which can indicate no penalty node,
+or a penalty node with value 0).  Would return one of a monotonic series of
+integers of period one.  Meaningful names would be assigned to these through
+the e- series formats [3].
+
+\unnode.
+Would allow the removal of _any_ node from the end of one of TeX's internal
+lists.
+
+\lastnode.
+Perhaps analogous to \contents (q.v.), or perhaps quite different, would allow
+access to the value of the last node of one of TeX's internal lists.
+Generalises TeX's present mechanism whereby only a subset of nodes can be
+accessed.  MWN.
+
+\readline <integer> to <cs>.
+Allows a single line to be read from an input file as if each character
+therein had catcode 12 [6].  Intended to be used for verbatim copying
+operations, in conjunction with \scantokens, or to allow error-free parsing
+of `foreign' (non-TeX) files.
+
+\everyeof {<balanced text>}
+Provides a hook whereby the contents of a token list register may be
+inserted into TeX's reading orifice when end-of-file is encountered
+during file reading.  Would not be invoked of the file indicated
+logical e-o-f through the medium of \endinput.  Proposed by Phil
+to allow clean processing of file-handling code which requires
+a (sequence of characters yielding) \else or fi to be found in a
+file, where no such sequence can be guaranteed.
+
+\listing (internal integer register).
+Would allow the generation of a listing containing (for example) TeX's analysis
+of current brace depth, macro nesting, etc. Different positive values would
+allow different amounts of information to be generated.  Would the TeX
+community like such a feature?
+
+\defaultextension.
+Would allow TeX' present hard-wired behaviour of appending .TeX to a filename
+not possessing an explicit extension to be modified, allowing an alternative
+extension to be specified.  Would this be of use to the L2e/L3 team, and/or
+to the TEX world in general?
+
+<fixed point arithmetic>.
+Several of the above ideas cannot be implemented at the moment, as they
+would allow access to the `forbidden area' of machine-dependent arithmetic.
+If TeX's present floating point calculations were replaced by Knuth's
+fixed-poing arithmetic proposals, then there would no longer be a forbidden
+area and all such ideas could, in principle, be implemented.
+
+Notes:
+
+[1] `Extensions' are basically new primitives which have no effect on the
+     semantics of existing TeX documents, except insofaras any document which
+     tests whether such a primitive is, in fact, undefined, will clearly obtain
+     opposite results under TeX and e-TeX; `enhancements' are more fundamental
+     changes to the TeX kernel which may affect the semantics of existing TeX
+     documents even if no new primitive is used or even tested.  Such changes
+     may be, for example, differences in the construction of TeX's internal
+     lists, or perhaps different hyphenation or ligaturing behaviour.
+
+[2]  It is currently proposed that all enhancements be disabled by e-IniTeX
+     immediately prior to the execution of \dump.  This decision was taken
+     based on the advice of Frank Mittelbach.
+
+[3]  Question: should there, in fact, be an e-plain (or e-LaTeX) format,
+     or should there simply be an e-plain.tex file which can be loaded by
+     a user document?  Peter votes for an e-plain.tex file that will \input
+     plain.tex but no hyphenation patterns.
+
+[4]  Should e-TeX allow access to more powerful operators than just
+     +, -, * and /?
+
+[5] `Arrays' are not very obvious in TeX at the moment, although there are,
+     for example, \fontdimens and such-like.  But should these have fixed
+     bounds (as in 256 count registers, for example), or arbitrary upper
+     bounds (as in font dimens, if the `extra' elements are assigned as
+     soon as the font is loaded).  Or should they be finite-but-unbounded,
+     as in \parshape, wherein the first element indicates the number of
+     elements which follow?  These questions are applicable to marks as
+     well as to penalties...
+
+[6]  Should spaces have catcode 10 for this operation?  Peter thinks so,
+     but based on existing simulations of this operation, I [PT] am more
+     inclined to think they should have catcode 13.
+
+========================================================================
+Date:         Tue, 8 Nov 1994 22:20:56 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "Denis B. Roegel" <Denis.Roegel@LORIA.FR>
+Subject:      suggestion for NTS
+
+I just read the minutes of the October meeting and find
+it very interesting. If I were millionaire, I would
+immediately help e-TeX, but alas...
+
+Anyway, a few days ago, I noticed something which is quite
+difficult to do in TeX and which might be improved. It is the
+fact that when a paragraph is cut in lines and these lines
+are added to previous accumulated pages in order to form
+a page, several lines are left back for the next pages.
+These lines are set in boxes and unfortunately some
+informations are lost. Sometimes, you wish to unset these
+set lines and since information is lost, it would be
+interesting to have these lines as tokens in a special
+token list. The problem I think is to find a correspondance
+between where the page ends between the lines, and where
+the page ends in this token list. I feel there are cases
+where this is simple.
+
+So, if this were possible, you could easily add a command
+in the output routine which would unset the lines already set,
+insert a \parshape and cut some shape out of each page.
+Wouldn't that be neat ?
+
+Well just a suggestion...and if not for e-TeX, please consider
+it for NTS.
+
+Regards,
+
+Denis.
+
+========================================================================
+Date:         Tue, 8 Nov 1994 17:15:00 -0500
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: bbeeton <BNB@MATH.AMS.ORG>
+Subject:      Re: e-TeX: some specific proposals!
+In-Reply-To:  <01HJ8PR36T2QEBODFE@MATH.AMS.ORG>
+
+having just undergone some rather painful experiences with poorly
+checked input, i'd really like to be able to inquire about the
+current nesting level.  this perhaps falls in the category of
+"\listing", about which feedback was requested.  i'm not sure i
+want a great deal of detail though -- just a register whose value
+i could test from time to time to make sure that things haven't
+gotten out of hand.  this would make it possible, for instance,
+to trigger an error message reasonably near the source of a
+problem rather than waiting for the end of a job.
+                                                -- bb
+
+========================================================================
+Date:         Wed, 9 Nov 1994 10:10:17 +0100
+Reply-To: flexus!RfSchtkt@maze.ruca.ua.ac.be
+From: Raf Schietekat <flexus!rfschtkt@MAZE.RUCA.UA.AC.BE>
+Subject:      TeX grammar
+
+LS,
+
+Can TeX be parsed by something like lex/yacc, and if so, where can I find the
+sources, if available for free? Maybe only subsets of TeX can be handled this
+way? Or maybe it's hopeless altogether? I've tried to compile (traditional
+meaning) a grammar from the information in `The TeXbook', but I've encountered
+all sorts of problems when trying to compile it (computer science meaning).
+
+Thanks,
+
+Raf Schietekat, RfSchtkt@maze.ruca.ua.ac.be, Flanders, Belgium
+(real, i.e., with triangle in the Deliver button) NeXTmail preferred
+Addressing limitations: no !, % or .uucp, I think
+
+PS: Please reply to my address, because my system/situation throws away all
+messages from this list (I have to lie in ambush to pick incoming messages out
+of the uucp queue). If you're a uucp guru...
+
+========================================================================
+Date:         Wed, 9 Nov 1994 18:44:38 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+Subject:      Re: TeX grammar
+In-Reply-To:  <199411091736.SAA19623@rs3.hrz.th-darmstadt.de> from "Raf
+              Schietekat" at Nov 9, 94 10:10:17 am
+
+Raf Schietekat wrote:
+>
+> Can TeX be parsed by something like lex/yacc
+
+No. As a macro language TeX has an extensible grammar. That cannot be
+modelled with parser generators like the one above. One has to use
+modifiable grammars.
+
+What makes such tools even more unsuitable, is the point that the
+lexical analysis can be configured.
+
+It's not a problem per se to parse TeX; Common Lisp's macro language
+and its configurability is by far more complex (and more powerful)
+than TeX; it simply isn't your classic Aho-Hopcraft-Ullman-textbook
+type of language.
+
+        Joachim
+
+--
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Joachim Schrod                  Email: schrod@iti.informatik.th-darmstadt.de
+Computer Science Department
+Technical University of Darmstadt, Germany
+
+========================================================================
+Date:         Wed, 9 Nov 1994 18:57:38 BST
+Reply-To: Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: Philip TAYLOR <CHAA006@VAX.RHBNC.AC.UK>
+Subject:      Re: suggestion for NTS
+
+Denis --
+
+>> I just read the minutes of the October meeting and find
+>> it very interesting. If I were millionaire, I would
+>> immediately help e-TeX, but alas...
+
+We shall all pray for you to win a lottery!
+
+>> Anyway, a few days ago, I noticed something which is quite
+>> difficult to do in TeX and which might be improved. It is the
+>> fact that when a paragraph is cut in lines and these lines
+>> are added to previous accumulated pages in order to form
+>> a page, several lines are left back for the next pages.
+>> These lines are set in boxes and unfortunately some
+>> informations are lost. Sometimes, you wish to unset these
+>> set lines and since information is lost, it would be
+>> interesting to have these lines as tokens in a special
+>> token list. The problem I think is to find a correspondance
+>> between where the page ends between the lines, and where
+>> the page ends in this token list. I feel there are cases
+>> where this is simple.
+
+This is a very interesting proposal, and one which I believe
+Frank Mittlebach has already proved possible: thank you very
+much for reminding us of it -- I will add it to the list of
+ideas which must be considered.
+
+                                ** Phil.
+
+========================================================================
+Date:         Thu, 10 Nov 1994 19:45:00 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Jonathan Fine <J.Fine@PMMS.CAM.AC.UK>
+Subject:      Turning a set paragraph into tokens
+
+Dear NTS Reader
+In a recent posting Denis Roegel asks for a command which would
+>       unset lines already set
+so that the output routine could
+>       cut some shape out of each page.
+
+The purpose for which Roegel requests the new command can be
+accomplished with TeX as it is, by writing some admittedly tricky
+macros.  For example, see articles by Alan Hoenig in TUGBoat.
+
+best regards
+Jonathan Fine
+
+========================================================================
+Date:         Thu, 10 Nov 1994 22:02:28 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+Subject:      Re: Turning a set paragraph into tokens
+In-Reply-To:  <199411101948.UAA35319@rs3.hrz.th-darmstadt.de> from "Jonathan
+              Fine" at Nov 10, 94 07:45:00 pm
+
+On another point concerning that subject: It was announced that e-TeX
+shall really be able to `rescan' a token list, to be able to process
+an input with different catcodes.
+
+I would like to know how the rescan of \tok, as defined in
+
+    \let\u=\uppercase               % contains `s'
+
+    \newtoks\tok
+
+    \catcode`\s=10
+    \tok\expandafter{\u{asb}}
+    \catcode`\s=11
+
+is handled. To make my point clear, for those who do not know TeX by
+heart: The `s' is lost and cannot be recovered in TeX.
+
+        Joachim
+
+--
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Joachim Schrod                  Email: schrod@iti.informatik.th-darmstadt.de
+Computer Science Department
+Technical University of Darmstadt, Germany
+
+========================================================================
+Date:         Thu, 10 Nov 1994 23:00:52 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      \oddhoffset, \evenhoffset, etc.
+
+\oddhoffset, \evenhoffset, \oddvoffset, \evenvoffset
+
+If you have a printer capable of real twosideprinting, it may happen, that
+the front page and the back page have different offsets and you want to
+correct for it separately. I remember that this problem was once mentioned
+on de.comp.tex.
+
+--J"org Knappen.
+
+========================================================================
+Date:         Thu, 10 Nov 1994 23:02:23 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      \horigin
+
+\horigin, \vorigin
+
+I don't see the gain of these two commands. In fact, there is no
+``natural'' origin of the coordinate system at all. The upper left corner
+looks very unnatural as well, why shouldn't it be the lower left corner
+with the usual orintation of axes? However, shifting around the coordinate
+system does not give you anything you don't have in the old one, therefore
+the standard is better left untouched.
+
+--J"org Knappen.
+
+========================================================================
+Date:         Thu, 10 Nov 1994 15:51:28 -0500
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Michael Downes <MJD@MATH.AMS.ORG>
+Subject:      Re: Turning a set paragraph into tokens
+In-Reply-To:  <01HJBGMLEC6QEBOQQC@MATH.AMS.ORG>
+
+(Denis Roegel:)
+> fact that when a paragraph is cut in lines and these lines
+> are added to previous accumulated pages in order to form
+> a page, several lines are left back for the next pages.
+> These lines are set in boxes and unfortunately some
+> informations are lost. Sometimes, you wish to unset these
+> set lines and since information is lost, it would be
+> interesting to have these lines as tokens in a special
+> token list. The problem I think is to find a correspondance
+> between where the page ends between the lines, and where
+> the page ends in this token list. I feel there are cases
+> where this is simple.
+
+(Jonathan Fine:)
+> The purpose for which Roegel requests the new command can be
+> accomplished with TeX as it is, by writing some admittedly tricky
+> macros.  For example, see articles by Alan Hoenig in TUGBoat.
+
+Yes, and I don't think it would be wise to attempt to keep track of a
+correspondence between tokens and the lines of a paragraph; that would
+be an attempt to find synchronization between two very different, very
+*asynchronous* data types (token stream versus horizontal list). The
+most natural thing to do, within the current framework of TeX, would be
+to save the trailing part of the paragraph in a box register as a single
+unbroken line and make that accessible in the output routine. And even
+then I think you have difficult complications because linebreaking and
+the movement of material from `recent contributions' to `current page'
+are separate steps. Consider also that the desired behavior cuts
+unnaturally across TeX's optimization of line breaks over an entire
+paragraph: the line breaks that TeX finds if the tail of the paragraph
+is left as a single unbroken line might differ from the line breaks that
+TeX finds if the tail of the paragraph is fully broken. This in turn can
+affect the height/depth of the lines that fall at the page boundary,
+which would seem to imply a fundamental instability in the decision
+about where the tail of the paragraph is to be broken off!
+
+Michael Downes
+mjd@math.ams.org
+
+========================================================================
+Date:         Thu, 10 Nov 1994 23:01:33 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      \evaluate
+
+\evaluate
+
+I think, that the following three functions are a must: sin, cos, sqrt.
+Pythagorean addition (like METAFONT's `++') is also worth considering.
+
+The other arithmetic features of METAFONT are also fine, but I don't want
+to go over the top (OTT). It would be difficult enough to implement
+\evaluate anyhow.
+
+--J"org Knappen.
+
+========================================================================
+Date:         Thu, 10 Nov 1994 23:06:58 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      \fancyprompt
+
+\fancyprompt
+
+allow configuration of the TeX prompt (default `*').
+
+*\fancyprompt{eTeX>}
+eTeX>
+
+--J"org Knappen.
+
+========================================================================
+Date:         Thu, 10 Nov 1994 23:03:54 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      Make eTeX less batch orientated
+
+The following is something new and rather different from the current
+proposals. The idae behind is having TeX ready in the memory and avoid
+loading it anew for each run again and again which costs lots of startup
+time, if you have to load everything via NFSS.
+
+The idea I am toying with is to have something like
+     \level
+which clones the current state of TeX and allows to start a new dvi-file.
+Then you do what you want (start even another \level, if you want, and at
+last you say
+     \exit
+which performes like \end, except that it restores exactly the state before
+the last cloning.
+
+Wait a minute, you want to may communicate some information to the waiting
+lion. So there may be one exeption. You say
+     \exit{some_integer_number}
+and this number can be read by using
+     \exitstatus.
+
+Applications are many. If you have a format which usually requires several runs,
+ you
+can do all the runs within one job, and automatically decide, wether a
+further run is necessary. Of course, you should device your format to have
+a counter maxruns to avoid endless looping...
+
+--J"org Knappen.
+
+========================================================================
+Date:         Thu, 10 Nov 1994 22:46:01 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "Denis B. Roegel" <Denis.Roegel@LORIA.FR>
+Subject:      Re: Turning a set paragraph into tokens
+In-Reply-To:  <199411101947.UAA29243@lorraine.loria.fr> from "Jonathan Fine" at
+              Nov 10, 94 07:45:00 pm
+
+'Jonathan Fine'
+>
+>   Dear NTS Reader
+>   In a recent posting Denis Roegel asks for a command which would
+>   >       unset lines already set
+>   so that the output routine could
+>   >       cut some shape out of each page.
+>
+>   The purpose for which Roegel requests the new command can be
+>   accomplished with TeX as it is, by writing some admittedly tricky
+>   macros.  For example, see articles by Alan Hoenig in TUGBoat.
+>
+
+I don't doubt this is possible in TeX, since everything is possible
+within TeX. But it is difficult. And also unefficient.
+Here is an excerpt of an exchange with Donald Arseneau:
+
+DA> ... I must say that you can't unbox paragraphs and
+DA> re-set them: choice of discretionary (hyphenation) and discarding are
+DA> permanent; they cannot be restored.  To have a chance at reshaping a
+DA> paragraph, you must keep either the original text of the paragraph, or
+DA> set it on a single line (\hsize=\maxdimen) and keep that box.  See
+DA> shapepar.sty. It would be much better to use non-TeX.
+
+I had understood that one purpose of e-TeX was to ease things
+that were otherwise difficult, or am I wrong ?
+
+Denis.
+
+========================================================================
+Date:         Fri, 11 Nov 1994 11:29:11 BST
+Reply-To: Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: Philip TAYLOR <CHAA006@VAX.RHBNC.AC.UK>
+Subject:      Quick response to recent proposals
+
+My thanks to those who responded to the recent list of proposals for e-TeX:
+here are my immediate reactions to the new suggestions; other members of the
+team will probably want to respond individually:
+
+                                        **  Phil.
+--------
+>> On another point concerning that subject: It was announced that e-TeX
+>> shall really be able to `rescan' a token list, to be able to process
+>> an input with different catcodes.
+
+>> I would like to know how the rescan of \tok, as defined in
+
+>>     \let\u=\uppercase               % contains `s'
+
+>>     \newtoks\tok
+
+>>     \catcode`\s=10
+>>     \tok\expandafter{\u{asb}}
+>>     \catcode`\s=11
+
+>> is handled. To make my point clear, for those who do not know TeX by
+>> heart: The `s' is lost and cannot be recovered in TeX.
+
+If e-TeX sees \scantokens {\tok}, it will simply process the
+characters "\tok" under the current catcode regime; if it
+sees \scantokens \expandafter {\tok}, then I would expect it
+to scan "\u{a b}", but Peter (who proposed and implemented this
+feature) is better placed than I to explain exactly what he intends
+it to do.  I'm sure he will respond shortly.
+--------
+>> \oddhoffset, \evenhoffset, \oddvoffset, \evenvoffset
+
+>> If you have a printer capable of real twosideprinting, it may happen, that
+>> the front page and the back page have different offsets and you want to
+>> correct for it separately. I remember that this problem was once mentioned
+>> on de.comp.tex.
+
+I really cannot see a genuine need for this: \hoffset & \voffset are
+honoured _only_ during shipout; it is a very simple matter for the
+output routine to tweak them just prior to threading \shipout.
+Or have I missed something?
+--------
+>> \evaluate
+
+>> I think, that the following three functions are a must: sin, cos, sqrt.
+>> Pythagorean addition (like METAFONT's `++') is also worth considering.
+
+If we allow trig functions we must implement them using integer arithemetic,
+otherwise portability issues will become a problem.  It is _very_ hard
+to know where to stop once you go beyond the basic four (plus, perhaps,
+mod and div).  But ++ is a nice idea.
+
+>> The other arithmetic features of METAFONT are also fine, but I don't want
+>> to go over the top (OTT). It would be difficult enough to implement
+>> \evaluate anyhow.
+--------
+>> \horigin, \vorigin
+
+>> I don't see the gain of these two commands. In fact, there is no
+>> ``natural'' origin of the coordinate system at all. The upper left corner
+>> looks very unnatural as well, why shouldn't it be the lower left corner
+>> with the usual orintation of axes? However, shifting around the coordinate
+>> system does not give you anything you don't have in the old one, therefore
+>> the standard is better left untouched.
+
+There are several reasons for eschewing the (1", 1") convention.
+
+(1) It's irrational: what on earth is special about 1" down, 1" in?
+(2) It's nonsensical if you trying to set 35mm slides at natural size;
+(3) Today's undergradutes don't know what an inch is...
+(4) For pedagogical reasons, I always teach that \horigin reprsents
+    the left margin, and \vorigin represents the top margin: I'd hate
+    to have to qualify this by ``provided that you first subtract one inch''.
+--------
+>> The following is something new and rather different from the current
+>> proposals. The idae behind is having TeX ready in the memory and avoid
+>> loading it anew for each run again and again which costs lots of startup
+>> time, if you have to load everything via NFSS.
+
+>> The idea I am toying with is to have something like
+>>      \level
+>> which clones the current state of TeX and allows to start a new dvi-file.
+>> Then you do what you want (start even another \level, if you want, and at
+>> last you say
+>>      \exit
+>> which performes like \end, except that it restores exactly the state before
+>> the last cloning.
+
+>> Wait a minute, you want to may communicate some information to the waiting
+>> lion. So there may be one exeption. You say
+>>      \exit{some_integer_number}
+>> and this number can be read by using
+>>      \exitstatus.
+
+>> Applications are many. If you have a format which usually requires several
+ runs,
+>>  you
+>> can do all the runs within one job, and automatically decide, wether a
+>> further run is necessary. Of course, you should device your format to have
+>> a counter maxruns to avoid endless looping...
+
+Very interesting: there are other calls for allowing more than one DVI file;
+certainly worthy of further consideration.
+--------
+>> \fancyprompt
+
+>> allow configuration of the TeX prompt (default `*').
+
+>> *\fancyprompt{eTeX>}
+>> eTeX>
+
+Seems pretty cosmetic to me: is this a serious proposal?
+--------
+>> Yes, and I don't think it would be wise to attempt to keep track of a
+>> correspondence between tokens and the lines of a paragraph; that would
+>> be an attempt to find synchronization between two very different, very
+>> *asynchronous* data types (token stream versus horizontal list). The
+>> most natural thing to do, within the current framework of TeX, would be
+>> to save the trailing part of the paragraph in a box register as a single
+>> unbroken line and make that accessible in the output routine. And even
+>> then I think you have difficult complications because linebreaking and
+>> the movement of material from `recent contributions' to `current page'
+>> are separate steps. Consider also that the desired behavior cuts
+>> unnaturally across TeX's optimization of line breaks over an entire
+>> paragraph: the line breaks that TeX finds if the tail of the paragraph
+>> is left as a single unbroken line might differ from the line breaks that
+>> TeX finds if the tail of the paragraph is fully broken. This in turn can
+>> affect the height/depth of the lines that fall at the page boundary,
+>> which would seem to imply a fundamental instability in the decision
+>> about where the tail of the paragraph is to be broken off!
+
+But Frank has shewn that it _can_ _be_ _done_.  The output routine is
+an irrelevancy in this: what is needed is \reconsiderparagraphs, which
+allows all material carried over from the current paragraph at a page
+break to be re-subjected to (e-)TeX's paragraphing algorithm.
+
+>> I don't doubt this is possible in TeX, since everything is possible
+>> within TeX. But it is difficult. And also unefficient.
+>> Here is an excerpt of an exchange with Donald Arseneau:
+
+>> DA> ... I must say that you can't unbox paragraphs and
+>> DA> re-set them: choice of discretionary (hyphenation) and discarding are
+>> DA> permanent; they cannot be restored.  To have a chance at reshaping a
+>> DA> paragraph, you must keep either the original text of the paragraph, or
+>> DA> set it on a single line (\hsize=\maxdimen) and keep that box.  See
+>> DA> shapepar.sty. It would be much better to use non-TeX.
+
+>> I had understood that one purpose of e-TeX was to ease things
+>> that were otherwise difficult, or am I wrong ?
+
+No, that's _exactly_ the point.  As I said in my earlier reply, this
+is a very important proposal which I am extremely glad you reminded
+us about.
+
+                                        ** Phil.
+
+========================================================================
+Date:         Fri, 11 Nov 1994 11:48:00 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Jonathan Fine <J.Fine@PMMS.CAM.AC.UK>
+Subject:      Re: Turning a set paragraph into tokens
+
+Denis Roegel wrote
+>    I had understood that one purpose of e-TeX was to ease things
+>    that were otherwise difficult
+and he may be right.
+
+Knuth provided macros so that things could be done without writing
+a whole new program.  To my mind it is very important to know of any
+required facility, whether it is
+a)  possible and not hard
+b)  possible and hard
+c)  not possible
+by writing macros or by improving the .dvi driver.
+
+For example, the \vorigin, \horigin feature can be provided by writing macros.
+(It's a question of intercepting the \shipout command, and this can be done
+by using the \afterbox macros that Sonja Maus published in TUGboat a while ago.)
+
+Now for the facility Roegel requested.  This is, he agrees, possible but hard.
+I'm in favour of making things easier, but for the life of me, I cannot see how
+turning s set box into tokens will help.
+
+I am in broad agreement with the contribution of Michael Downes on this matter.
+
+with best regards
+Jonathan Fine
+
+========================================================================
+Date:         Mon, 14 Nov 1994 15:05:01 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: David Carlisle <carlisle@CS.MAN.AC.UK>
+Subject:      Re: e-TeX: some specific proposals!
+In-Reply-To:  <9411082043.AA13490@m1.cs.man.ac.uk> (message from Philip TAYLOR
+              on Tue, 8 Nov 1994 20:35:13 BST)
+
+The following is a (very slightly) modified version of some comments I
+sent to Phil after he spoke about these proposals at UKTUG. I have
+modified the comments slightly in the light of other comments made
+since then on this list
+
+David
+=============================================================
+General point first:
+
+Some of these new primitives take up some nice names
+that users may want to use (or have used) in documents, I realise that
+the commands only become activated if the extensions are enabled, but
+these names may cause problems in converting documents to use etex
+features, and mean that it becomes hard to use those command names in
+future.
+
+As almost all the extra commands are aimed at the macro programmer
+rather than the document author, had your group ever considered giving
+the commands more `internal' names, eg with a unique prefix
+
+\etexevaluate
+\etexfilename
+
+etc
+
+I suggest etex as the prefix here as it is all letters, actually I
+would go further and use @ or _ in the names, macro files easily
+arrange to have the right catcode, and this leaves the `letters' name
+space free for user commands.
+\future_def ?
+
+
+
+> \horigin, \vorigin & <dimen registers>, default = 1 in & logical page origin
+
+Not sure that this gives you anything (and takes up a nice name)
+
+\horigin=???
+appears to be
+\hoffset=-1in \advance\hoffset by ???
+
+
+Others have commented on this too. It seems that the desired semantics
+can easily be gained without this extension.
+
+
+
+> \interactionmode & <count register> & read/write access to \scrollmode, etc.
+
+Also versions of \scrollmode and friends that obeyed TeX's normal scoping
+rules would be useful.
+
+> \protected <macro definition> & <primitive> & prefix analogous to
+>   \long, \outer, ...
+
+Need to think whether your suggested semantics (never expand in edef-y
+things) is enough, or whether one really would need some kind of
+\protectionlevel
+parameter
+(0= normal usage, 1= protected macros dont expand)
+or something.
+
+> \evaluate {<arithmetic expression>} & <skip primitive> & evaluates
+> and returns arithmetic expression
+
+Would this add to the list of characters that have special
+significance in the etex bnf expression descriptions. eg ( * / )
+as well as + - .   ??
+
+
+> \ifdefined <cs> & <if-primitive> & tests if <cs> is defined without
+> wasting hash-table space
+
+I thought that \ifx\foo\undefined did not waste hash space either ?
+
+> \ifcsname ... \endcsname & <if-primitive> & tests if constructed
+> <cs> is defined without wasting hash-table space
+
+I think this is atacking the wrong problem.
+It is not the
+\expandafter\ifx\csname foo \endcsname\undefined
+construct that is broken. It is the \csname primitive.
+
+What is desparately needed is a primitive like csname, but generates
+the standard TeX undefined command error if \foo is undefined.
+
+Then
+
+\expandafter\ifx\csnamedoneright foo \endcsnamedoneright\undefined
+
+ought to work as well as
+
+\ifx\foo\undefined
+
+but more importantly could stop doing the current mess of having to
+check whether foo is defined, and raise an error `by hand' if not,
+before executing \csname foo \endcsname
+
+> \markdef <cs> <integer> & <mark allocater> & allows multiple (16) marks
+
+Fixed, especially fixed low, upper limits are a bad thing in general,
+and in particular here. 16 will not be enough.
+
+ideally just
+\marktoken <cs>  to allow an arbitrary number of marks. If that is not
+in the TeX style please let <cs> be an arbitrary <count> value.
+
+Presumably this comes with matching typed versions of \mark \firstmark
+etc to actually use the typed marks?
+
+
+> \filename & <primitive> & analogous to \jobname
+As I mentioned, I would like all these commands to get internal names,
+but \filename would be a particularly nice name for users to lose.
+
+
+> \defaultextension & <?string register?> & specifies alternative to `.tex'
+
+Doesn't buy you much within the document, where the macro level can do
+this quite easily. (LaTeX does a lot of this sort of thing) however
+being able to change the default extension on the command line
+implicit input would be useful.
+
+Actually this made me think, it would be useful to be able to
+change that default  behaviour of adding \input, if some suitable syntax
+could be found, perhaps a token register, defaulting to {\input}.
+
+Currently for any files input with \input{foo} LaTeX avoids TeX's
+unfriendly missing file error, with its own error loop. It can not do
+this with files on the command line as it can not grab the filename
+very easily/
+
+> <fixed point arithmetic>
+
+Yes please, then give me \last-everything \un-everything :-)
+
+
+
+
+========
+
+One other feature would be nice. This is not a change to the language
+of TeX itself, but rather to its `standard implementation'.
+
+Currently
+
+\global\let\foo\undefined
+
+makes \foo act in all (I think?) respects as if \foo had never been
+defined, however \foo still sits in the hash table taking up a
+valuable slot that can never be used for any other command. Would it
+be possible for this to be de-allocated?
+
+David
+
+========================================================================
+Date:         Mon, 14 Nov 1994 11:02:41 -0500
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: bbeeton <BNB@MATH.AMS.ORG>
+Subject:      Re: e-TeX: some specific proposals!
+In-Reply-To:  <01HJGS6A3I76EBOZKF@MATH.AMS.ORG>
+
+among other requests for e-tex, david carlisle has proposed the
+following:
+
+    One other feature would be nice. This is not a change to the language
+    of TeX itself, but rather to its `standard implementation'.
+
+    Currently
+
+    \global\let\foo\undefined
+
+    makes \foo act in all (I think?) respects as if \foo had never been
+    defined, however \foo still sits in the hash table taking up a
+    valuable slot that can never be used for any other command. Would it
+    be possible for this to be de-allocated?
+
+when knuth was asked about this, a long time ago, his response was
+that he was unable to tell whether in fact a \cs was defined elesewhere,
+locally, and to continually be defining and undefining the same thing
+would be wasteful and time-consuming.  i think there was also some
+consideration of clearing things out of the middle of the hash table
+(the same reason given for not being able to remove a file name from
+the string pool unless it is the very last thing put onto the list).
+i will try to look up the reference if that is considered useful.
+also, peter may have a different opinion ...
+                                                -- bb
+
+========================================================================
+Date:         Mon, 14 Nov 1994 17:13:01 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "Denis B. Roegel" <Denis.Roegel@LORIA.FR>
+Subject:      Re: e-TeX: some specific proposals!
+In-Reply-To:  <199411141606.RAA15561@lorraine.loria.fr> from "bbeeton" at Nov
+              14, 94 11:02:41 am
+
+'bbeeton'
+>
+>   among other requests for e-tex, david carlisle has proposed the
+>   following:
+>
+>       One other feature would be nice. This is not a change to the language
+>       of TeX itself, but rather to its `standard implementation'.
+>
+>       Currently
+>
+>       \global\let\foo\undefined
+>
+>       makes \foo act in all (I think?) respects as if \foo had never been
+>       defined, however \foo still sits in the hash table taking up a
+>       valuable slot that can never be used for any other command. Would it
+>       be possible for this to be de-allocated?
+>
+>   when knuth was asked about this, a long time ago, his response was
+>   that he was unable to tell whether in fact a \cs was defined elesewhere,
+>   locally, and to continually be defining and undefining the same thing
+>   would be wasteful and time-consuming.  i think there was also some
+>   consideration of clearing things out of the middle of the hash table
+>   (the same reason given for not being able to remove a file name from
+>   the string pool unless it is the very last thing put onto the list).
+>   i will try to look up the reference if that is considered useful.
+
+In TeX's errorlog, I found the following which might shed some light
+on the topic.
+
+Denis.
+
+* 28 Aug 1979
+  ...
+S422\>403. Correct a serious |\gdef| bug:
+        Control sequences don't obey a last-in-first-out
+        discipline, so \TeX\ loses things from the hash table when deleting a
+        control sequence. @259
+# To fix this, I either need to restrict \TeX\ (so that
+        |\gdef| can be used inside a group only for control sequences already
+        defined on the outer level) or need to change the hash table algorithm.
+        Although all applications of \TeX\ known to me will agree to the
+        former restriction, I've chosen the latter alternative,
+        because it gives me
+        a chance to improve the language: Control sequences
+        of arbitrary length will now be recognized.
+
+========================================================================
+Date:         Fri, 18 Nov 1994 20:31:34 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: "Denis B. Roegel" <Denis.Roegel@LORIA.FR>
+Subject:      an other suggestion
+
+This might be interesting and quite easy to implement (I think):
+
+\showdefinedcommands : show all the commands that have been defined
+by \def, \edef, \let, etc.
+
+It can be useful for debugging.
+
+Denis.
+
+========================================================================
+Date:         Fri, 18 Nov 1994 19:58:07 BST
+Reply-To: Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: Philip TAYLOR <CHAA006@VAX.RHBNC.AC.UK>
+Subject:      Re: an other suggestion
+
+>> This might be interesting and quite easy to implement (I think):
+>> \showdefinedcommands : show all the commands that have been defined
+>> by \def, \edef, \let, etc.
+>> It can be useful for debugging.
+
+Or perhaps even \showallknowncontrolsequences? It could tag each
+with its type: primitive, macro, chardef'd, etc?  If you walked
+through the hash table they'd come out in a strange order, but I'm
+not sure you'd want the overhead of sorting them...
+
+I can't say I'm enthusiastic at the thought of these, but is there
+a general demand for either the simple or the full-blown version?
+
+                                        ** Phil.
+
+========================================================================
+Date:         Fri, 18 Nov 1994 16:39:52 EDT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@vm.gmd.de>
+From: Jerry Leichter <leichter@LRW.COM>
+Subject:      Re: an other suggestion
+
+        >> This might be interesting and quite easy to implement (I think):
+        >> \showdefinedcommands : show all the commands that have been defined
+        >> by \def, \edef, \let, etc.
+        >> It can be useful for debugging.
+
+        Or perhaps even \showallknowncontrolsequences? It could tag each
+        with its type: primitive, macro, chardef'd, etc?  If you walked
+        through the hash table they'd come out in a strange order, but I'm
+        not sure you'd want the overhead of sorting them...
+
+        I can't say I'm enthusiastic at the thought of these, but is there
+        a general demand for either the simple or the full-blown version?
+
+I'd suggest something much simpler, but also more general:  Include \dump in
+all versions of TeX.  The initex/virtex distinction is simply not worth the
+bother of retaining any more - the memory differences are trivial in modern
+terms.  \dump should ideally also be extended to allow dumping from inside of
+a group.
+
+Once you do this, it becomes possible to write programs to analyze format
+files.  Since the analysis programs would not be part of TeX proper, they can
+be as elaborate as anyone might want to make them.  Sorting would be no
+problem, for example.
+
+How about a control sequence cross-referencer?  If dumping inside of groups is
+allowed, how about fancy stack tracebacks?  I could see this being used as the
+basis of a general TeX debugging environment - the analogue of a Unix core
+file.
+
+None of this would cost anything in TeX itself, and except for the ability to
+\dump inside a group, if added, would not even have an effect on whether the
+resulting E-TeX is properly "TeX", since it would be invisible to any possible
+trip test.
+                                                        -- Jerry
+
+========================================================================
+Date:         Sat, 19 Nov 1994 13:12:45 MEZ
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Werner Lemberg <A7621GAC@AWIUNI11.EDVZ.UNIVIE.AC.AT>
+Subject:      Re: an other suggestion
+In-Reply-To:  Message of Fri, 18 Nov 1994 19:58:07 BST from
+              <CHAA006@VAX.RHBNC.AC.UK>
+
+I think it would be quite nice to have a dump facility:
+
+if you say \TeXdump, you get a complete description of the registers,
+defined commands etc. comparable to a core file. TeX should exit then.
+
+
+    Werner
+
+========================================================================
+Date:         Mon, 21 Nov 1994 14:40:02 BST
+Reply-To: Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: Philip TAYLOR <CHAA006@VAX.RHBNC.AC.UK>
+Subject:      Re: an other suggestion
+
+[Jerry Leichter wrote: ]
+
+>> I'd suggest something much simpler, but also more general:  Include \dump in
+>> all versions of TeX.  The initex/virtex distinction is simply not worth the
+>> bother of retaining any more - the memory differences are trivial in modern
+>> terms.  \dump should ideally also be extended to allow dumping from inside of
+>> a group.
+
+It is interesting that Nelson Beebe has also proposed that \dump/\restore
+should be more generally accessible as well.  Clearly we must look into this.
+
+                                        ** Phil.
+
+========================================================================
+Date:         Mon, 21 Nov 1994 16:26:09 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: David Carlisle <carlisle@CS.MAN.AC.UK>
+Subject:      another creaping feature
+
+One really useful feature (almost a bug fix, really) would be
+a new primitive, say \something, which had the same effect as \relax
+except that <optional \something's> was added to the end of the bnf
+descriptions for count and skip etc.
+
+Then if you wanted to return the maximum of two numbers you could go
+
+\def\maxnum#1#2{\ifnum#1\something>#2\something#1\else#2\fi\something}
+
+This is currently terribly difficult to do in TeX. in fact I am not
+sure it is possible in full generality.
+
+You can not terminate #1 or #2 with \relax as that leaves a token
+which gets in the way, you can not use <space> as that will only be
+eaten up if the arguments are literal digit strings, not internal
+registers.
+
+An alternative would be to use \relax instead of a new csname, but
+that would probably break too much existing code unfortunately.
+
+David
+
+========================================================================
+Date:         Mon, 21 Nov 1994 17:52:56 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Piet van Oostrum <piet@CS.RUU.NL>
+Subject:      Re: another creaping feature
+In-Reply-To:  <199411211638.AA27566@relay.cs.ruu.nl>
+
+>>>>> David Carlisle <carlisle@cs.man.ac.uk> (DC) writes:
+
+DC> One really useful feature (almost a bug fix, really) would be
+DC> a new primitive, say \something, which had the same effect as \relax
+DC> except that <optional \something's> was added to the end of the bnf
+DC> descriptions for count and skip etc.
+
+DC> Then if you wanted to return the maximum of two numbers you could go
+
+DC> \def\maxnum#1#2{\ifnum#1\something>#2\something#1\else#2\fi\something}
+
+DC> This is currently terribly difficult to do in TeX. in fact I am not
+DC> sure it is possible in full generality.
+
+DC> You can not terminate #1 or #2 with \relax as that leaves a token
+DC> which gets in the way, you can not use <space> as that will only be
+DC> eaten up if the arguments are literal digit strings, not internal
+DC> registers.
+
+Can't this be solved by using \number?
+
+I think in your example the first \something is unnecessary, as the number
+is terminated by ">".
+
+\def\maxnum#1#2{\ifnum#1>\number#2 \number#1\else\number#2\fi }
+
+Except that this would give a decimal number rather than a \count or
+internal integer in some cases.
+--
+Piet van Oostrum <piet@cs.ruu.nl>
+
+========================================================================
+Date:         Mon, 21 Nov 1994 17:38:08 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: David Carlisle <carlisle@CS.MAN.AC.UK>
+Subject:      Re: another creaping feature
+In-Reply-To:  <9411211728.AA24616@m1.cs.man.ac.uk> (message from Piet van
+              Oostrum on Mon, 21 Nov 1994 17:52:56 +0100)
+
+> Can't this be solved by using \number?
+Not in full generality, no. If provoked I could dig out my test cases
+of what goes wrong with various definitions of \maxnumber...
+
+
+One might want to insist that it actually returns #1 or #2, not just
+an equal value (thus discounting your code)
+
+eg you might want this to work
+
+\maxnum{\count0}{\count2}=0
+
+ie set either \count0 or \count2 to 0...
+
+Also what do you do about \skip assignments, there you can only
+currently stop the lookahead using \relax, which often is one token
+too many in further processing.
+
+David
+
+========================================================================
+Date:         Mon, 21 Nov 1994 21:54:07 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      \showcsname...\endcsname
+
+\showcsname ... \endcsname
+
+In an increasingly popular macro package the authors make intense use of
+untypeable (and sometimes almost unreadable) control sequences with
+spaces, backslashes and other strange tokens in. For analysis I like to
+have
+
+\showcsname....\endcsname, which acts like \show.
+
+Maybe it should be accompagnied by a
+
+\meaningcsname....\endcsname
+
+for use in programmes.
+
+--J"org Knappen.
+
+========================================================================
+Date:         Mon, 21 Nov 1994 21:17:37 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      An alternative to the creaping features
+
+What about something like:
+\ifevaluate{<boolean expression>}....\else....\fi ?
+
+This would give a general and flexible \if whith much more comfort then you
+have now. Of course some dirty tricks aren't possible with this one, like
+pushing tokens from the condition to the {true} branch.
+
+The boolean expression should allow for the usual operators like
+.not., .and., .or., .xor., =, >, <, <=, etc., if feasable it should also
+allow the evaluation of arithmetic expressions. Some functions are needed
+to get information old TeX \if's know now, I propose the name
+\query<whatever> to these functions.
+
+At the moment I see need for the following \query<whatever> functions:
+
+\queryeof    returns `1' if eof, `0' else
+\querymode   returns `0' in the infamous `no mode' (do we need to
+                           differentiate finer here?
+                     `1' in vertical mode
+                     `2' in restricted vertial mode
+                     `3' in horizontal mode
+                     `4' in restricted horizontal mode
+                     `5' in math mode
+                     `6' in restricted math mode
+  With \querymode \ifmmode, \ifhmode, \ifvmode, and \ifinner can be emulated.
+\querydefined{\cs}   `1' if defined, `0' else
+\querycsname...\endcsname      "        "
+
+--J"org Knappen.
+
+========================================================================
+Date:         Mon, 21 Nov 1994 23:17:55 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: "Denis B. Roegel" <Denis.Roegel@LORIA.FR>
+Subject:      show space tokens in \tracingmacros
+
+When you have to debug some weird encoding issue in LaTeX2e,
+you soon realize that there are internal command names
+containing a trailing white space. The problem arises when you
+want to follow some trace given by \tracingmacros.
+
+For instance, let's imagine two control sequences \cs-one and \cs-one ,
+the second having a white space (see it ?) at the end.
+When you trace expansions, you get something like:
+
+\cs-one  -> ...
+
+and
+
+\cs-one   -> ...
+
+I mean, the only difference is the slightly visible shift of the arrow.
+
+It would be nice if there was some way to show more explicitely these
+space tokens.
+
+Denis.
+
+========================================================================
+Date:         Tue, 22 Nov 1994 10:17:03 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Piet van Oostrum <piet@CS.RUU.NL>
+Subject:      Re: show space tokens in \tracingmacros
+In-Reply-To:  <199411212220.AA03823@relay.cs.ruu.nl>
+
+>>>>> "Denis B. Roegel" <Denis.Roegel@loria.fr> (DBR) writes:
+
+DBR> When you have to debug some weird encoding issue in LaTeX2e,
+DBR> you soon realize that there are internal command names
+DBR> containing a trailing white space. The problem arises when you
+DBR> want to follow some trace given by \tracingmacros.
+
+DBR> For instance, let's imagine two control sequences \cs-one and \cs-one ,
+DBR> the second having a white space (see it ?) at the end.
+DBR> When you trace expansions, you get something like:
+
+DBR> \cs-one  -> ...
+
+DBR> and
+
+DBR> \cs-one   -> ...
+
+DBR> I mean, the only difference is the slightly visible shift of the arrow.
+
+DBR> It would be nice if there was some way to show more explicitely these
+DBR> space tokens.
+
+Actually, I think the tracing mechanism is defective in more serious ways.
+It is very difficult to track where you are in a deeply nested macro
+expansion sequence. So selective tracing of macros should be possible and
+the run-time nesting structure should be visible. Also assignments should
+be tracable (i.e. the value assigned should be printed).
+
+The tracing system may have been sufficient for plain TeX, but it is in no
+way up to modern software engineering standards in cases like latex2e.
+--
+Piet van Oostrum <piet@cs.ruu.nl>
+
+========================================================================
+Date:         Tue, 22 Nov 1994 10:21:12 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Piet van Oostrum <piet@CS.RUU.NL>
+Subject:      Re: \showcsname...\endcsname
+In-Reply-To:  <199411212205.AA03674@relay.cs.ruu.nl>
+
+>>>>> "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE> (JKM) writes:
+
+JKM> \showcsname ... \endcsname
+JKM> In an increasingly popular macro package the authors make intense use of
+JKM> untypeable (and sometimes almost unreadable) control sequences with
+JKM> spaces, backslashes and other strange tokens in. For analysis I like to
+JKM> have
+
+JKM> \showcsname....\endcsname, which acts like \show.
+
+JKM> Maybe it should be accompagnied by a
+
+JKM> \meaningcsname....\endcsname
+
+How would this differ from \expandafter\show\csname ....\endcsname
+\expandafter\meaning\csname ....\endcsname?
+--
+Piet van Oostrum <piet@cs.ruu.nl>
+
+========================================================================
+Date:         Tue, 22 Nov 1994 22:17:34 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: "J%org Knappen, Mainz" <KNAPPEN@VKPMZD.KPH.UNI-MAINZ.DE>
+Subject:      Re: \showcsname...\endcsname
+
+Piet's suggestion:
+
+  How would this differ from \expandafter\show\csname ....\endcsname
+  \expandafter\meaning\csname ....\endcsname?
+
+just works fine for me, so I can withdraw this proposal.
+
+--J"org Knappen.
+
+P.S. Thanks for that, it really helps in studying LaTeX2e code.
+
+========================================================================
+Date:         Wed, 23 Nov 1994 15:01:12 BST
+Reply-To: Philip Taylor <P.Taylor@Vax.Rhbnc.Ac.Uk>
+From: Philip TAYLOR <CHAA006@VAX.RHBNC.AC.UK>
+Subject:      Another idea for e-TeX: \traceingfileio
+
+Having put up the so-called `patch level 4' of LaTeX-2e, I found it expedient
+to allow full sub-directory searching... This was a mistake, since LaTeX-2e
+proceeded to find LTHyphen.Cfg in some arcane unsupported Cyrillic
+sub-directory, but that is by the by...
+
+Rather more importantly, TeX can now appear to take a finite-but-unbounded time
+to find a file that it used to find almost instantaneously.  So what I propose,
+specifically bearing in mind the possible requirements of TWG-TDS, is a new
+primitive \tracingfileio: differing positive values would cause greater or
+lesser verbosity, but basically it would shew each attempt to open a file,
+including the particular path which it is currently traversing.  I would
+suggest that one use of the granularity would be to differentiate between
+\input, \openin and \font (have I missed any?).
+
+                                        ** Phil.
+
+========================================================================
+Date:         Wed, 23 Nov 1994 16:45:21 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Bernd Raichle <Raichle@INFORMATIK.UNI-STUTTGART.DE>
+Subject:      Re: Another idea for e-TeX: \traceingfileio
+In-Reply-To:  Philip TAYLOR's message of Wed, 23 Nov 1994 15:01:12 BST
+              <9411231503.AA28121@ifi.informatik.uni-stuttgart.de>
+
+on Wed, 23 Nov 1994 15:01:12 BST, Philip TAYLOR <CHAA006@VAX.RHBNC.AC.UK> said:
+[...]
+Phil> Rather more importantly, TeX can now appear to take a finite-but-unbounded
+ time
+Phil> to find a file that it used to find almost instantaneously.  So what I
+ propose,
+Phil> specifically bearing in mind the possible requirements of TWG-TDS, is a
+ new
+Phil> primitive \tracingfileio: differing positive values would cause greater or
+Phil> lesser verbosity, but basically it would shew each attempt to open a file,
+Phil> including the particular path which it is currently traversing.  I would
+Phil> suggest that one use of the granularity would be to differentiate between
+Phil> \input, \openin and \font (have I missed any?).
+
+The file name and searching part of TeX is highly _implementation
+dependent_ and in the moment the code to search files in a list of
+directories---probably extended by recursive subdirectory searching---
+is included through the TeX.web change file of the implementation or
+some separate routines (e.g. Karl Berry's kpathsea(rch) routines used
+in web2c).
+
+What we can do is to give the TeX implementors some "hooks" in TeX to
+enable some additional debug output in their routines... if the file
+search routines provide it.
+These "hooks" are comparable with the |fix_date_and_time| procedure,
+providing the initial settings for the \time, \day, \month, \year
+registers, whose default code in TeX.web (returning 12am 07/04/1776)
+has to be replaced by some implementation dependent code.
+
+
+Questions to be answered:
+
+ - Should we try to enable/disable additional implementation dependent
+   debugging output using some TeX registers/primitive commands?
+ - Standardized form of the output or some conventions?
+   Which ones?
+ - Hooks for implementors:
+   registers as flags, like \tracing..., or primitive commands?
+
+Bernd
+
+========================================================================
+Date:         Wed, 23 Nov 1994 11:33:03 -0500
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: bbeeton <BNB@MATH.AMS.ORG>
+Subject:      Re: Another idea for e-TeX: \traceingfileio
+In-Reply-To:  <01HJTEODUK3MEBP7TJ@MATH.AMS.ORG>
+
+bernd raichle points out that there are some features of tex
+that are (legitimately) implementation dependent, including
+the treatment of \openin vs. \input.  he proposes that some
+"hooks" be provided in nts to regularize some such features,
+and asks some questions:
+
+ - Should we try to enable/disable additional implementation dependent
+   debugging output using some TeX registers/primitive commands?
+ - Standardized form of the output or some conventions?
+   Which ones?
+ - Hooks for implementors:
+   registers as flags, like \tracing..., or primitive commands?
+
+i can't answer these questions directly, but would like to
+encourage agreement among implementors to present such features
+in a form as similar as possible to the macro writer.  it's
+really no fun trying to debug problems that arise because of
+system dependencies on systems *other* than the one(s) one is
+used to using.  with tugboat, i've gotten used to the differences
+in end-of-line markers (and routinely convert all files from
+certain authors before trying to process them) and similar,
+but there are still surprises, and they waste a lot of time.
+a uniform presentation -- when possible -- would mean that i
+might really be able to get help from other people who don't
+have exactly the same setup as i do, a luxury that i don't
+now enjoy.
+                                                -- bb
+p.s. i will still claim publicly that "from tex, you get the
+same output from the same input", but it ain't true, guys!
+not with the inventive minds and highly-tuned personal systems
+that tugboat authors revel in.
+
+========================================================================
+Date:         Thu, 24 Nov 1994 00:13:09 +0000
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Timothy Murphy <tim@MATHS.TCD.IE>
+Subject:      Re: Another idea for e-TeX: \traceingfileio
+In-Reply-To:  <01HJTRI6R1PE00EB6T@mailgate.ucd.ie> from "Bernd Raichle" at Nov
+              23, 94 04:45:21 pm
+
+> What we can do is to give the TeX implementors some "hooks" in TeX to
+> enable some additional debug output in their routines... if the file
+> search routines provide it.
+
+In my view this request is completely misconceived.
+The sought-for debug facilities are already present in unixTeX
+(in kpathsea-2.4).
+
+I have yet to see a suggestion made by the NTS people
+which I both understand and agree with.
+
+========================================================================
+Date:         Thu, 24 Nov 1994 13:26:00 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: "Ciar\\'an \\'O Duibh\\'in" <Csg0070@QUEENS-BELFAST.AC.UK>
+Subject:      Transforming glyphs in dvi and vpl files
+
+I've already sent this suggestion to one or two members of NTS, but I've
+just discovered NTS-L, where I should have sent it in the first place!
+Apologies if something like this has already been discussed here.
+
+I'd like to proposed an enhancement to dvi file format:
+
+At present, a dvi file can contain instructions to shift a glyph (but
+I don't think any other operations on a glyph are allowed). I'd like
+to propose three (two really, each is the product of the other two):
+
+Allow a glyph to be:
+1. mirrored in a vertical axis, placed centrally;
+2. mirrored in a horizontal axis, placed at half the x(?)-height;
+3. rotated by 180 degrees about the point of intersection of those axes.
+
+This would greatly increase the power of vpl files (e.g. define schwa by
+rotating e), and I hope that it would be possible for drivers to implement.
+
+Ciar\'an \'O Duibh\'in.
+
+========================================================================
+Date:         Thu, 24 Nov 1994 13:54:16 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Angus Duggan <angus@HARLEQUIN.CO.UK>
+Subject:      Transforming glyphs in dvi and vpl files
+In-Reply-To:  <14173.199411241340@holly.cam.harlequin.co.uk>
+
+"Ciar\\'an \\'O Duibh\\'in" writes:
+>I've already sent this suggestion to one or two members of NTS, but I've
+>just discovered NTS-L, where I should have sent it in the first place!
+>Apologies if something like this has already been discussed here.
+>
+>I'd like to proposed an enhancement to dvi file format:
+>
+>At present, a dvi file can contain instructions to shift a glyph (but
+>I don't think any other operations on a glyph are allowed). I'd like
+>to propose three (two really, each is the product of the other two):
+
+I don't know what you mean by "shift a glyph". The DVI format has instructions
+to put a character at the current position without altering the position, and
+to put a character at the current position, adjusting the current horizontal
+position by the width of the character, taken from the TFM file.
+
+>Allow a glyph to be:
+>1. mirrored in a vertical axis, placed centrally;
+
+What is centrally? The TFM file has the height, width and depth of the
+character, but there need not be any relationship between these dimensions and
+the bounding box of the area marked by the glyph.
+
+>2. mirrored in a horizontal axis, placed at half the x(?)-height;
+
+The x-height is only stored as a fontdimen, by convention. Non-text fonts are
+at liberty to use the fondimen for anything they want.
+
+>3. rotated by 180 degrees about the point of intersection of those axes.
+>
+>This would greatly increase the power of vpl files (e.g. define schwa by
+>rotating e), and I hope that it would be possible for drivers to implement.
+
+I very much doubt that it would be easy to agree on any proposal like this. I
+doubt whether any extensions to the DVI format apart from already existing
+ones (TeX-XeT, and \special conventions) will get significant support from
+driver writers.
+
+>Ciar\'an \'O Duibh\'in.
+
+a.
+--
+Angus Duggan, Harlequin Ltd., Barrington Hall,  | INET: angus@harlequin.co.uk
+Barrington, Cambridge CB2 5RG, U.K.             | PHONE: +44(0)1223 873838
+
+========================================================================
+Date:         Thu, 24 Nov 1994 13:56:03 +0000
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Sebastian Rahtz <Sebastian.Rahtz@CL.CAM.AC.UK>
+Subject:      Re: Transforming glyphs in dvi and vpl files
+In-Reply-To:  Your message of "Thu, 24 Nov 1994 13:26:00 GMT."
+              <"swan.cl.cam.:161610:941124134520"@cl.cam.ac.uk>
+
+i see why there is the desire to play with glyphs in the dvi file, but
+is it really worth the effort? we know we can do this easily in
+virtual fonts whose only drawback is that they are tied to a driver
+that can implement the \special commands. so why not just work on
+standardizing \specila commands for rotation and mirroring, and you
+can leave the dvi format alone.
+
+sebastian
+
+========================================================================
+Date:         Thu, 24 Nov 1994 17:06:50 +0100
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Joachim Schrod <schrod@ITI.INFORMATIK.TH-DARMSTADT.DE>
+Subject:      Re: Transforming glyphs in dvi and vpl files
+In-Reply-To:  <199411241342.OAA41041@rs3.hrz.th-darmstadt.de> from "Ciar\\'an
+              \\'O Duibh\\'in" at Nov 24, 94 01:26:00 pm
+
+Ciar\'an \'O Duibh\'in wrote:
+>
+> Allow a glyph to be:
+> 1. mirrored in a vertical axis, placed centrally;
+> 2. mirrored in a horizontal axis, placed at half the x(?)-height;
+> 3. rotated by 180 degrees about the point of intersection of those axes.
+
+Others commented already of the problems of the terms `centrally' and
+`x-height' in DVI files. I want to add
+
+ -- DVI drivers are not required (and should not!) to read TFM files,
+    so they don't have access to fontdimens.
+
+Btw, if we adopt your proposal; the next thing that'll be wanted is
+rotating by 90 degrees. (I bet because that was brought up a few
+dozen times before...) Before anybody adds this proposal keep in mind
+that we have devices with non-square ratios where simple matrix
+transformation does not work.
+
+Cheers,
+        Joachim
+        [ex-secretary of ex-committee on DVI Driver Standards]
+
+--
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Joachim Schrod                  Email: schrod@iti.informatik.th-darmstadt.de
+Computer Science Department
+Technical University of Darmstadt, Germany
+
+========================================================================
+Date:         Mon, 28 Nov 1994 13:50:00 GMT
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: "Ciar\\'an \\'O Duibh\\'in" <Csg0070@QUEENS-BELFAST.AC.UK>
+Subject:      Re: Transforming glyphs in dvi and vpl files
+
+Despite the generally unfavourable comment, I'm not dissuaded. I am not being
+flippant in asking for characters to be turned upside-down, as I typeset
+quite a lot of phonetics (and I know there are phonetic fonts). But be
+reassured that I can't think of any useful character made by rotating a
+common character through 90 degrees!
+
+I should also have said that I am looking at this from the viewpoint of
+virtual font construction. Perhaps it was misleading to say "dvi format",
+when I really meant "vpl format". (I did so because there's already a section
+on "dvi format" in the NTS-L FAQ, and Knuth stated in his "Virtual Fonts"
+article that "it's easy for dvi drivers to read vf files, because vf format
+is similar to the pk and dvi formats they already deal with". And I think I
+read that what you are allowed to do in vpl files is limited by what you
+can do in dvi files.)
+
+What I meant by "shifting a glyph" is that the dvi file can contain
+instructions to move anywhere before setting it, and then move back again.
+Turning to vpl files, here's how ptmrq.vpl defines A-acute - note the
+MOVERIGHT and MOVEDOWN:
+
+(CHARACTER O 301
+   (CHARWD R 0.721997)
+   (CHARHT R 0.900989)
+   (MAP
+      (PUSH)
+      (SETCHAR C A)
+      (POP)
+      (PUSH)
+      (MOVERIGHT R 0.1939945)
+      (MOVEDOWN R -0.21399)
+      (SETCHAR O 302)
+      (POP)
+      (MOVERIGHT R 0.721997)
+      )
+   )
+
+What I would like to be able to do, in making a vpl file for phonetics
+from a normal alphabetic font, and needing turned m (i.e. rotated through
+180 degrees), turned h, vertically-flipped (or mirrored) y, horizontally-
+flipped e, etc. would be something like this - any suitable syntax will do:
+     (SETCHAR (TURN C m))   or
+     (SETCHAR (VFLIP C y))   or
+     (SETCHAR (HFLIP C e))
+A nice point is to compare these transformations with what can be done
+with metal type. A turn is no problem there, which is presumably why so
+many new symbols are made that way. But flipping is not possible with
+physical type, though it should be with computers.
+
+The question most people raised was the one I hoped they might answer for
+me: about what point should the glyph be turned, or in what axes should it
+be flipped? I've come to the conclusion that neither general fontdimens
+(quadwidth, xheight) nor individual widths/heights/depths are adequate,
+even if available. The vf designer will have to say, in each individual
+case, where the axes are. And this is ok. Let's say I want to turn the
+"m" of 10pt Adobe Times Roman. This has a width of 0.77799 design units
+(tens of points) and a height of 0.453498 design units. So I might wish
+to say in my vpl file
+         (SETCHAR (TURN 0.388995 0.226749 C m))
+If the result of those values didn't look right (e.g. if the character
+extended outside its nominal width or height), I could adjust the values,
+or apply an additional MOVERIGHT or MOVEDOWN. In fact, we could make all
+flips and turns relative to the reference point, and then the last example
+would be equivalent to:
+         (MOVERIGHT 0.77799) (MOVEDOWN -0.453498) (SETCHAR (TURN C m))
+Or maybe turns and flips should be relative to the centre of the glyph's
+width and height, so that the outline of the box stays where it is. In that
+case this example becomes once again simply
+         (SETCHAR (TURN C m))
+and an additional MOVERIGHT and MOVEDOWN will always achieve the required
+effect if further adjustment is necessary (a MOVEDOWN would certainly be
+needed for turned h, for example).
+
+I didn't fully understand the comment:
+> why not just work on standardizing \special commands for rotation and
+> mirroring, and you can leave the dvi format alone.
+If possible, that would be fine. But aren't specials used for device-specific
+features? The drivers I use are dviscr and dvips. Dviscr has no specials
+for rotation and mirroring, and I don't see how adding them would be any
+easier than dealing with the proposed extension to dvi (recte vpl) format.
+I'm thinking of bitmap fonts just as much as outline fonts, by the way.
+
+Ciar\an \'O Duibh\'in.
+
+========================================================================
+Date:         Mon, 28 Nov 1994 14:58:59 MEZ
+Reply-To: NTS-L Distribution list <NTS-L%DHDURZ1.BITNET@dearnpc.gmd.de>
+From: Werner Lemberg <A7621GAC@AWIUNI11.EDVZ.UNIVIE.AC.AT>
+Subject:      Re: Transforming glyphs in dvi and vpl files
+In-Reply-To:  Message of Mon, 28 Nov 1994 13:50:00 GMT from
+              <Csg0070@QUEENS-BELFAST.AC.UK>
+
+On Mon, 28 Nov 1994 13:50:00 GMT Ciar\\'an \\'O Duibh\\'in said:
+>Despite the generally unfavourable comment, I'm not dissuaded. I am not being
+>flippant in asking for characters to be turned upside-down, as I typeset
+>quite a lot of phonetics (and I know there are phonetic fonts). But be
+>reassured that I can't think of any useful character made by rotating a
+>common character through 90 degrees!
+>
+
+What about Chinese/Japanese?
+
+    Werner
+
+PS: I know, I know, TeX is not really used to these languages :-)
+
